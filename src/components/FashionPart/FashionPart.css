@@ -1,0 +1,46 @@
+.fashionCard1 {
+border-top-left-radius:0.75rem;
+border-bottom-left-radius: 0.75rem;
+}
+
+.fashionCard2 {
+    border-top-right-radius:0.75rem;
+    border-bottom-right-radius: 0.75rem;
+}
+
+.fashionPartText  {
+    margin-top: 50%;
+    padding-left: 15%;
+    padding-right: 15%;
+    position: absolute;
+    top: 0;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+
+@media screen and (max-width: 1028px){
+    .fashionPartText {
+        margin: 0;
+        top: 50%;
+        margin-top: -10% !important;
+      }
+}
+
+
+@media screen and (max-width: 768px){
+    .fashionCard1 {
+        border-top-left-radius:0.75rem;
+        border-bottom-left-radius: 0;
+        border-top-right-radius:0.75rem;
+        }
+        
+        .fashionCard2 {
+            border-top-right-radius:0;
+            border-bottom-right-radius: 0.75rem;
+            border-bottom-left-radius: 0.75rem;
+        }
+        .fashionPartText {
+            margin-top: 0% !important;
+          }
+}

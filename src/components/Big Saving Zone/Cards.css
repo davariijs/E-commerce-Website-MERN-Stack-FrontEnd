@@ -1,0 +1,30 @@
+.cardFashionTextZoneBot {
+    margin-top: 30%;
+    position: absolute;
+    top: 0;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+  .cardFashionTextZoneTop {
+    margin-top: 45%;
+    position: absolute;
+    top: 0;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+
+@media screen and (max-width: 1028px){
+    .cardFashionTextZoneBot ,  .cardFashionTextZoneTop {
+        margin: 0;
+        top: 50%;
+        margin-top: -10% !important;
+      }
+}
+
+@media screen and (max-width: 767px){
+    .cardFashionTextZoneBot, .cardFashionTextZoneTop {
+        margin-top: 0% !important;
+      }
+}

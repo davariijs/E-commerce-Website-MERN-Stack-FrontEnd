@@ -1,0 +1,28 @@
+.slick-track {
+    display: flex;
+    gap: 2rem;
+}
+
+.slick-slider {
+    border-radius: 12px;
+}
+
+.slick-slide img:hover {
+    cursor: pointer;
+    opacity: 0.8;    
+}
+
+*:focus {
+    outline: 0;
+    outline: none;
+  }
+
+  
+@media screen and (max-width: 480px){
+    .slick-track {
+        display: flex;
+        gap: 1rem;
+    }
+  }
+
+

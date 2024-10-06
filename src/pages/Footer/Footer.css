@@ -1,0 +1,20 @@
+.footer-collapse .Collapsible__trigger {
+    font-size: 29px;
+    font-weight: 600;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+.footer-collapse  .Collapsible__trigger.is-open svg {
+    transform: rotate(180deg);
+  }
+
+
+@media (max-width: 768px) {
+    .footer-collapse .Collapsible__trigger {
+        font-size: 1.25rem /* 20px */;
+        line-height: 1.75rem /* 28px */;
+    }
+}
