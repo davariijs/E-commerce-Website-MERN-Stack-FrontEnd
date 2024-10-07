@@ -11,13 +11,18 @@ import { IoClose } from "react-icons/io5";
 
 export default function MobileNavbar() {
     const [showNavbar, setShowNavbar] = useState(false);
+
+    function showNavbarClose () {
+        setShowNavbar(!showNavbar)
+    }
+
     return (
         <Fragment>
                         <div className='lg:hidden block '>
             <nav className=''>
                 <div className={showNavbar? "hidden" : "block" }>
                 <div className='flex justify-between'>
-                <button className=' ' onClick={() => setShowNavbar(!showNavbar)}>
+                <button className=' ' onClick={showNavbarClose}>
                 <RxHamburgerMenu className='w-6 h-6 text-darkText' />
                 </button>
                 <div className='logoNavbar'>
@@ -39,16 +44,16 @@ export default function MobileNavbar() {
                         <img className='searchIcon absolute' src={searchIcon} alt='search'/>
                         <input className='searchbar bg-secondary' type="search" name="searchNav" placeholder='Search'/>
                     </div>
-                    <button className=' ' onClick={() => setShowNavbar(!showNavbar)}>
+                    <button className=' ' onClick={showNavbarClose}>
                     <IoClose className='w-6 h-6 text-darkText'/>
                     </button>
                 </div>
 
                 <div className="nav-items text-center">
                 <ul className=''>
-                    <li><Link to="/">Shop</Link></li>
-                    <li><Link to="/men">Men</Link></li>
-                    <li><Link to="/women">Women</Link></li>
+                    <li><Link onClick={showNavbarClose} to="/" >Shop</Link></li>
+                    <li><Link onClick={showNavbarClose} to="men">Men</Link></li>
+                    <li><Link onClick={showNavbarClose} to="/women">Women</Link></li>
                 </ul>
                 </div>
                 </div>

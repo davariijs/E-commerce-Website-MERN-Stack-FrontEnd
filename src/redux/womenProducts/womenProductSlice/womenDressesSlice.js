@@ -4,14 +4,19 @@ import axios from "axios";
 
 const uriRequest = {
   method: 'GET',
-  url: 'https://kohls.p.rapidapi.com/categories/list',
+  url: 'https://real-time-product-search.p.rapidapi.com/search-v2',
+  params: {
+    q: 'women tops',
+    country: 'us, au, ca',
+    language: 'en',
+    page: '1',
+    limit: '20',
+    sort_by: 'BEST_MATCH',
+    product_condition: 'ANY'
+  },
   headers: {
-    'x-rapidapi-key': '00294b188cmsh073ec3f6bd696bfp1baaa8jsnfb66ceaea66b',
-    'x-rapidapi-host': 'kohls.p.rapidapi.com',
-    "Access-Control-Allow-Origin": "http://localhost:3000/",
-    "Access-Control-Allow-Credentials": "true",
-    "Access-Control-Allow-Methods": "GET,DELETE,PATCH,POST,PUT",
-    "Access-Control-Allow-Headers": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
+    'x-rapidapi-key': 'f236aab844msh35009131391f471p141ab5jsnc7a7e72d7c98',
+    'x-rapidapi-host': 'real-time-product-search.p.rapidapi.com'
   }
 };
 
@@ -30,23 +35,21 @@ const womenDressesSlice = createSlice({
   name: "womenDressesList",
   initialState: {
     womenDress: {},
-    isLoading: false,
-    hasError: false
+    isLoading: 'idle',
+    hasError: null,
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getWomenDresses.pending, (state, action) => {
-      state.isLoading = true;
-      state.hasError = false;
+      .addCase(getWomenDresses.pending, (state) => {
+      state.isLoading = 'loading';
     })
       .addCase(getWomenDresses.fulfilled, (state, action) => {
         state.womenDress = action.payload;
-        state.isLoading = false;
-        state.hasError = false
+        state.isLoading = 'succeeded';
       })
       .addCase(getWomenDresses.rejected, (state, action) => {
-        state.hasError = true
-        state.isLoading = false;
+        state.hasError = action.hasError.message;
+        state.isLoading = 'failed';
       })
   }
 });

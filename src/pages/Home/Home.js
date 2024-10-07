@@ -89,10 +89,6 @@ export default function Home() {
         <FeedBackPart/>
         </div>
       </div>
-
-      <Women/>
-
-
       </div>
     </Fragment>
   )
