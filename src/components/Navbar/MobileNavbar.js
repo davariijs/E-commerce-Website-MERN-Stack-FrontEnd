@@ -18,10 +18,10 @@ export default function MobileNavbar() {
 
     return (
         <Fragment>
-                        <div className='lg:hidden block '>
-            <nav className=''>
+                        <div className='lg:hidden block  border-borderGrey border-b-2'>
+            <nav className=' container mx-auto'>
                 <div className={showNavbar? "hidden" : "block" }>
-                <div className='flex justify-between'>
+                <div className='flex justify-between '>
                 <button className=' ' onClick={showNavbarClose}>
                 <RxHamburgerMenu className='w-6 h-6 text-darkText' />
                 </button>

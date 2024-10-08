@@ -1,0 +1,12 @@
+.categoriesCardImgPart .categoriesCardImg {
+    max-width: 100%;
+    height: 400px !important;
+    width: 400px !important;
+}
+
+
+.categoriesCardSection{
+    max-width: 100%;
+    height: fit-content !important;
+    width: 400px !important;
+}

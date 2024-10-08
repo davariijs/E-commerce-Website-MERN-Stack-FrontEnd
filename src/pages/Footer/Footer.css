@@ -6,14 +6,23 @@
     justify-content: space-between;
     align-items: center;
   }
-  
-.footer-collapse  .Collapsible__trigger.is-open svg {
+
+  .filter-collapse .Collapsible__trigger {
+    font-size: 20px;
+    font-weight: 500;
+    color: #807D7E;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+.footer-collapse  .Collapsible__trigger.is-open svg , .filter-collapse .Collapsible__trigger.is-open svg{
     transform: rotate(180deg);
   }
 
 
 @media (max-width: 768px) {
-    .footer-collapse .Collapsible__trigger {
+    .footer-collapse .Collapsible__trigger , .filter-collapse .Collapsible__trigger{
         font-size: 1.25rem /* 20px */;
         line-height: 1.75rem /* 28px */;
     }

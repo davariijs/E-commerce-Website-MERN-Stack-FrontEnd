@@ -11,8 +11,8 @@ export default function DesktopNavbar() {
     
     return (
         <Fragment>
-                        <div className='lg:block hidden '>
-            <nav className='flex justify-between desktopDisplay'>
+                        <div className='lg:block hidden  border-b-2 border-borderGrey'>
+            <nav className='flex justify-between desktopDisplay container mx-auto'>
                 <div className='flex justify-between'>
                 <div className='logoNavbar'>
                     <img src={logo} alt='logo' height="45px" width="91px"/>

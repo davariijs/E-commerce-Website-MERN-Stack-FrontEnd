@@ -7,10 +7,10 @@ export default function CategoriesCard({srcCategoriesCard, textCategoriesCard,pr
 
     return (
         <Fragment>
-            <div>
+            <div className="categoriesCardSection">
             <Link to={linkCard}>
-            <div className="relative">
-                <img className="rounded-lg hover:opacity-70 " width="100%" height="100%" src={srcCategoriesCard} alt="men clothing"/>
+            <div className="relative categoriesCardImgPart">
+                <img className="rounded-lg hover:opacity-70 categoriesCardImg" width="100%" height="100%" src={srcCategoriesCard} alt="men clothing"/>
                 {categoriesFashionCard ? <div></div> : <div className="absolute bg-white w-8 h-8 flex justify-center lg:top-6 lg:right-7 top-2 right-2 z-10" style={{borderRadius:"50%"}}><img src={likeIconCard} width={20} alt="like"/></div>}
             </div>
 

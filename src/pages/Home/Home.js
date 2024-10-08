@@ -12,7 +12,6 @@ import CategoriesForWomen from '../../components/CategoriesForWomen/CategoriesFo
 import Brands from '../../components/Brands/Brands';
 import Limelight from '../../components/Limelight/Limelight';
 import FeedBackPart from '../../components/FeedBack/FeedBackPart';
-import Women from '../Women/Women';
 
 
 export default function Home() {
