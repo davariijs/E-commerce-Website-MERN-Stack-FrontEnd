@@ -6,8 +6,8 @@ const uriRequest = {
   method: 'GET',
   url: 'https://real-time-product-search.p.rapidapi.com/search-v2',
   params: {
-    q: 'women tops',
-    country: 'us, au, ca',
+    q: "women shoes",
+    country: 'us, au, ca, nz, tk, nf, hm, cx, cc',
     language: 'en',
     page: '1',
     limit: '100',
@@ -20,8 +20,8 @@ const uriRequest = {
   }
 };
 
-export const getWomenDresses = createAsyncThunk(
-  "womenDressesList/getWomenDresses", 
+export const getWomenShoes = createAsyncThunk(
+  "WomenShoesList/getWomenShoes", 
   async () => {
     try {
       const response = await axios.request(uriRequest);
@@ -31,23 +31,23 @@ export const getWomenDresses = createAsyncThunk(
     }
 });
 
-const womenDressesSlice = createSlice({
-  name: "womenDressesList",
+const WomenShoesSlice = createSlice({
+  name: "WomenShoesList",
   initialState: {
-    womenDress: {},
+    WomenShoes: {},
     isLoading: 'idle',
     hasError: null,
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getWomenDresses.pending, (state) => {
+      .addCase(getWomenShoes.pending, (state) => {
       state.isLoading = 'loading';
     })
-      .addCase(getWomenDresses.fulfilled, (state, action) => {
-        state.womenDress = action.payload;
+      .addCase(getWomenShoes.fulfilled, (state, action) => {
+        state.WomenShoes = action.payload;
         state.isLoading = 'succeeded';
       })
-      .addCase(getWomenDresses.rejected, (state, action) => {
+      .addCase(getWomenShoes.rejected, (state, action) => {
         state.hasError = action.hasError.message;
         state.isLoading = 'failed';
       })
@@ -55,8 +55,8 @@ const womenDressesSlice = createSlice({
 });
 
 // Selectors
-export const selectwomenDresses = state => state.womenDressesList.womenDress;
-export const selectLoadingState = state => state.womenDressesList.isLoading;
-export const selectErrorState = state => state.womenDressesList.hasError;
+export const selectWomenShoes = state => state.WomenShoesList.WomenShoes;
+export const selectLoadingState = state => state.WomenShoesList.isLoading;
+export const selectErrorState = state => state.WomenShoesList.hasError;
 
-export default womenDressesSlice.reducer;
+export default WomenShoesSlice.reducer;

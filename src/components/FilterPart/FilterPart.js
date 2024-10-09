@@ -28,13 +28,13 @@ export default function FilterPart () {
                 <Link to="/women/t-shirts" className="flex justify-between lg:w-full w-fit hover:text-primary">T-shirt
                 <GoChevronRight  className="lg:block hidden w-5 h-6 hover:text-primary"/>
                 </Link>
-                <Link to="/women/boxers" className="flex justify-between lg:w-full w-fit hover:text-primary">Boxers
+                <Link to="/women/coats" className="flex justify-between lg:w-full w-fit hover:text-primary">Coats
                 <GoChevronRight  className="lg:block hidden w-5 h-6 hover:text-primary"/>
                 </Link>
-                <Link to="/women/joggers" className="flex justify-between lg:w-full w-fit hover:text-primary">Joggers
+                <Link to="/women/dresses" className="flex justify-between lg:w-full w-fit hover:text-primary">Dresses
                 <GoChevronRight  className="lg:block hidden w-5 h-6 hover:text-primary"/>
                 </Link>
-                <Link to="/women/payjamas" className="flex justify-between lg:w-full w-fit hover:text-primary">Payjamas
+                <Link to="/women/hoodies" className="flex justify-between lg:w-full w-fit hover:text-primary">Hoodies
                 <GoChevronRight  className="lg:block hidden w-5 h-6 hover:text-primary"/>
                 </Link>
             </div>

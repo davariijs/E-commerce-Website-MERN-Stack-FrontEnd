@@ -9,11 +9,14 @@ export default function RangeBar () {
     const values = useSelector (selectFilterPrices);
 
     useEffect(() => {
-        if (values === undefined) {
+       
+            if (values.length === 0) {
                 dispatch(setValuesFilter([19,200]))
               } else{
                 dispatch(setValuesFilter(values))
               }
+        
+        
       }, [dispatch,values]);
 
     const STEP = 1;

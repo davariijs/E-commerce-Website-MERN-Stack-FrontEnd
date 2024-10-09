@@ -1,23 +1,19 @@
 import { Fragment } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { selectErrorState, selectLoadingState, selectwomenDresses } from '../../redux/womenProducts/womenProductSlice/womenTopsSlice';
-import { getWomenDresses } from '../../redux/womenProducts/womenProductSlice/womenTopsSlice';
 import loadingBar from "../../assets/images/loader.svg";
 import useEffectAfterMount from '../../utils/useEffectAfterMount';
 import CategoriesCard from '../../components/CategoriesCard/CategoriesCard';
 import "./productCard.css"
 import { selectFilterPrices } from '../../redux/filterProducts/filterProductsSlice';
+import { getWomenDresses, selectErrorState, selectLoadingState,selectWomenDresses } from '../../redux/womenProducts/womenDressesSlice/womenDressesSlice';
 
-export default function WomenTops() {
+export default function WomenDresses() {
 
-    
     const dispatch = useDispatch();
-    const womenDresses = useSelector (selectwomenDresses);
+    const womenDresses = useSelector (selectWomenDresses);
     const loading = useSelector (selectLoadingState);
     const error = useSelector(selectErrorState);
     const values = useSelector (selectFilterPrices);
-
-    console.log(values);
 
     useEffectAfterMount(() => {
       if (loading === 'idle') {

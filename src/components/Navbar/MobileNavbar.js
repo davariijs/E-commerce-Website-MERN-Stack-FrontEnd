@@ -26,7 +26,7 @@ export default function MobileNavbar() {
                 <RxHamburgerMenu className='w-6 h-6 text-darkText' />
                 </button>
                 <div className='logoNavbar'>
-                    <img src={logo} alt='logo' height="45px" width="91px"/>
+                <Link to="/"><img src={logo} alt='logo' height="45px" width="91px"/></Link>
                 </div>
                 <div></div>
                 </div>

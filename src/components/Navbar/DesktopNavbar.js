@@ -15,7 +15,7 @@ export default function DesktopNavbar() {
             <nav className='flex justify-between desktopDisplay container mx-auto'>
                 <div className='flex justify-between'>
                 <div className='logoNavbar'>
-                    <img src={logo} alt='logo' height="45px" width="91px"/>
+                    <Link to="/"><img src={logo} alt='logo' height="45px" width="91px"/></Link>
                 </div>
                 <div className="nav-items active"  >
                 <ul className='flex '>

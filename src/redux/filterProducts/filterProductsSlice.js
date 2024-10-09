@@ -5,7 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const filterProductsSlice = createSlice({
   name: "filterProducts",
   initialState: {
-    valuesFilter: {},
+    valuesFilter: [19,200],
   },
   reducers: {
     setValuesFilter: (state, action) => {
