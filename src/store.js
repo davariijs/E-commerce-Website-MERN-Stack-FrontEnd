@@ -9,8 +9,27 @@ import WomenShoesList from './redux/womenProducts/womenShoesSlice/womenShoesSlic
 import WomenCoatsList from './redux/womenProducts/womenCoatsSlice/womenCoatsSlice';
 import WomenDressesList from './redux/womenProducts/womenDressesSlice/womenDressesSlice';
 import WomenHoodiesList from './redux/womenProducts/womenHoodiesSlice/womenHoodiesSlice';
+import menTShirtsList from './redux/menProducts/TShirtSlice/tShirtSlice';
+import menShoesList from './redux/menProducts/menShoesSlice/menShoesSlice';
+import menCoatsList from './redux/menProducts/menCoatsSlice/menCoatsSlice';
+import menJeansList from './redux/menProducts/menJeansSlice/menJeansSlice';
+import menHoodiesList from './redux/menProducts/menHoodiesSlice/menHoodiesSlice';
+import MenTopsList from './redux/menProducts/menTopsSlice/menTopsSlice';
 
-const reducersToPersist = [womenTops, womenTShirtsList,WomenShoesList,WomenCoatsList,WomenDressesList,WomenHoodiesList];
+const reducersToPersist = [
+  womenTops,
+  womenTShirtsList,
+  WomenShoesList,
+  WomenCoatsList,
+  WomenDressesList,
+  WomenHoodiesList,
+  menTShirtsList,
+  menShoesList,
+  menCoatsList,
+  menJeansList,
+  menHoodiesList,
+  MenTopsList
+];
 
 const persistConfig = {
   key: 'root',
@@ -26,6 +45,12 @@ const reducers = combineReducers({
   WomenCoatsList:WomenCoatsList,
   WomenDressesList:WomenDressesList,
   WomenHoodiesList: WomenHoodiesList,
+  MenTShirtsList:menTShirtsList,
+  MenShoesList:menShoesList,
+  MenCoatsList:menCoatsList,
+  MenJeansList:menJeansList,
+  MenHoodiesList:menHoodiesList,
+  MenTopsList:MenTopsList
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

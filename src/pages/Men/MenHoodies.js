@@ -5,7 +5,7 @@ import useEffectAfterMount from '../../utils/useEffectAfterMount';
 import CategoriesCard from '../../components/CategoriesCard/CategoriesCard';
 import "./productCard.css"
 import { selectFilterPrices } from '../../redux/filterProducts/filterProductsSlice';
-import { getMenHoodies, selectErrorState, selectLoadingState,selectMenHoodies } from '../../redux/womenProducts/menHoodiesSlice/menHoodiesSlice';
+import { getMenHoodies, selectErrorState, selectLoadingState,selectMenHoodies } from '../../redux/menProducts/menHoodiesSlice/menHoodiesSlice';
 
 export default function MenHoodies() {
 

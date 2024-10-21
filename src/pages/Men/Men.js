@@ -21,8 +21,8 @@ export default function Men() {
         case "/men/coats":
         setPath("Coats");
         break;
-        case "/men/dresses":
-        setPath("Dresses");
+        case "/men/jeans":
+        setPath("Jeans");
         break;
         case "/men/hoodies":
         setPath("Hoodies");

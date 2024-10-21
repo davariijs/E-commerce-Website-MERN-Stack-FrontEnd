@@ -13,6 +13,12 @@ import WomenShoes from './pages/Women/WomenShoes';
 import WomenCoats from './pages/Women/WomenCoats';
 import WomenDresses from './pages/Women/WomenDresses';
 import WomenHoodies from './pages/Women/WomenHoodies';
+import MenTops from './pages/Men/MenTops';
+import MenTShirts from './pages/Men/MenTShirt';
+import MenCoats from './pages/Men/MenCoats';
+import MenShoes from './pages/Men/MenShoes';
+import MenJeans from './pages/Men/MenJeans';
+import MenHoodies from './pages/Men/MenHoodies';
 
 
 export default function App() {
@@ -30,7 +36,17 @@ export default function App() {
             <Route path='dresses' element={<WomenDresses/>}/>
             <Route path='hoodies' element={<WomenHoodies/>}/>
           </Route>
-          <Route path="men" element={<Men />} />
+          
+          <Route path="men" element={<Men/>}>
+            <Route index  element={<MenTops />} />
+            <Route path='tops'  element={<MenTops />} />
+            <Route path='t-shirts' element={<MenTShirts/>} />
+            <Route path='shoes' element={<MenShoes />} />
+            <Route path='coats' element={<MenCoats/>}/>
+            <Route path='jeans' element={<MenJeans/>}/>
+            <Route path='hoodies' element={<MenHoodies/>}/>
+          </Route>
+
           <Route path="*" element={<div>not found</div>} />
       </Routes>
       <Footer/>

@@ -1,18 +1,18 @@
 import { Fragment } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { selectErrorState, selectLoadingState, selectmenTops } from '../../redux/menProducts/menProductSlice/menTopsSlice';
-import { getMenTops } from '../../redux/menProducts/menProductSlice/menTopsSlice';
+import { selectErrorState, selectLoadingState, selectMenTops } from '../../redux/menProducts/menTopsSlice/menTopsSlice';
+import { getMenTops } from '../../redux/menProducts/menTopsSlice/menTopsSlice';
 import loadingBar from "../../assets/images/loader.svg";
 import useEffectAfterMount from '../../utils/useEffectAfterMount';
 import CategoriesCard from '../../components/CategoriesCard/CategoriesCard';
-import "./productCard.css"
+import "./productCard.css";
 import { selectFilterPrices } from '../../redux/filterProducts/filterProductsSlice';
 
 export default function MenTops() {
 
     
     const dispatch = useDispatch();
-    const menTops = useSelector (selectmenTops);
+    const menTops = useSelector (selectMenTops);
     const loading = useSelector (selectLoadingState);
     const error = useSelector(selectErrorState);
     const values = useSelector (selectFilterPrices);
