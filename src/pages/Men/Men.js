@@ -8,6 +8,9 @@ export default function Men() {
   const [path, setPath] = useState();
   const location = useLocation();
 
+  const linkPath = [
+
+  ]
   
   useEffect(() => {
     function locationPath () {
@@ -37,7 +40,7 @@ export default function Men() {
   return (
     <Fragment>
       <div className=' lg:my-20 container mx-auto lg:px-0 px-4 lg:flex gap-12'>
-      <FilterPart className=""/>
+      <FilterPart  className=""/>
       <div className='py-14 w-full'>
             <div className='flex text-2xl font-semibold pb-14'>
               {path}

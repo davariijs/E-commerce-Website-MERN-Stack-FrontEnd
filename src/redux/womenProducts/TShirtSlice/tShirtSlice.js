@@ -4,7 +4,7 @@ import axios from "axios";
 
 const uriRequest = {
   method: 'GET',
-  url: 'https://real-time-product-search.p.rapidapi.com/search-v2',
+  url: 'https://real-time-product-search.p.rapidapi.com/search',
   params: {
     q: 'women T-shirt',
     country: 'us, au, ca, nz, tk, nf, hm, cx, cc',
