@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import FilterPart from '../../components/FilterPart/FilterPart';
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 
 
 export default function Women() {
@@ -8,6 +8,7 @@ export default function Women() {
   const [path, setPath] = useState();
   const location = useLocation();
 
+  const {id} = useParams();
   
   useEffect(() => {
     function locationPath () {
@@ -17,6 +18,9 @@ export default function Women() {
         break;
         case "/women/shoes":
         setPath("Shoes");
+        break;
+        case `/women/${id}`:
+        setPath("Product Details");
         break;
         case "/women/coats":
         setPath("Coats");
@@ -32,7 +36,7 @@ export default function Women() {
     }
   }
   locationPath();
-  }, [location.pathname]);
+  }, [location.pathname, id]);
 
   return (
     <Fragment>

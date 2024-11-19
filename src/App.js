@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home/Home';
 import Navbar from './components/Navbar/index';
@@ -19,14 +19,18 @@ import MenCoats from './pages/Men/MenCoats';
 import MenShoes from './pages/Men/MenShoes';
 import MenJeans from './pages/Men/MenJeans';
 import MenHoodies from './pages/Men/MenHoodies';
+import ProductDetails from './pages/ProductDetailsPage/SingleProductDetails';
 
 
 export default function App() {
+
+  const {id} = useParams();
   return (
     <BrowserRouter>
     <Navbar/>
       <Routes>
           <Route path="/"  element={<Home />}/>
+          <Route path=':id' element={<ProductDetails/>}/>
           <Route path="women" element={<Women />}>
             <Route index  element={<WomenTops />} />
             <Route path='tops'  element={<WomenTops />} />
