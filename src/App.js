@@ -23,22 +23,27 @@ import ProductDetails from './pages/ProductDetailsPage/SingleProductDetails';
 
 
 export default function App() {
-
-  const {id} = useParams();
   return (
     <BrowserRouter>
     <Navbar/>
       <Routes>
           <Route path="/"  element={<Home />}/>
-          <Route path=':id' element={<ProductDetails/>}/>
+          
           <Route path="women" element={<Women />}>
             <Route index  element={<WomenTops />} />
+            <Route path=':id' element={<ProductDetails/>}/>
             <Route path='tops'  element={<WomenTops />} />
+            <Route path='tops/:id' element={<ProductDetails/>}/>
             <Route path='t-shirts' element={<WomenTShirts />} />
+            <Route path='t-shirts/:id' element={<ProductDetails/>}/>
             <Route path='shoes' element={<WomenShoes />} />
+            <Route path='shoes/:id' element={<ProductDetails/>}/>
             <Route path='coats' element={<WomenCoats/>}/>
+            <Route path='coats/:id' element={<ProductDetails/>}/>
             <Route path='dresses' element={<WomenDresses/>}/>
+            <Route path='dresses/:id' element={<ProductDetails/>}/>
             <Route path='hoodies' element={<WomenHoodies/>}/>
+            <Route path='hoodies/:id' element={<ProductDetails/>}/>
           </Route>
           
           <Route path="men" element={<Men/>}>

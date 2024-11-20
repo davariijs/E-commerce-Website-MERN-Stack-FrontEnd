@@ -30,13 +30,14 @@ export default function WomenShoes() {
     } else if (loading === 'succeeded') {
       contentToDisplay = <>
       <div className="lg:grid md:grid sm:grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 flex  justify-center flex-wrap  lg:gap-10 gap-5 h-fit w-full">
-        {womenShoes?.data?.products.filter(itemCategory => itemCategory.product_title !== null && itemCategory.offer?.price > `$${values[0].toFixed(2).toString()}` && itemCategory.offer?.price < `$${values[1].toFixed(2).toString()}` ).map(itemCategory => (
+        {womenShoes?.data?.products.filter(itemCategory => itemCategory.product_title !== null  ).map(itemCategory => (
           <CategoriesCard
           key={itemCategory.product_id}
           srcCategoriesCard={itemCategory.product_photos[0]} 
           textCategoriesCard={itemCategory.product_title}
           categoriesFashionCard={false}
-          linkCard="/"
+          linkCard={itemCategory.product_id} 
+          
           brand=""
           price={itemCategory.offer?.price}
           />
@@ -48,8 +49,10 @@ export default function WomenShoes() {
     }
 
   return (
-    <Fragment>
+    <Fragment> 
        {contentToDisplay} 
     </Fragment>
   )
 }
+
+// && itemCategory.offer?.price > `$${values[0].toFixed(2).toString()}` && itemCategory.offer?.price < `$${values[1].toFixed(2).toString()}`

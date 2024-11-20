@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Fragment, useEffect,useState } from "react";
+import { Fragment, useState } from "react";
 import React from "react";
 import { useParams } from "react-router-dom";
 import useEffectAfterMount from "../../utils/useEffectAfterMount";

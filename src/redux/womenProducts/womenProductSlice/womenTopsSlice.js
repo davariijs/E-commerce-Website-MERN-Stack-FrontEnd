@@ -7,7 +7,7 @@ const uriRequest = {
   url: 'https://real-time-product-search.p.rapidapi.com/search',
   params: {
     q: 'women tops',
-    country: 'us, au, ca',
+    country: 'us, au, ca, nz, tk, nf, hm, cx, cc',
     language: 'en',
     page: '1',
     limit: '100',
