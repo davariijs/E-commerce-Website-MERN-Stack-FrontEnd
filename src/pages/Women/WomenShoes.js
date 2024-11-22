@@ -30,16 +30,15 @@ export default function WomenShoes() {
     } else if (loading === 'succeeded') {
       contentToDisplay = <>
       <div className="lg:grid md:grid sm:grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 flex  justify-center flex-wrap  lg:gap-10 gap-5 h-fit w-full">
-        {womenShoes?.data?.products.filter(itemCategory => itemCategory.product_title !== null  ).map(itemCategory => (
+        {womenShoes?.payload?.products.filter(itemCategory => itemCategory.productTitle !== null  ).map(itemCategory => (
           <CategoriesCard
-          key={itemCategory.product_id}
-          srcCategoriesCard={itemCategory.product_photos[0]} 
-          textCategoriesCard={itemCategory.product_title}
+          key={itemCategory.webID}
+          srcCategoriesCard={itemCategory.image.url} 
+          textCategoriesCard={itemCategory.productTitle}
           categoriesFashionCard={false}
-          linkCard={itemCategory.product_id} 
-          
+          linkCard={itemCategory.webID}
           brand=""
-          price={itemCategory.offer?.price}
+          price={itemCategory.prices[0].regularPrice.minPrice}
           />
     ))}
       </div>

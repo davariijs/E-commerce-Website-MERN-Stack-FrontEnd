@@ -23,7 +23,7 @@ export default function CategoriesCard({srcCategoriesCard, textCategoriesCard,pr
                 </div>
 
                 <div>
-                    {categoriesFashionCard ?  <div className="text-darkText mt-5"><GoArrowRight /></div> : <div className="text-darkText bg-secondary lg:px-4 lg:py-2 md:px-4 md:py-2 px-2 py-1 font-bold text-sm rounded-lg mt-4">{price}</div>}
+                    {categoriesFashionCard ?  <div className="text-darkText mt-5"><GoArrowRight /></div> : <div className="text-darkText bg-secondary lg:px-4 lg:py-2 md:px-4 md:py-2 px-2 py-1 font-bold text-sm rounded-lg mt-4">${price}</div>}
                 </div>
                 </div>
                 

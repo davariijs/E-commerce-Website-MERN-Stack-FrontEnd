@@ -35,15 +35,15 @@ export default function WomenTops({}) {
       
       contentToDisplay = <>
       <div className="lg:grid md:grid sm:grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 flex  justify-center flex-wrap  lg:gap-10 gap-5 h-fit w-full">
-        {womenDresses?.data?.products.filter(itemCategory => itemCategory.product_title !== null  ).map(itemCategory => (
+        {womenDresses?.payload?.products.filter(itemCategory => itemCategory.productTitle !== null  ).map(itemCategory => (
           <CategoriesCard
-          key={itemCategory.product_id}
-          srcCategoriesCard={itemCategory.product_photos[0]} 
-          textCategoriesCard={itemCategory.product_title}
+          key={itemCategory.webID}
+          srcCategoriesCard={itemCategory.image.url} 
+          textCategoriesCard={itemCategory.productTitle}
           categoriesFashionCard={false}
-          linkCard={itemCategory.product_id}
+          linkCard={itemCategory.webID}
           brand=""
-          price={itemCategory.offer?.price}
+          price={itemCategory.prices[0].regularPrice.minPrice}
           />
     ))}
       </div>
@@ -59,4 +59,4 @@ export default function WomenTops({}) {
   )
 }
 
-// && itemCategory.offer?.price > `$${values[0].toFixed(2).toString()}` && itemCategory.offer?.price < `$${values[1].toFixed(2).toString()}`
+// && itemCategory.prices[0].regularPrice.minPrice > `$${values[0].toFixed(2).toString()}` && itemCategory.prices[0].regularPrice.minPrice < `$${values[1].toFixed(2).toString()}`
