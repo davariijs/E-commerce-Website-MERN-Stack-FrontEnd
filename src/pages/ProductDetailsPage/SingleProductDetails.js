@@ -11,69 +11,61 @@ import truckIcon from "../../assets/icons/truck.svg";
 import shippingIcon from "../../assets/icons/shipping.svg";
 import StarRatings from "react-star-ratings";
 import { GoArrowRight } from "react-icons/go";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProductDetails, selectErrorState,selectLoadingState,selectProductsDetails } from "../../redux/productDetails/productDetails";
+
 
 export default function ProductDetails() {
-    const [product , setProduct] = useState({});
     const id = useParams();
     const productSingleId = id.id;
-    const productId = productSingleId;
-    console.log(productId);
-    let ratingNum = Number(product?.payload?.products[0].avgRating);
+    const productIdDetails = productSingleId;
+    const dispatch = useDispatch();
+    const productsDetails = useSelector (selectProductsDetails);
+    const loading = useSelector (selectLoadingState);
+    const error = useSelector(selectErrorState);
 
-    const uriRequest = {
-      method: 'GET',
-      url: 'https://kohls.p.rapidapi.com/products/detail',
-      params: {webID: `${productId}`},
-      headers: {
-        'x-rapidapi-key': '3699a5185fmshe0db227da19099cp1a6b23jsn73e9b3010639',
-        'x-rapidapi-host': 'kohls.p.rapidapi.com'
-      }
+    const handleFetchProduct = () => {
+      const productId = `${productIdDetails}`; // Dynamic product ID
+      dispatch(fetchProductDetails(productId));
     };
 
-    function singlePro() {
-      axios.request(uriRequest)
-        .then(res => {
-          setProduct(res.data)
-          console.log(res.data);
-        })
-    }
-
     useEffectAfterMount(() => {
-      singlePro()
+      handleFetchProduct()
     }, []);
 
-    return (
-        <Fragment>
-           {!product ?
-            <div className='flex justify-center items-center h-fit w-full relative'><img className='w-36' src={loadingBar} alt='loading ...'/></div>:
-           <div>
-
+    let contentToDisplay = '';
+    if (loading === 'loading') {
+      contentToDisplay = <div className='flex justify-center items-center h-fit w-full relative'><img className='w-36' src={loadingBar} alt='loading ...'/></div>;
+    } else if (loading === 'succeeded') {
+      contentToDisplay = <>
+      <div className="lg:grid md:grid sm:grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 flex  justify-center flex-wrap  lg:gap-10 gap-5 h-fit w-full">
+      <div>
             <div>
               <div><div>
-              <video src={product?.payload?.products[0].videos[0].url} width="750" height="500" controls>
+              <video src={productsDetails?.payload?.products[0].videos[0].url} width="750" height="500" controls>
               </video>
               </div></div>
               <div></div>
               <div>
-              <h3 className="text-grayText font-medium text-lg">{product?.payload?.products[0].brand}</h3>
-                <div><h2 className="text-darkText font-bold text-4xl">{product?.payload?.products[0].productTitle}</h2></div>
+              <h3 className="text-grayText font-medium text-lg">{productsDetails?.payload?.products[0].brand}</h3>
+                <div><h2 className="text-darkText font-bold text-4xl">{productsDetails?.payload?.products[0].productTitle}</h2></div>
                 <div className="flex">
                 <StarRatings
-                  rating= {ratingNum}
+                  rating= {Number(productsDetails?.payload?.products[0].avgRating) || 3}
                   starRatedColor="#FBD103"
                   starDimension="22px"
                   starSpacing="8px"
                 />
-                  <span className="text-grayText font-medium text-lg pl-2">{product?.payload?.products[0].avgRating}</span></div>
-                <div className="text-grayText font-medium text-lg"><a className=" flex" href={product?.payload?.products[0].styleGuide.sizeChartURL}>Size guide <GoArrowRight className="mt-1 w-10" /></a></div>
+                  <span className="text-grayText font-medium text-lg pl-2">{productsDetails?.payload?.products[0].avgRating}</span></div>
+                <div className="text-grayText font-medium text-lg"><a className=" flex" href={productsDetails?.payload?.products[0].styleGuide.sizeChartURL}>Size guide <GoArrowRight className="mt-1 w-10" /></a></div>
                 <div className="text-darkText font-semibold text-lg">Colours Available </div>
-                <div className="grid grid-cols-4 gap-6">{product?.payload?.products[0].swatchImages.map(color => ( <div>
+                <div className="grid grid-cols-4 gap-6">{productsDetails?.payload?.products[0].swatchImages.map(color => ( <div>
                     <div><img className="rounded-full" src={color.URL} alt="color"/></div>
                 </div>))}</div>
                 
                 <div className="flex">
                 <Link><button className="flex"><span><img src={cartIcon} alt='cart'/></span> Add to cart</button></Link>
-                  <button>{product?.payload?.products[0]?.price.regularPrice.minPrice}</button>
+                  <button>{productsDetails?.payload?.products[0]?.price.regularPrice.minPrice}</button>
                 </div>
                 <hr/>
                 <div className="grid grid-cols-2 gap-6 mt-10">
@@ -89,7 +81,15 @@ export default function ProductDetails() {
 
             </div>
            </div>
-          }
-        </Fragment>
+      </div>
+      </>
+    } else if (loading === 'failed') {
+      contentToDisplay = <p>{error}</p>;
+    }
+
+    return (
+      <Fragment>
+      {contentToDisplay} 
+      </Fragment>
       )
 }
