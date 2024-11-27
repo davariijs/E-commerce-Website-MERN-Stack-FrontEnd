@@ -1,10 +1,8 @@
-import axios from "axios";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import useEffectAfterMount from "../../utils/useEffectAfterMount";
 import loadingBar from "../../assets/images/loader.svg";
-import cartIcon from "../../assets/icons/cart.svg";
 import creditCardIcon from "../../assets/icons/credit-card.svg";
 import fitIcon from "../../assets/icons/fit.svg";
 import truckIcon from "../../assets/icons/truck.svg";
@@ -24,6 +22,22 @@ export default function ProductDetails() {
     const loading = useSelector (selectLoadingState);
     const error = useSelector(selectErrorState);
 
+    const CartIcon = () => (
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        className="stroke-current text-white" // Use text-white to set color
+        stroke="currentColor" // This makes the stroke inherit the text color
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M2.5 3.33334H3.00526C3.85578 3.33334 4.56986 3.97376 4.6621 4.81926L5.3379 11.0141C5.43014 11.8596 6.14422 12.5 6.99474 12.5H14.205C14.9669 12.5 15.6317 11.9834 15.82 11.2452L16.9699 6.73593C17.2387 5.68213 16.4425 4.65742 15.355 4.65742H5.5M5.52063 15.5208H6.14563M5.52063 16.1458H6.14563M14.6873 15.5208H15.3123M14.6873 16.1458H15.3123M6.66667 15.8333C6.66667 16.2936 6.29357 16.6667 5.83333 16.6667C5.3731 16.6667 5 16.2936 5 15.8333C5 15.3731 5.3731 15 5.83333 15C6.29357 15 6.66667 15.3731 6.66667 15.8333ZM15.8333 15.8333C15.8333 16.2936 15.4602 16.6667 15 16.6667C14.5398 16.6667 14.1667 16.2936 14.1667 15.8333C14.1667 15.3731 14.5398 15 15 15C15.4602 15 15.8333 15.3731 15.8333 15.8333Z" />
+      </svg>
+    );
+
     const handleFetchProduct = () => {
       const productId = `${productIdDetails}`; // Dynamic product ID
       dispatch(fetchProductDetails(productId));
@@ -42,7 +56,7 @@ export default function ProductDetails() {
       <div>
             <div>
               <div><div>
-              <video src={productsDetails?.payload?.products[0].videos[0].url} width="750" height="500" controls>
+              <video src={productsDetails?.payload?.products[0].videos[0]?.url} width="750" height="500" controls>
               </video>
               </div></div>
               <div></div>
@@ -64,8 +78,15 @@ export default function ProductDetails() {
                 </div>))}</div>
                 
                 <div className="flex">
-                <Link><button className="flex"><span><img src={cartIcon} alt='cart'/></span> Add to cart</button></Link>
-                  <button>{productsDetails?.payload?.products[0]?.price.regularPrice.minPrice}</button>
+                <Link>
+                  <button className="rounded-lg flex w-52 h-12 bg-primary font-semibold text-lg text-white justify-center items-center">
+                    <span className="pr-2">
+                      <CartIcon /> 
+                    </span>
+                    Add to cart
+                  </button>
+                </Link>                  
+                <button className="ml-6 border-darkText rounded-lg w-36 h-12 text-darkText font-bold border-2 bg-transparent text-center">${productsDetails?.payload?.products[0]?.price.regularPrice.minPrice}</button>
                 </div>
                 <hr/>
                 <div className="grid grid-cols-2 gap-6 mt-10">

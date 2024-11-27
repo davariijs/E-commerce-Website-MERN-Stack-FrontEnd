@@ -10,7 +10,6 @@ import { selectFilterPrices } from '../../redux/filterProducts/filterProductsSli
 import { useParams } from 'react-router';
 
 export default function WomenTops({}) {
-  
     console.log(useParams());
     const dispatch = useDispatch();
     const womenDresses = useSelector (selectwomenDresses);
@@ -18,7 +17,6 @@ export default function WomenTops({}) {
     const error = useSelector(selectErrorState);
     const values = useSelector (selectFilterPrices);
     console.log(values);
-    
 
     useEffectAfterMount(() => {
       if (loading === 'idle') {

@@ -11,8 +11,8 @@ const uriRequest = {
     keyword: 'dress',
   },
   headers: {
-    'x-rapidapi-key': '3699a5185fmshe0db227da19099cp1a6b23jsn73e9b3010639',
-    'x-rapidapi-host': 'kohls.p.rapidapi.com'
+    'x-rapidapi-key': process.env.REACT_APP_X_RAPIDAPI_KEY,
+    'x-rapidapi-host': process.env.REACT_APP_X_RAPIDAPI_HOST
   }
 };
 

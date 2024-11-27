@@ -30,7 +30,7 @@ const reducersToPersist = [
   menJeansList,
   menHoodiesList,
   MenTopsList,
-  // ProductsDetailsList
+  ProductsDetailsList,
 ];
 
 const persistConfig = {

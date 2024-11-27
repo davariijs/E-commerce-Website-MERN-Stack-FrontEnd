@@ -4,15 +4,15 @@ import axios from 'axios';
 // Create the async thunk
 export const fetchProductDetails = createAsyncThunk(
   'ProductsDetailsList/getDetails',
-  async (productId, thunkAPI) => {
+  async (productId) => {
     try {
       const response = await axios({
         method: 'GET',
         url: 'https://kohls.p.rapidapi.com/products/detail',
         params: { webID: productId }, // Pass the dynamic parameter here
         headers: {
-          'x-rapidapi-key': '3699a5185fmshe0db227da10909cp1a6b23jsn73e9b3010639',
-          'x-rapidapi-host': 'kohls.p.rapidapi.com',
+          'x-rapidapi-key': process.env.REACT_APP_X_RAPIDAPI_KEY,
+          'x-rapidapi-host': process.env.REACT_APP_X_RAPIDAPI_HOST,
         },
       });
 
