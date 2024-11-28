@@ -52,18 +52,20 @@ export default function ProductDetails() {
       contentToDisplay = <div className='flex justify-center items-center h-fit w-full relative'><img className='w-36' src={loadingBar} alt='loading ...'/></div>;
     } else if (loading === 'succeeded') {
       contentToDisplay = <>
-      <div className="lg:grid md:grid sm:grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 flex  justify-center flex-wrap  lg:gap-10 gap-5 h-fit w-full">
+      <div className="container mx-auto">
       <div>
-            <div>
-              <div><div>
-              <video src={productsDetails?.payload?.products[0].videos[0]?.url} width="750" height="500" controls>
-              </video>
-              </div></div>
-              <div></div>
+            <div className="grid grid-cols-2 gap-6">
               <div>
-              <h3 className="text-grayText font-medium text-lg">{productsDetails?.payload?.products[0].brand}</h3>
-                <div><h2 className="text-darkText font-bold text-4xl">{productsDetails?.payload?.products[0].productTitle}</h2></div>
-                <div className="flex">
+              {productsDetails?.payload?.products[0].videos[0]?.url ? 
+              <video src={productsDetails?.payload?.products[0].videos[0]?.url} width="750" height="500" controls>
+              </video> :
+              <div><img className="w-44 h-44" src={productsDetails?.payload?.products[0].images[0].url} alt="color"/></div>
+              }
+              </div>
+              <div>
+              <h3 className="text-grayText font-medium text-lg mb-5">{productsDetails?.payload?.products[0].brand}</h3>
+                <div><h2 className="text-darkText font-bold text-4xl mb-5">{productsDetails?.payload?.products[0].productTitle}</h2></div>
+                <div className="flex mb-5">
                 <StarRatings
                   rating= {Number(productsDetails?.payload?.products[0].avgRating) || 3}
                   starRatedColor="#FBD103"
@@ -71,13 +73,13 @@ export default function ProductDetails() {
                   starSpacing="8px"
                 />
                   <span className="text-grayText font-medium text-lg pl-2">{productsDetails?.payload?.products[0].avgRating}</span></div>
-                <div className="text-grayText font-medium text-lg"><a className=" flex" href={productsDetails?.payload?.products[0].styleGuide.sizeChartURL}>Size guide <GoArrowRight className="mt-1 w-10" /></a></div>
-                <div className="text-darkText font-semibold text-lg">Colours Available </div>
-                <div className="grid grid-cols-4 gap-6">{productsDetails?.payload?.products[0].swatchImages.map(color => ( <div>
+                <div className="text-grayText font-medium text-lg mb-5"><a className=" flex" href={productsDetails?.payload?.products[0].styleGuide.sizeChartURL}>Size guide <GoArrowRight className="mt-1 w-10" /></a></div>
+                <div className="text-darkText font-semibold text-lg mb-5">Colours Available </div>
+                <div className="grid grid-cols-4 gap-6 mb-4">{productsDetails?.payload?.products[0].swatchImages.map(color => ( <div>
                     <div><img className="rounded-full" src={color.URL} alt="color"/></div>
                 </div>))}</div>
                 
-                <div className="flex">
+                <div className="flex mb-9">
                 <Link>
                   <button className="rounded-lg flex w-52 h-12 bg-primary font-semibold text-lg text-white justify-center items-center">
                     <span className="pr-2">
@@ -89,7 +91,7 @@ export default function ProductDetails() {
                 <button className="ml-6 border-darkText rounded-lg w-36 h-12 text-darkText font-bold border-2 bg-transparent text-center">${productsDetails?.payload?.products[0]?.price.regularPrice.minPrice}</button>
                 </div>
                 <hr/>
-                <div className="grid grid-cols-2 gap-6 mt-10">
+                <div className="grid grid-cols-2 gap-6 mt-10 mb-5">
                   <div className="flex font-medium text-darkText text-lg"><span className="-mt-2 pr-2 bg-secondary w-10 h-10 rounded-full  p-3 mr-2"><img src={creditCardIcon} alt='cart'/></span>Secure payment</div>
                   <div className="flex font-medium text-darkText text-lg"><span className="-mt-2 pr-2 bg-secondary w-10 h-10 rounded-full p-3 mr-2"><img src={fitIcon} alt='size'/></span>Size & Fit</div>
                   <div className="flex font-medium text-darkText text-lg"><span className="-mt-2 pr-2 bg-secondary w-10 h-10 rounded-full p-3 mr-2"><img src={truckIcon} alt='Free shipping'/></span>Free shipping</div>
