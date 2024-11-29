@@ -11,7 +11,7 @@ import StarRatings from "react-star-ratings";
 import { GoArrowRight } from "react-icons/go";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductDetails, selectErrorState,selectLoadingState,selectProductsDetails } from "../../redux/productDetails/productDetails";
-
+// productsDetails?.payload?.products[0].swatchImages.color // color names
 
 export default function ProductDetails() {
     const id = useParams();
@@ -54,32 +54,32 @@ export default function ProductDetails() {
       contentToDisplay = <>
       <div className="container mx-auto">
       <div>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="lg:grid grid-cols-2 gap-6">
               <div>
               {productsDetails?.payload?.products[0].videos[0]?.url ? 
               <video src={productsDetails?.payload?.products[0].videos[0]?.url} width="750" height="500" controls>
               </video> :
-              <div><img className="w-44 h-44" src={productsDetails?.payload?.products[0].images[0].url} alt="color"/></div>
+              <div><img className="w-full h-full" src={productsDetails?.payload?.products[0].images[0].url} alt="color"/></div>
               }
               </div>
               <div>
-              <h3 className="text-grayText font-medium text-lg mb-5">{productsDetails?.payload?.products[0].brand}</h3>
+              <h3 className="text-grayText font-medium text-lg mb-5 mt-5">{productsDetails?.payload?.products[0].brand}</h3>
                 <div><h2 className="text-darkText font-bold text-4xl mb-5">{productsDetails?.payload?.products[0].productTitle}</h2></div>
                 <div className="flex mb-5">
                 <StarRatings
-                  rating= {Number(productsDetails?.payload?.products[0].avgRating) || 3}
+                  rating= {Number(productsDetails?.payload?.products[0].avgRating) || 5}
                   starRatedColor="#FBD103"
                   starDimension="22px"
                   starSpacing="8px"
                 />
                   <span className="text-grayText font-medium text-lg pl-2">{productsDetails?.payload?.products[0].avgRating}</span></div>
                 <div className="text-grayText font-medium text-lg mb-5"><a className=" flex" href={productsDetails?.payload?.products[0].styleGuide.sizeChartURL}>Size guide <GoArrowRight className="mt-1 w-10" /></a></div>
-                <div className="text-darkText font-semibold text-lg mb-5">Colours Available </div>
-                <div className="grid grid-cols-4 gap-6 mb-4">{productsDetails?.payload?.products[0].swatchImages.map(color => ( <div>
+                <div className="text-darkText font-semibold text-lg mb-5">Colors Available </div>
+                <div className="grid grid-cols-6 gap-2 mb-6">{productsDetails?.payload?.products[0].swatchImages.map(color => ( <div>
                     <div><img className="rounded-full" src={color.URL} alt="color"/></div>
                 </div>))}</div>
                 
-                <div className="flex mb-9">
+                <div className="flex lg:justify-start justify-center mb-9">
                 <Link>
                   <button className="rounded-lg flex w-52 h-12 bg-primary font-semibold text-lg text-white justify-center items-center">
                     <span className="pr-2">
@@ -98,10 +98,6 @@ export default function ProductDetails() {
                   <div className="flex font-medium text-darkText text-lg"><span className="-mt-2 pr-2 bg-secondary w-10 h-10 rounded-full p-3 mr-2"><img src={shippingIcon} alt='Returns'/></span>Free Shipping & Returns</div>
                 </div>
               </div>
-            </div>
-
-            <div>
-
             </div>
            </div>
       </div>
