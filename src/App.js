@@ -20,6 +20,7 @@ import MenShoes from './pages/Men/MenShoes';
 import MenJeans from './pages/Men/MenJeans';
 import MenHoodies from './pages/Men/MenHoodies';
 import ProductDetails from './pages/ProductDetailsPage/SingleProductDetails';
+import Account from './pages/Account/Account';
 
 
 export default function App() {
@@ -28,7 +29,7 @@ export default function App() {
     <Navbar/>
       <Routes>
           <Route path="/"  element={<Home />}/>
-          
+          <Route path="/account"  element={<Account />}/>
           <Route path="women" element={<Women />}>
             <Route index  element={<WomenTops />} />
             <Route path=':id' element={<ProductDetails/>}/>

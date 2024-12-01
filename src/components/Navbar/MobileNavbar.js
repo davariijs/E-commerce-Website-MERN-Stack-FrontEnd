@@ -63,9 +63,11 @@ export default function MobileNavbar() {
                         <div className='bg-secondary likeIcon'>
                             <img src={likeIcon} alt='like'/>
                         </div>
+                        <Link to="/account">
                         <div className='bg-secondary userIcon'>
                             <img src={userIcon} alt='user'/>
                         </div>
+                        </Link>
                         <div className='bg-secondary cartIcon'>
                             <img src={cartIcon} alt='cart'/>
                         </div>
