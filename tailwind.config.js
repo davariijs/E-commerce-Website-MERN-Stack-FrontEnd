@@ -16,7 +16,9 @@ module.exports = {
       'textCategory':'#2A2F2F',
       'textThinGray':'#7F7F7F',
       'yellow':'#FBD103',
-      'borderGrey':'#BEBCBD'
+      'borderGrey':'#BEBCBD',
+      'borderGreyLight':'#EDEEF2',
+      'light':'#D9D9D9'
     },
   },  
   plugins: ["tailwindcss ,autoprefixer"]
