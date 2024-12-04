@@ -25,3 +25,8 @@
         padding: 8px 5px;
 }
 }
+
+
+input[type="checkbox"] {
+    accent-color: #8A33FD;
+    }

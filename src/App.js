@@ -21,6 +21,10 @@ import MenJeans from './pages/Men/MenJeans';
 import MenHoodies from './pages/Men/MenHoodies';
 import ProductDetails from './pages/ProductDetailsPage/SingleProductDetails';
 import Account from './pages/Account/Account';
+import InfoAccount from './pages/Account/InfoAccount';
+import ConfirmedOrder from './components/confirmedOrder/ConfirmedOrder';
+import CartEmpty from './components/CartEmpty/CartEmpty';
+import NotFound from './components/NotFound/NotFound';
 
 
 export default function App() {
@@ -30,6 +34,8 @@ export default function App() {
       <Routes>
           <Route path="/"  element={<Home />}/>
           <Route path="/account"  element={<Account />}/>
+          <Route path="/confirmed-order"  element={<ConfirmedOrder />}/>
+          <Route path="/cart-empty"  element={<CartEmpty />}/>
           <Route path="women" element={<Women />}>
             <Route index  element={<WomenTops />} />
             <Route path=':id' element={<ProductDetails/>}/>
@@ -57,7 +63,7 @@ export default function App() {
             <Route path='hoodies' element={<MenHoodies/>}/>
           </Route>
 
-          <Route path="*" element={<div>not found</div>} />
+          <Route path="*" element={<NotFound/>} />
       </Routes>
       <Footer/>
     </BrowserRouter>
