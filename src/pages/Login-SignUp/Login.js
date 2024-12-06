@@ -16,12 +16,17 @@ export default function Login() {
                     <img src={loginImage} className="h-screen w-full" alt="clothes"/>
                 </div>
 
-                <div className="mx-14 pt-10 md:mx-auto login-part">
+                <div className="mx-14 pt-10 md:mx-auto md:px-4">
                     <div className="">
                     <h2 className="font-bold text-3xl text-darkText md:text-left  text-center ">LogIn</h2>
                     <button className="rounded-lg border-2 w-full text-primary font-medium text-xl border-darkText flex justify-center items-center py-4 px-5 mt-11 mb-5"><FcGoogle className="w-5 h-5 mr-2"/>Continue With Google</button>
                     <button className="rounded-lg border-2 w-full text-primary font-medium text-xl border-darkText flex justify-center items-center py-4 px-5 mb-11"><FcPhone className="w-5 h-5 mr-2"/>Continue With Number</button>
 
+                    <div className="flex text-grayText justify-center text-center items-center">
+                        <div className="w-full divPart rounded-lg bg-grayText mr-4"></div>
+                        <h5>OR</h5>
+                        <div className="w-full divPart rounded-lg bg-grayText ml-4"></div>
+                    </div>
 
                     <form>
                     <div className="mt-8">
