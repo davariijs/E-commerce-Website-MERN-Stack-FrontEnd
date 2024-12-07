@@ -18,7 +18,8 @@ module.exports = {
       'yellow':'#FBD103',
       'borderGrey':'#BEBCBD',
       'borderGreyLight':'#EDEEF2',
-      'light':'#D9D9D9'
+      'light':'#D9D9D9',
+      'red':'#EE1D52'
     },
   },  
   plugins: ["tailwindcss ,autoprefixer"]

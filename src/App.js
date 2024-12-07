@@ -26,6 +26,7 @@ import ConfirmedOrder from './components/confirmedOrder/ConfirmedOrder';
 import CartEmpty from './components/CartEmpty/CartEmpty';
 import NotFound from './components/NotFound/NotFound';
 import Login from './pages/Login-SignUp/Login';
+import Signup from './pages/Login-SignUp/SignUp';
 
 
 export default function App() {
@@ -35,6 +36,7 @@ export default function App() {
       <Routes>
           <Route path="/"  element={<Home />}/>
           <Route path="/account"  element={<Login />}/>
+          <Route path="/sign-up"  element={<Signup />}/>
           <Route path="/confirmed-order"  element={<ConfirmedOrder />}/>
           <Route path="/cart-empty"  element={<CartEmpty />}/>
           <Route path="women" element={<Women />}>

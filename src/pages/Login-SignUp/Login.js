@@ -30,7 +30,7 @@ export default function Login() {
 
                     <form>
                     <div className="mt-8">
-                    <label className="font-medium text-lg text-darkText ">User name or email address</label>
+                    <label className="font-medium text-lg text-darkText ">Email address or Phone number </label>
                     <input className="rounded-lg border-2 w-full border-darkText py-4 px-4 mt-2" type="text" name="" id=""/>
                     </div>
 
