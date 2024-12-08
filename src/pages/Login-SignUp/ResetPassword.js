@@ -1,10 +1,6 @@
 import React, { Fragment } from "react";
-import { IoMdEyeOff } from "react-icons/io";
-import { IoMdEye } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
-import { FcPhone } from "react-icons/fc";
-import loginImage from "../../assets/images/signup-image.webp"
+import resetImage from "../../assets/images/reset-password.webp"
 import "./login-signup.css";
 
 export default function ResetPassword() {
@@ -13,7 +9,7 @@ export default function ResetPassword() {
         <Fragment>
             <div className="md:grid md:grid-cols-2 ">
                 <div className="">
-                    <img src={loginImage} className="h-screen w-full" alt="clothes"/>
+                    <img src={resetImage} className="h-screen w-full" alt="clothes"/>
                 </div>
 
                 <div className="mx-14 pt-10 md:mx-auto md:px-4">
@@ -32,7 +28,7 @@ export default function ResetPassword() {
 
                     <div className="mt-11">
                         <button className="bg-primary rounded-lg text-white px-5 py-4 text-center items-center md:w-40 w-full mb-2">Send</button>
-                        <h4 className="font-medium text-base text-grayText">Back to<Link className="underline">Login</Link></h4>
+                        <h4 className="font-medium text-base text-grayText">Back to <Link className="underline">Login</Link></h4>
                     </div>
                     </form>
                     
