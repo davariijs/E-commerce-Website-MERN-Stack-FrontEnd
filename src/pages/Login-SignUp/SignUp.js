@@ -27,13 +27,13 @@ export default function Signup() {
                     <form>
                     <div className="mt-11">
                     <label className="font-medium text-lg text-darkText ">Email Address</label>
-                    <input className="rounded-lg border-2 w-full border-darkText py-4 px-4 mt-2 mb-2" type="text" name="" id="" placeholder="example@gmail.com"/>
+                    <input className="rounded-lg border-2 w-full border-borderLight border-opacity-80 py-4 px-4 mt-2 mb-2" type="text" name="" id="" placeholder="example@gmail.com"/>
                     <span className="font-medium text-red text-base"><h5>Error Message</h5></span>
                     </div>
 
                     <div>
                     <div className="font-medium text-lg text-darkText flex justify-between items-center mt-8"><label>Password</label> <button className="flex justify-center items-center text-grayText"><IoMdEye className="mr-2"/><IoMdEyeOff className="mr-2"/>Hide</button></div>
-                    <input className="rounded-lg border-2 w-full border-darkText py-4 px-4 mt-2 mb-2"  type="text" name="" id=""/>
+                    <input className="rounded-lg border-2 w-full border-borderLight border-opacity-80 py-4 px-4 mt-2 mb-2"  type="text" name="" id=""/>
                     <span className="font-medium text-base text-grayText"><h5>Use 8 or more characters with a mix of letters, numbers & symbols</h5></span>
                     </div>
 

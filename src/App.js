@@ -28,7 +28,9 @@ import NotFound from './components/NotFound/NotFound';
 import Login from './pages/Login-SignUp/Login';
 import Signup from './pages/Login-SignUp/SignUp';
 import ResetPassword from './pages/Login-SignUp/ResetPassword';
-import VerificationCode from './pages/Login-SignUp/VerificationCode';
+import CheckEmail from './pages/Login-SignUp/CheckEmail';
+import Verification from './pages/Login-SignUp/Verification';
+import NewPassword from './pages/Login-SignUp/NewPassword';
 
 
 export default function App() {
@@ -40,7 +42,9 @@ export default function App() {
           <Route path="/account"  element={<Login />}/>
           <Route path="/sign-up"  element={<Signup />}/>
           <Route path="/reset-password"  element={<ResetPassword />}/>
-          <Route path="/verification-email"  element={<VerificationCode />}/>
+          <Route path="/check-email"  element={<CheckEmail />}/>
+          <Route path="/verification-code"  element={<Verification />}/>
+          <Route path="/new-password"  element={<NewPassword />}/>
           <Route path="/confirmed-order"  element={<ConfirmedOrder />}/>
           <Route path="/cart-empty"  element={<CartEmpty />}/>
           <Route path="women" element={<Women />}>

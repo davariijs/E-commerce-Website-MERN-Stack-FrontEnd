@@ -22,7 +22,7 @@ export default function ResetPassword() {
                     <form>
                     <div className="mt-11">
                     <label className="font-medium text-lg text-darkText ">Email</label>
-                    <input className="rounded-lg border-2 w-full border-darkText py-4 px-4 mt-2 mb-2" type="text" name="" id="" placeholder="example@gmail.com"/>
+                    <input className="rounded-lg border-2 w-full border-borderLight border-opacity-80 py-4 px-4 mt-2 mb-2" type="text" name="" id="" placeholder="example@gmail.com"/>
                     <span className="font-medium text-red text-base"><h5>We can not find your email.</h5></span>
                     </div>
 

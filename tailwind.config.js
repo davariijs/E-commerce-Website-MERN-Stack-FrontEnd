@@ -18,6 +18,7 @@ module.exports = {
       'yellow':'#FBD103',
       'borderGrey':'#BEBCBD',
       'borderGreyLight':'#EDEEF2',
+      'borderLight':'#666666',
       'light':'#D9D9D9',
       'red':'#EE1D52'
     },

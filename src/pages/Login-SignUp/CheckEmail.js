@@ -1,16 +1,16 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import verificationImage from "../../assets/images/verification-image.webp"
+import checkEmailImg from "../../assets/images/check-email-image.webp"
 import "./login-signup.css";
 import { IoIosArrowBack } from "react-icons/io";
 
-export default function VerificationCode() {
+export default function CheckEmail() {
 
     return(
         <Fragment>
             <div className="md:grid md:grid-cols-2 ">
                 <div className="">
-                    <img src={verificationImage} className="h-screen w-full" alt="clothes"/>
+                    <img src={checkEmailImg} className="h-screen w-full" alt="clothes"/>
                 </div>
 
                 <div className="mx-14 pt-10 md:mx-auto md:px-4">
