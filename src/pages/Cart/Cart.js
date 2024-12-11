@@ -9,7 +9,7 @@ export default function Cart() {
     return(
         <Fragment>
                 <div className="relative">
-                    <div className="absolute bg-darkText w-full h-20 top-48"></div>
+                    <div className="absolute bg-darkText w-full h-20 top-48 z-0"></div>
                 <div className="container mx-auto px-5 md:px-0">
                     
                     <div className="pt-14 pb-6 flex lg:text-lg"><Link to="/" className="text-grayText font-normal  pr-3">Home</Link><img src={leftArrowIcon} width="5px" height="10.14px" alt="arrow"/>
@@ -18,14 +18,22 @@ export default function Cart() {
 
                     <div className="text-grayText text-sm"><h3>Please fill in the fields below and click place order to complete your purchase!</h3><Link>Already registered? <span className="text-primary font-semibold">Please login here</span></Link></div>
 
-                    <div>
+                    <div className="relative z-30 mt-20">
                         <div>
-                            <div>
+                            <div className="text-white font-semibold text-lg uppercase flex justify-between">
+                                <div>
                                 <h4>Product Details</h4>
-                                <h4></h4>
-                                <h4></h4>
-                                <h4></h4>
-                                <h4></h4>
+                                </div>
+                                <div className="grid grid-cols-4 gap-4">
+                                <h4>Price</h4>
+                                <h4>Quantity</h4>
+                                <h4>shipping</h4>
+                                <h4>subtotal</h4>
+                                </div>
+                            </div>
+
+                            <div className="h-7 w-full">
+
                             </div>
 
                         </div>
