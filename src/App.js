@@ -31,6 +31,7 @@ import ResetPassword from './pages/Login-SignUp/ResetPassword';
 import CheckEmail from './pages/Login-SignUp/CheckEmail';
 import Verification from './pages/Login-SignUp/Verification';
 import NewPassword from './pages/Login-SignUp/NewPassword';
+import Cart from './pages/Cart/Cart';
 
 
 export default function App() {
@@ -47,6 +48,7 @@ export default function App() {
           <Route path="/new-password"  element={<NewPassword />}/>
           <Route path="/confirmed-order"  element={<ConfirmedOrder />}/>
           <Route path="/cart-empty"  element={<CartEmpty />}/>
+          <Route path="/cart"  element={<Cart />}/>
           <Route path="women" element={<Women />}>
             <Route index  element={<WomenTops />} />
             <Route path=':id' element={<ProductDetails/>}/>

@@ -12,7 +12,7 @@ export default function Footer () {
 
     return(
         <Fragment>
-            <div className=" bg-darkText w-full">
+            <div className=" bg-darkText w-full absolute bottom-0">
             <div className="container mx-auto lg:p-16 p-10">
                 <div className=" lg:flex md:flex grid justify-between grid-cols-2 gap-5 lg:mx-14 md:mx-14 mx-0">
                     <div className="text-white">

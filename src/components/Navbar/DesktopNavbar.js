@@ -43,9 +43,11 @@ export default function DesktopNavbar() {
                             <img src={userIcon} alt='user'/>
                         </div>
                         </Link>
+                        <Link to="/cart">
                         <div className='bg-secondary cartIcon'>
                             <img src={cartIcon} alt='cart'/>
                         </div>
+                        </Link>
                     </div>
                 </div>
                 </div>
