@@ -1,0 +1,12 @@
+.checkout-bg {
+height: 341px;
+}
+
+
+
+@media (max-width: 1024px) {
+    .checkout-bg {
+        height: 670px;
+        }
+        
+}
