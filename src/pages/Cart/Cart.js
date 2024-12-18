@@ -2,6 +2,8 @@ import React , { Fragment } from "react";
 import { Link } from "react-router-dom";
 import leftArrowIcon from "../../assets/icons/left-arrow.svg";
 import "./Cart.css";
+import { FaRegTrashAlt } from "react-icons/fa";
+import productImg from "../../assets/images/hawaiianShirts.png"
 
 export default function Cart() {
 
@@ -21,24 +23,43 @@ export default function Cart() {
 
                     <div className="relative z-30 mt-20">
                         <div>
-                            <div className="text-white font-semibold text-lg uppercase flex justify-between">
+                            <div className="text-white font-semibold md:text-lg text-sm uppercase flex justify-between">
                                 <div>
                                 <h4>Product Details</h4>
                                 </div>
-                                <div className="grid grid-cols-4 gap-4">
+                                <div className="grid grid-cols-4 gap-8 justify-center items-center text-center">
                                 <h4>Price</h4>
                                 <h4>Quantity</h4>
-                                <h4>shipping</h4>
                                 <h4>subtotal</h4>
+                                <h4>Action</h4>
                                 </div>
                             </div>
 
-                            <div className=" w-full">
-
+                            <div className=" w-full mt-12">
+                            <div className="flex justify-between py-12">
+                                <div className="flex">
+                                    <img className="w-24 h-28 mr-4 rounded-xl" src={productImg} alt="product"/>
+                                    <div>
+                                        <h4 className="font-bold text-darkText md:text-lg text-sm">Blue Flower Print Crop Top</h4>
+                                        <h4 className="font-medium text-grayText text-sm">Color : Yellow</h4>
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-4 gap-5 justify-center items-center text-center">
+                                <div className="font-bold text-darkText md:text-lg text-sm">$29.00</div>
+                                <div className="w-24  h-9 bg-secondary rounded-lg text-darkText text-center flex items-center justify-between px-5">
+                                    <button>-</button>
+                                    {1}
+                                    <button>+</button>
+                                </div>
+                                <div className="font-bold text-darkText md:text-lg text-sm text-center">$29.00</div>
+                                <button className="flex justify-center text-center"><FaRegTrashAlt className="text-primary"/></button>
+                                </div>
+                            </div>
+                            <hr className="text-borderGrey"/>
                             </div>
 
                         </div>
-                        <div className="lg:flex justify-between mt-10">
+                        <div className="lg:flex justify-between mt-24">
                             <div className="flex flex-col justify-center items-center lg:items-start">
                                 <h4 className="text-darkText font-semibold text-2xl">Discount  Codes</h4>
                                 <h5 className="text-grayText font-normal text-base mt-2">Enter your coupon code if you have one</h5>
