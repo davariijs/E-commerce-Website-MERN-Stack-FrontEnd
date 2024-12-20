@@ -21,7 +21,7 @@ export default function Cart() {
 
                     <div className="text-grayText text-sm"><h3>Please fill in the fields below and click place order to complete your purchase!</h3><Link>Already registered? <span className="text-primary font-semibold">Please login here</span></Link></div>
 
-                    <div className="relative z-30 mt-20">
+                    <div className="relative  mt-20">
                         <div>
                             <div className="text-white font-semibold md:text-lg text-sm uppercase flex justify-between">
                                 <div>
@@ -36,7 +36,7 @@ export default function Cart() {
                             </div>
 
                             <div className=" w-full mt-12">
-                            <div className="flex justify-between py-12">
+                            <div className="md:flex justify-between py-12">
                                 <div className="flex">
                                     <img className="w-24 h-28 mr-4 rounded-xl" src={productImg} alt="product"/>
                                     <div>
@@ -44,9 +44,9 @@ export default function Cart() {
                                         <h4 className="font-medium text-grayText text-sm">Color : Yellow</h4>
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-4 gap-5 justify-center items-center text-center">
+                                <div className="grid grid-cols-4 gap-5 justify-center items-center text-center md:mt-0 mt-5">
                                 <div className="font-bold text-darkText md:text-lg text-sm">$29.00</div>
-                                <div className="w-24  h-9 bg-secondary rounded-lg text-darkText text-center flex items-center justify-between px-5">
+                                <div className="md:w-24 w-16  h-9 bg-secondary rounded-lg text-darkText text-center flex items-center justify-between md:px-5 px-2">
                                     <button>-</button>
                                     {1}
                                     <button>+</button>
