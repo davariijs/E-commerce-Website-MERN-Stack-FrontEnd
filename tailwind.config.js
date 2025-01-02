@@ -21,7 +21,9 @@ module.exports = {
       'borderLight':'#666666',
       'light':'#D9D9D9',
       'red':'#EE1D52',
-      'grayCart':'#F3F3F3'
+      'grayCart':'#F3F3F3',
+      'greenShape':'#28A642',
+      'lightGreen':'#F0F9F4'
     },
   },  
   plugins: ["tailwindcss ,autoprefixer"]
