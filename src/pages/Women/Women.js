@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import FilterPart from '../../components/FilterPart/FilterPart';
 import { Outlet, useLocation, useParams } from "react-router-dom";
 import ProductDetails from '../ProductDetailsPage/SingleProductDetails';
