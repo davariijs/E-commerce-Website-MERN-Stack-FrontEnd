@@ -32,6 +32,9 @@ import CheckEmail from './pages/Login-SignUp/CheckEmail';
 import Verification from './pages/Login-SignUp/Verification';
 import NewPassword from './pages/Login-SignUp/NewPassword';
 import Cart from './pages/Cart/Cart';
+import Wishlist from './pages/Account/Wishlist';
+import Orders from './pages/Account/Orders';
+import MyInfo from './pages/Account/MyInfo';
 
 
 export default function App() {
@@ -40,7 +43,13 @@ export default function App() {
     <Navbar/>
       <Routes>
           <Route path="/"  element={<Home />}/>
-          <Route path="/account"  element={<Login />}/>
+          <Route path="/login"  element={<Login />}/>
+          <Route path="account" element={<Account />}>
+            <Route index  element={<Orders />} />
+            <Route path='orders'  element={<Orders />} />
+            <Route path='my-info' element={<MyInfo/>}/>
+            <Route path='wishlist'  element={<Wishlist />} />
+          </Route>
           <Route path="/sign-up"  element={<Signup />}/>
           <Route path="/reset-password"  element={<ResetPassword />}/>
           <Route path="/check-email"  element={<CheckEmail />}/>
