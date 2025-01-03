@@ -36,6 +36,7 @@ import Wishlist from './pages/Account/Wishlist';
 import Orders from './pages/Account/Orders';
 import MyInfo from './pages/Account/MyInfo';
 import OrderDetails from './pages/Account/OrderDetails';
+import CheckOut from './pages/CheckOut/CheckOut';
 
 
 export default function App() {
@@ -45,6 +46,7 @@ export default function App() {
       <Routes>
           <Route path="/"  element={<Home />}/>
           <Route path="/login"  element={<Login />}/>
+          <Route path="/check-out"  element={<CheckOut />}/>
           <Route path="account" element={<Account />}>
             <Route index  element={<Orders />} />
             <Route path='orders'  element={<Orders />} />
