@@ -21,6 +21,9 @@ export default function Account () {
         case '/account/my-info':
         setPath("My Info");
         break;
+        case '/account/order-details':
+        setPath("Order Details");
+        break;
       default:
         setPath("Orders");
     }
@@ -43,7 +46,7 @@ export default function Account () {
                 </div>
 
                 <div className="pb-8 lg:pt-0 pt-8 lg:w-3/4 w-full">
-                <h3 className='text-darkText flex lg:text-2xl text-md font-bold pb-3'>{path}</h3>
+                <h3 className='text-darkText flex lg:text-2xl text-md font-bold pb-14'>{path}</h3>
                     <Outlet />
                 </div>
             </div>

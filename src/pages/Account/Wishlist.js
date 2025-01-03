@@ -9,7 +9,7 @@ export default function Wishlist () {
 
     return(
         <Fragment>
-            <div className="pt-10">
+            <div>
 
                 <div>
                     <WishlistEmpty/>

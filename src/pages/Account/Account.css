@@ -1,3 +1,25 @@
+.MuiTabs-flexContainer button {
+    color: #3C4242 !important;
+    font-weight: 600 !important;
+    border-radius: 8px 8px 0px 0px !important;
+    text-transform: capitalize !important;
+    font-size: 22px;
+}
+
+.css-hmk518-MuiButtonBase-root-MuiTab-root.Mui-selected {
+    color: #3C4242 !important;
+    background-color: #F6F6F6;
+    
+}
+
+.MuiTabs-indicator{
+    background-color: #3C4242 !important;
+    height: 3px !important;
+}
+
+.MuiBox-root {
+padding: 0px !important;
+ }
 
 
 
@@ -7,6 +29,9 @@
 }
 .topPanel div{
         padding: 8px 10px;
+}
+.MuiTabs-flexContainer button {
+    font-size: 15px !important;
 }
 }
 
@@ -24,6 +49,7 @@
     .topPanel div{
         padding: 8px 5px;
 }
+
 }
 
 

@@ -35,6 +35,7 @@ import Cart from './pages/Cart/Cart';
 import Wishlist from './pages/Account/Wishlist';
 import Orders from './pages/Account/Orders';
 import MyInfo from './pages/Account/MyInfo';
+import OrderDetails from './pages/Account/OrderDetails';
 
 
 export default function App() {
@@ -49,6 +50,7 @@ export default function App() {
             <Route path='orders'  element={<Orders />} />
             <Route path='my-info' element={<MyInfo/>}/>
             <Route path='wishlist'  element={<Wishlist />} />
+            <Route path='order-details'  element={<OrderDetails />} />
           </Route>
           <Route path="/sign-up"  element={<Signup />}/>
           <Route path="/reset-password"  element={<ResetPassword />}/>
