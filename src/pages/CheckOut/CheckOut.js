@@ -20,9 +20,9 @@ export default function CheckOut () {
 
                 <div className='text-darkText flex md:text-2xl text-lg font-bold '><div className='title-part '></div><h3 className='pl-3 pt-1'>Check Out</h3></div>
                 
-                <div className="flex justify-between">
+                <div className="flex md:flex-row flex-col-reverse">
 
-                    <div className="pb-8 lg:pt-0 pt-4 lg:w-3/4 w-full">
+                    <div className="pb-8 lg:pt-0 pt-4 lg:w-3/4 w-full md:mr-10">
                     <h3 className="text-darkText md:text-xl text-md font-bold pb-8">Billing Details</h3>
                     <form action="" method="GET">
 
@@ -224,7 +224,54 @@ export default function CheckOut () {
 
                     </div>
 
-                    <div></div>
+                    <div className="pb-8 py-6 px-6 lg:w-1/4 w-full h-fit border-2 rounded-lg border-secondary md:my-0 my-6">
+                        <h3 className="font-bold md:text-2xl text-base pb-3 border-b-2 border-borderGrey">Order Summary</h3>
+
+                        <div className="flex justify-between items-center font-bold text-sm  py-5 border-b-2 border-borderGrey">
+                        <div className="flex">
+                        <img className="rounded-md w-16 h-16 md:mr-4 mr-3" src={imageCard} alt=""/>
+                        <div className="text-darkText ">
+                        <h4 className="">Men Blue Shirt <span className="text-grayText font-light">x 1</span></h4>
+                        <h4 className="mt-2">Color : <span className="text-grayText font-light">White</span></h4>
+                        </div>
+                        </div>
+                        <h4 className="text-grayText font-bold">$24.00</h4>
+                        </div>
+
+                        <div className="flex justify-between items-center font-bold text-sm  py-5 border-b-2 border-borderGrey">
+                        <div className="flex">
+                        <img className="rounded-md w-16 h-16 md:mr-4 mr-3" src={imageCard} alt=""/>
+                        <div className="text-darkText ">
+                        <h4 className="">Men Blue Shirt <span className="text-grayText font-light">x 1</span></h4>
+                        <h4 className="mt-2">Color : <span className="text-grayText font-light">White</span></h4>
+                        </div>
+                        </div>
+                        <h4 className="text-grayText font-bold">$24.00</h4>
+                        </div>
+
+                        <div className="py-4 border-b-2 border-borderGrey text-darkText font-bold md:text-lg text-sm">
+                            <div className="flex justify-between">
+                            <h4 className="">Subtotal <span className="text-grayText font-light">( 3 items )</span></h4>
+                            <h4 className="">$513.00</h4>
+                            </div>
+
+                            <div className="flex justify-between">
+                            <h4 className="">Savings</h4>
+                            <h4 className="">-$30.00</h4>
+                            </div>
+                        </div>
+
+                        <div className="py-4 flex justify-between border-b-2 border-borderGrey text-darkText font-bold md:text-lg text-sm">
+                            <h4 className="">Shipping</h4>
+                            <h4 className="">-$5.00</h4>
+                        </div>
+
+                        <div className="pt-4 flex justify-between text-darkText font-bold md:text-lg text-sm">
+                            <h4 className="">Total</h4>
+                            <h4 className="">$478.00</h4>
+                        </div>
+
+                    </div>
 
                 </div>
 
