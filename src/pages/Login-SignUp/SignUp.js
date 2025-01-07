@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { IoMdEyeOff } from "react-icons/io";
 import { IoMdEye } from "react-icons/io";
 import { Link } from "react-router-dom";
@@ -6,8 +6,60 @@ import { FcGoogle } from "react-icons/fc";
 import { FcPhone } from "react-icons/fc";
 import loginImage from "../../assets/images/signup-image.webp"
 import "./login-signup.css";
+import { auth,googleProvider } from "../../firebase/firebase"; 
+import { signInWithPopup, GoogleAuthProvider,RecaptchaVerifier, signInWithPhoneNumber, fetchSignInMethodsForEmail } from "firebase/auth";
+import { convertPhoneToEmail } from "../../utils/convertPhoneToEmail";
 
-export default function Signup() {
+export default function Signup({codeSent}) {
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [isPhoneEmpty, setIsPhoneEmpty] = useState(true);
+
+    const handleRegisterGoogle = async (e) => {
+        signInWithPopup(auth, googleProvider)
+        .then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            // IdP data available using getAdditionalUserInfo(result)
+            // ...
+        }).catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.customData.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            // ...
+        });
+    } 
+
+    const handleRegisterNumber = async () => {
+        setLoading(true);
+    
+        try {
+          const email = convertPhoneToEmail(phoneNumber);
+          const providers = await fetchSignInMethodsForEmail(auth, email);
+          if (providers.length == 0) {
+            const confirmationResult = await signInWithPhoneNumber(
+              auth,
+              phoneNumber,
+              new RecaptchaVerifier("recaptcha-container", {}, auth)
+            );
+            codeSent(confirmationResult.verificationId);
+          } else {
+            // TODO : Show there is an account and try login instead
+            console.log("account exist");
+          }
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setLoading(false);
+        }
+      };
 
     return(
         <Fragment>
@@ -19,8 +71,8 @@ export default function Signup() {
                 <div className="mx-14 pt-10 md:mx-auto md:px-4">
                     <div className="">
                     <h2 className="font-bold text-3xl text-darkText md:text-left  text-center ">Sign Up</h2>
-                    <button className="rounded-lg border-2 w-full text-primary font-medium text-xl border-darkText flex justify-center items-center py-4 px-5 mt-11 mb-5"><FcGoogle className="w-5 h-5 mr-2"/>Continue With Google</button>
-                    <button className="rounded-lg border-2 w-full text-primary font-medium text-xl border-darkText flex justify-center items-center py-4 px-5 mb-16"><FcPhone className="w-5 h-5 mr-2"/>Continue With Number</button>
+                    <button onClick={handleRegisterGoogle} className="rounded-lg border-2 w-full text-primary font-medium text-xl border-darkText flex justify-center items-center py-4 px-5 mt-11 mb-5"><FcGoogle className="w-5 h-5 mr-2"/>Continue With Google</button>
+                    <button onClick={handleRegisterNumber} className="rounded-lg border-2 w-full text-primary font-medium text-xl border-darkText flex justify-center items-center py-4 px-5 mb-16"><FcPhone className="w-5 h-5 mr-2"/>Continue With Number</button>
 
                     
 
