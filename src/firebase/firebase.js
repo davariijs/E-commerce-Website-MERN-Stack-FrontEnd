@@ -1,24 +1,18 @@
 import { initializeApp } from 'firebase/app';
-import { browserPopupRedirectResolver, browserSessionPersistence, getAuth, GoogleAuthProvider, initializeAuth } from "firebase/auth";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import {  getAuth, GoogleAuthProvider} from "firebase/auth";
 
-// Your web app's Firebase configuration
+
 const firebaseConfig = {
-    apiKey: "AIzaSyDavbN_OB-27i9yQrO-enuSzScpZbKsuME",
-    authDomain: "shoply-0.firebaseapp.com",
-    projectId: "shoply-0",
-    storageBucket: "shoply-0.firebasestorage.app",
-    messagingSenderId: "50857483784",
-    appId: "1:50857483784:web:ae6892d427f4b23bd83bbd"
+    apiKey: process.env.REACT_APP_API_KEY_FIREBASE,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN_FIREBASE,
+    projectId: process.env.REACT_APP_PROJECT_ID_FIREBASE,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET_FIREBASE,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID_FIREBASE,
+    appId: process.env.REACT_APP_APP_ID_FIREBASE
   };
 
 const firebaseApp = initializeApp(firebaseConfig);
 
 export const googleProvider = new GoogleAuthProvider(firebaseApp);
 export const auth = getAuth(firebaseApp);
-// export const auth = () => initializeAuth(firebaseApp, {
-//     persistence: browserSessionPersistence,
-//     popupRedirectResolver: browserPopupRedirectResolver,
-//   });
 export default firebaseApp;
