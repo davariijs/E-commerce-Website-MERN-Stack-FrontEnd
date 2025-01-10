@@ -21,7 +21,6 @@ import MenJeans from './pages/Men/MenJeans';
 import MenHoodies from './pages/Men/MenHoodies';
 import ProductDetails from './pages/ProductDetailsPage/SingleProductDetails';
 import Account from './pages/Account/Account';
-import InfoAccount from './pages/Account/InfoAccount';
 import ConfirmedOrder from './components/confirmedOrder/ConfirmedOrder';
 import CartEmpty from './components/CartEmpty/CartEmpty';
 import NotFound from './components/NotFound/NotFound';
