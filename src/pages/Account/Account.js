@@ -4,8 +4,13 @@ import { Outlet, useLocation, useParams } from "react-router-dom";
 import leftArrowIcon from "../../assets/icons/left-arrow.svg";
 import SidebarAccount from "./SidebarAccount";
 import "./Account.css"
+import { auth } from '../../firebase/firebase';
 
-export default function Account () {
+
+export default function Account ({email,uid,name}) {
+
+      
+
 
     const [path, setPath] = useState();
   const location = useLocation();
@@ -28,6 +33,7 @@ export default function Account () {
         setPath("Orders");
     }
   }
+
   locationPath();
   }, [location.pathname, id]);
 
@@ -40,9 +46,10 @@ export default function Account () {
                 </div>
             
 
-            <div className="lg:flex pb-8 ">
+            {uid? 
+                <div className="lg:flex pb-8 ">
                 <div className="lg:pr-14 pr-0 lg:w-1/4 w-full">
-                <SidebarAccount path={path}/>
+                <SidebarAccount email={email} name={name} path={path}/>
                 </div>
 
                 <div className="pb-8 lg:pt-0 pt-8 lg:w-3/4 w-full">
@@ -50,6 +57,13 @@ export default function Account () {
                     <Outlet />
                 </div>
             </div>
+            :
+            <div className='flex flex-col justify-center items-center text-center p-20'>
+                <h2 className='text-darkText font-bold md:text-3xl text-lg '>User doesn't exist!!!</h2>
+                <Link to="/sign-up" className="bg-primary rounded-lg text-white px-5 py-4 text-center items-center w-full mb-2 mt-10">Sign Up</Link>
+                <h4 className="font-medium text-base text-grayText">Already have an  account?<Link to="/login" className="underline">Log in</Link></h4>
+            </div>
+            }
             </div>
         </Fragment>
     )
