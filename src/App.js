@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home/Home';
@@ -37,17 +37,45 @@ import Orders from './pages/Account/Orders';
 import MyInfo from './pages/Account/MyInfo';
 import OrderDetails from './pages/Account/OrderDetails';
 import CheckOut from './pages/CheckOut/CheckOut';
-
+import { auth } from './firebase/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default function App() {
+
+  const [email,setEmail] = useState(null);
+  const [name,setName] = useState(null);
+  const [uid,setUid] = useState(null);
+
+  
+  
+  useEffect(() => {
+    function userState () {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+            const uid = user.uid;
+            setUid(uid);
+            console.log(uid, name);
+            setEmail(user.email);
+            setName(user.displayName);
+            // ...
+            } else {
+            setUid(null);
+            setEmail(null);
+            setName(null);
+            }
+        });
+    }
+    userState();
+  }, [uid,email,name]);
+
   return (
     <BrowserRouter>
-    <Navbar/>
+    <Navbar uid={uid}/>
       <Routes>
           <Route path="/"  element={<Home />}/>
           <Route path="/login"  element={<Login />}/>
           <Route path="/check-out"  element={<CheckOut />}/>
-          <Route path="account" element={<Account />}>
+          <Route path="account" element={<Account email={email} uid={uid} name={name}/>}>
             <Route index  element={<Orders />} />
             <Route path='orders'  element={<Orders />} />
             <Route path='my-info' element={<MyInfo/>}/>
