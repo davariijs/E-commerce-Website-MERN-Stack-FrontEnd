@@ -18,7 +18,7 @@ export default function MobileNavbar({uid}) {
 
     return (
         <Fragment>
-                        <div className='lg:hidden block  border-borderGrey border-b-2'>
+                        <div className='lg:hidden block bg-white  border-borderGrey border-b-2'>
             <nav className=' container mx-auto'>
                 <div className={showNavbar? "hidden" : "block" }>
                 <div className='flex justify-between '>

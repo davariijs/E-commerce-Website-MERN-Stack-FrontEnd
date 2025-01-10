@@ -11,7 +11,7 @@ export default function DesktopNavbar({uid}) {
     
     return (
         <Fragment>
-                        <div className='lg:block hidden  border-b-2 border-borderGrey'>
+                        <div className='lg:block hidden  bg-white border-b-2 border-borderGrey'>
             <nav className='flex justify-between desktopDisplay container mx-auto'>
                 <div className='flex justify-between'>
                 <div className='logoNavbar'>
