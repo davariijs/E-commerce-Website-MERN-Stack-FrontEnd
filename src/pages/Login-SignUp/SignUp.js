@@ -2,13 +2,12 @@ import React, { Fragment, useState } from "react";
 import {Icon} from 'react-icons-kit';
 import {eyeOff} from 'react-icons-kit/feather/eyeOff';
 import {eye} from 'react-icons-kit/feather/eye'
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { FcPhone } from "react-icons/fc";
 import loginImage from "../../assets/images/signup-image.webp"
 import "./login-signup.css";
 import { auth,googleProvider } from "../../firebase/firebase"; 
-import { signInWithPopup, GoogleAuthProvider,RecaptchaVerifier, signInWithPhoneNumber, fetchSignInMethodsForEmail, createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider,createUserWithEmailAndPassword } from "firebase/auth";
 
 
 export default function Signup() {
@@ -17,10 +16,12 @@ export default function Signup() {
     const [email, setEmail] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [type, setType] = useState('password');
+    const [privacy, setPrivacy] = useState(false);
+    const [subscribe, setSubscribe] = useState(false);
+    const [errorPrivacy, setErrorPrivacy] = useState("");
     const [icon, setIcon] = useState(eyeOff);
     console.log(email,password);
-
-    
+    const navigate = useNavigate();  
 
     const handleRegisterGoogle = async (e) => {
         signInWithPopup(auth, googleProvider)
@@ -32,6 +33,7 @@ export default function Signup() {
             const user = result.user;
             // IdP data available using getAdditionalUserInfo(result)
             // ...
+            setTimeout(navigate("/account"), 3000);
         }).catch((error) => {
             // Handle Errors here.
             const errorCode = error.code;
@@ -42,23 +44,41 @@ export default function Signup() {
             const credential = GoogleAuthProvider.credentialFromError(error);
             // ...
         });
-    } 
-
-    const requestOTP = (e) => {
-        e.preventDefault();
-        createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // Signed up 
-            const user = userCredential.user;
-            // ...
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessagePassword = error.message;
-            setErrorMessage(errorMessagePassword)
-            // ..
-        });
     }
+     
+
+    const signupEmail = (e) => {
+        e.preventDefault();
+        if (privacy === true){
+            createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed up 
+                const user = userCredential.user;
+                console.log(user.uid);
+                setErrorMessage("");
+                setEmail("");
+                setPassword("");
+                setSubscribe(false);
+                setPrivacy(false);
+                setErrorPrivacy("");
+                setTimeout(navigate("/account"), 3000);
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessagePassword = error.message;
+                setErrorMessage(errorMessagePassword)
+                if (privacy === false){
+                    setErrorPrivacy("Agree Privacy Policy")
+                }
+                // ..
+            });
+        } else {
+            setErrorPrivacy("Agree Privacy Policy")
+        }
+        
+    }
+
+    
 
     const handleToggle = () => {
         if (type==='password'){
@@ -72,41 +92,42 @@ export default function Signup() {
 
     return(
         <Fragment>
-            <div className="md:grid md:grid-cols-2 ">
+            <div className="relative">
+            <div className="md:grid md:grid-cols-2 flex flex-col-reverse ">
                 <div className="">
-                    <img src={loginImage} className="h-screen w-full" alt="clothes"/>
+                    <img src={loginImage} className="h-screen w-full  md:relative  absolute top-0 -z-10" alt="clothes"/>
                 </div>
 
-                <div className="mx-14 pt-10 md:mx-auto md:px-4">
+                <div className="mx-0 pt-10 md:pb-0 pb-10 md:mx-auto md:px-4 px-6 bg-white bg-opacity-75">
                     <div className="">
                     <h2 className="font-bold text-3xl text-darkText md:text-left  text-center ">Sign Up</h2>
                     <button onClick={handleRegisterGoogle} className="rounded-lg border-2 w-full text-primary font-medium text-xl border-darkText flex justify-center items-center py-4 px-5 mt-11 mb-5"><FcGoogle className="w-5 h-5 mr-2"/>Continue With Google</button>
-                    <button onClick={requestOTP} className="rounded-lg border-2 w-full text-primary font-medium text-xl border-darkText flex justify-center items-center py-4 px-5 mb-16"><FcPhone className="w-5 h-5 mr-2"/>Continue With Number</button>
 
 
-                    <form onSubmit={requestOTP}>
+                    <form onSubmit={signupEmail}>
                     <div className="mt-11">
                     <label className="font-medium text-lg text-darkText ">Email Address</label>
                     <input onChange={(e)=> setEmail(e.target.value)} value={email}  className="rounded-lg border-2 w-full border-borderLight border-opacity-80 py-4 px-4 mt-2 mb-2" type="text" name="" id="" placeholder="example@gmail.com"/>
-                    <span className="font-medium text-red text-base"><h5>{errorMessage}</h5></span>
+                    <span className="font-medium text-red text-sm"><h5>{errorMessage}</h5></span>
                     </div>
 
                     <div>
-                    <div className="font-medium text-lg text-darkText flex justify-between items-center mt-8"><label>Password</label> <span onClick={handleToggle} className="flex justify-center items-center text-grayText"><Icon class="absolute mr-10" icon={icon} size={25}/>Hide</span></div>
+                    <div className="font-medium text-lg text-darkText flex justify-between items-center mt-3"><label>Password</label> <span onClick={handleToggle} className="flex justify-center items-center text-grayText"><Icon class="absolute mr-8" icon={icon} size={20}/></span></div>
                     <input autoComplete="current-password" onChange={(e)=> setPassword(e.target.value)} value={password} className="rounded-lg border-2 w-full border-borderLight border-opacity-80 py-4 px-4 mt-2 mb-2"   type={type} name="" id=""/>
-                    <span className="font-medium text-base text-grayText"><h5>Use 8 or more characters with a mix of letters, numbers & symbols</h5></span>
+                    <span className="font-medium text-xs text-grayText"><h5>Use 8 or more characters with a mix of letters, numbers & symbols</h5></span>
                     </div>
-
-                    <div className="w-full mt-8 flex items-center">
+                    
+                    <div className="mt-8"><span className="font-medium text-red text-sm"><h5>{errorPrivacy}</h5></span></div>
+                    <div className="w-full flex items-center">
                         <div className=" rounded-lg ">
-                        <input className=" rounded-lg  w-full  font-normal text-grayText" type="checkbox" id="privacy" name="privacy" />
+                        <input onChange={(e)=> setPrivacy(!privacy)} value={privacy}  className=" rounded-lg  w-full  font-normal text-grayText" type="checkbox" id="privacy" name="privacy" />
                         </div>
                             <label for="privacy" className="pl-2 text-lg font-normal text-grayText">Agree to our Terms of use and Privacy Policy </label>
                     </div>
-
+                    
                             <div className="w-full mt-2 flex items-center">
                             <div className=" rounded-lg ">
-                            <input className=" rounded-lg  w-full  font-normal text-grayText" type="checkbox" id="subscribe" name="subscribe" />
+                            <input onChange={(e)=> setSubscribe(!subscribe)} value={subscribe} className=" rounded-lg  w-full  font-normal text-grayText" type="checkbox" id="subscribe" name="subscribe" />
                             </div>
                                 <label for="subscribe" className="pl-2 text-lg font-normal text-grayText">Subscribe to our monthly newsletter</label>
                             
@@ -114,13 +135,14 @@ export default function Signup() {
 
                     <div className="mt-11">
                         <button className="bg-primary rounded-lg text-white px-5 py-4 text-center items-center md:w-40 w-full mb-2">Sign Up</button>
-                        <h4 className="font-medium text-base text-grayText">Already have an  account?<Link className="underline">Log in</Link></h4>
+                        <h4 className="font-medium text-base text-grayText">Already have an  account?<Link to="/login" className="underline">Log in</Link></h4>
                     </div>
                     </form>
                     
                     </div>
                     
                 </div>
+            </div>
             </div>
         </Fragment>
     )
