@@ -7,7 +7,7 @@ import likeIcon from "../../assets/icons/like.svg";
 import cartIcon from "../../assets/icons/cart.svg";
 import userIcon from "../../assets/icons/user.svg";
 
-export default function DesktopNavbar() {
+export default function DesktopNavbar({uid}) {
     
     return (
         <Fragment>
@@ -38,7 +38,7 @@ export default function DesktopNavbar() {
                         <div className='bg-secondary likeIcon'>
                             <img src={likeIcon} alt='like'/>
                         </div>
-                        <Link to="/account">
+                        <Link to={uid !== null ? "/account" : "/login"}>
                         <div className='bg-secondary userIcon'>
                             <img src={userIcon} alt='user'/>
                         </div>

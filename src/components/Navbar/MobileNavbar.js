@@ -9,7 +9,7 @@ import userIcon from "../../assets/icons/user.svg";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoClose } from "react-icons/io5";
 
-export default function MobileNavbar() {
+export default function MobileNavbar({uid}) {
     const [showNavbar, setShowNavbar] = useState(false);
 
     function showNavbarClose () {
@@ -63,7 +63,7 @@ export default function MobileNavbar() {
                         <div className='bg-secondary likeIcon'>
                             <img src={likeIcon} alt='like'/>
                         </div>
-                        <Link to="/account">
+                        <Link to={uid !== null ? "/account" : "/login"}>
                         <div className='bg-secondary userIcon'>
                             <img src={userIcon} alt='user'/>
                         </div>
