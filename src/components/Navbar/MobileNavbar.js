@@ -60,9 +60,11 @@ export default function MobileNavbar({uid}) {
                 
                 <div className=''>
                     <div className='flex justify-center icons'>
+                        <Link to="/account/wishlist">
                         <div className='bg-secondary likeIcon'>
                             <img src={likeIcon} alt='like'/>
                         </div>
+                        </Link>
                         <Link to={uid !== null ? "/account" : "/login"}>
                         <div className='bg-secondary userIcon'>
                             <img src={userIcon} alt='user'/>
