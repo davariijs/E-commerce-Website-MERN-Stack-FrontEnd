@@ -1,4 +1,4 @@
-import { MongoClient, ServerApiVersion } from "mongodb";
+const { MongoClient, ServerApiVersion } = require("mongodb");
 const uri = process.env.REACT_APP_URI_MONGODB;
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
