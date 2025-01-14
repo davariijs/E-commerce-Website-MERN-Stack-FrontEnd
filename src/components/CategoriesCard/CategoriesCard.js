@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 import { GoArrowRight } from "react-icons/go";
 import likeIconCard from "../../assets/icons/like.svg";
 
-export default function CategoriesCard({srcCategoriesCard, textCategoriesCard,price,categoriesFashionCard,brand,linkCard}) {
+export default function CategoriesCard({srcCategoriesCard, textCategoriesCard,price,categoriesFashionCard,brand,linkCard,onClick}) {
 
     return (
         <Fragment>
             <div className="categoriesCardSection">
-            <Link to={linkCard}>
+            
             <div className="relative categoriesCardImgPart">
-                <img className="rounded-lg hover:opacity-70 categoriesCardImg" width="100%" height="100%" src={srcCategoriesCard} alt="men clothing"/>
-                {categoriesFashionCard ? <div></div> : <div className="absolute bg-white w-8 h-8 flex justify-center lg:top-6 lg:right-7 top-2 right-2 z-10" style={{borderRadius:"50%"}}><img src={likeIconCard} width={20} alt="like"/></div>}
+            <Link to={linkCard}><img className="rounded-lg hover:opacity-70 categoriesCardImg" width="100%" height="100%" src={srcCategoriesCard} alt="men clothing"/></Link>
+                {categoriesFashionCard ? <div></div> : <div onClick={onClick} className="absolute bg-white w-8 h-8 flex justify-center lg:top-6 lg:right-7 top-2 right-2 z-10 cursor-pointer" style={{borderRadius:"50%"}}><img src={likeIconCard} width={20} alt="like"/></div>}
             </div>
 
             <div className="pt-4">
@@ -28,7 +28,7 @@ export default function CategoriesCard({srcCategoriesCard, textCategoriesCard,pr
                 </div>
                 
             </div>
-            </Link>
+            
             </div>
         </Fragment>
     )
