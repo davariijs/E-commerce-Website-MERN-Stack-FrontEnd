@@ -1,22 +1,38 @@
-import { Fragment, useState } from 'react';
+import { Fragment} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { selectErrorState, selectLoadingState, selectwomenDresses } from '../../redux/womenProducts/womenProductSlice/womenTopsSlice';
 import { getWomenDresses } from '../../redux/womenProducts/womenProductSlice/womenTopsSlice';
 import loadingBar from "../../assets/images/loader.svg";
 import useEffectAfterMount from '../../utils/useEffectAfterMount';
 import CategoriesCard from '../../components/CategoriesCard/CategoriesCard';
-import "./productCard.css"
-import { selectFilterPrices } from '../../redux/filterProducts/filterProductsSlice';
-import { useParams } from 'react-router';
+import "./productCard.css";
 
 export default function WomenTops({}) {
-    console.log(useParams());
     const dispatch = useDispatch();
     const womenDresses = useSelector (selectwomenDresses);
     const loading = useSelector (selectLoadingState);
     const error = useSelector(selectErrorState);
-    const values = useSelector (selectFilterPrices);
-    console.log(values);
+
+    
+    const handleWishlist = async (e, title, image, price) => {
+      e.preventDefault();
+      try {
+        let result = await fetch('http://localhost:5000/add-wishlist', {
+          method: 'post',
+          body: JSON.stringify({ title, image, price }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        result = await result.json();
+        console.warn(result);
+        if (result) {
+          console.log('Data saved successfully');
+        }
+      } catch (error) {
+        console.error('Error saving data:', error);
+      }
+    };
 
     useEffectAfterMount(() => {
       if (loading === 'idle') {
@@ -35,6 +51,14 @@ export default function WomenTops({}) {
       <div className="lg:grid md:grid sm:grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 flex  justify-center flex-wrap  lg:gap-10 gap-5 h-fit w-full">
         {womenDresses?.payload?.products.filter(itemCategory => itemCategory.productTitle !== null  ).map(itemCategory => (
           <CategoriesCard
+          onClick={(e) =>
+            handleWishlist(
+              e,
+              itemCategory.productTitle,
+              itemCategory.image.url,
+              itemCategory.prices[0].regularPrice.minPrice
+            )
+          }
           key={itemCategory.webID}
           srcCategoriesCard={itemCategory.image.url} 
           textCategoriesCard={itemCategory.productTitle}
@@ -56,5 +80,3 @@ export default function WomenTops({}) {
     </Fragment>
   )
 }
-
-// && itemCategory.prices[0].regularPrice.minPrice > `$${values[0].toFixed(2).toString()}` && itemCategory.prices[0].regularPrice.minPrice < `$${values[1].toFixed(2).toString()}`
