@@ -6,33 +6,13 @@ import loadingBar from "../../assets/images/loader.svg";
 import useEffectAfterMount from '../../utils/useEffectAfterMount';
 import CategoriesCard from '../../components/CategoriesCard/CategoriesCard';
 import "./productCard.css";
+import { handleAddWishlist } from '../../utils/wishlistFunc';
 
 export default function WomenTops({}) {
     const dispatch = useDispatch();
     const womenDresses = useSelector (selectwomenDresses);
     const loading = useSelector (selectLoadingState);
     const error = useSelector(selectErrorState);
-
-    
-    const handleWishlist = async (e, title, image, price) => {
-      e.preventDefault();
-      try {
-        let result = await fetch('http://localhost:5000/add-wishlist', {
-          method: 'post',
-          body: JSON.stringify({ title, image, price }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        result = await result.json();
-        console.warn(result);
-        if (result) {
-          console.log('Data saved successfully');
-        }
-      } catch (error) {
-        console.error('Error saving data:', error);
-      }
-    };
 
     useEffectAfterMount(() => {
       if (loading === 'idle') {
@@ -52,7 +32,7 @@ export default function WomenTops({}) {
         {womenDresses?.payload?.products.filter(itemCategory => itemCategory.productTitle !== null  ).map(itemCategory => (
           <CategoriesCard
           onClick={(e) =>
-            handleWishlist(
+            handleAddWishlist(
               e,
               itemCategory.productTitle,
               itemCategory.image.url,
