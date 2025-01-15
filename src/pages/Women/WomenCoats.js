@@ -5,6 +5,7 @@ import useEffectAfterMount from '../../utils/useEffectAfterMount';
 import CategoriesCard from '../../components/CategoriesCard/CategoriesCard';
 import "./productCard.css"
 import { selectFilterPrices } from '../../redux/filterProducts/filterProductsSlice';
+import { handleAddWishlist } from '../../utils/wishlistFunc';
 import { getWomenCoats, selectErrorState, selectLoadingState,selectWomenCoats } from '../../redux/womenProducts/womenCoatsSlice/womenCoatsSlice';
 
 export default function WomenCoats() {
@@ -31,6 +32,14 @@ export default function WomenCoats() {
       <div className="lg:grid md:grid sm:grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 flex  justify-center flex-wrap  lg:gap-10 gap-5 h-fit w-full">
         {womenCoats?.payload?.products.filter(itemCategory => itemCategory.productTitle !== null  ).map(itemCategory => (
           <CategoriesCard
+          onClick={(e) =>
+            handleAddWishlist(
+              e,
+              itemCategory.productTitle,
+              itemCategory.image.url,
+              itemCategory.prices[0].regularPrice.minPrice
+            )
+          }
           key={itemCategory.webID}
           srcCategoriesCard={itemCategory.image.url} 
           textCategoriesCard={itemCategory.productTitle}

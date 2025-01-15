@@ -36,11 +36,20 @@ export default function Women() {
         case "/women/coats":
         setPath("Coats");
         break;
+        case `/women/coats/${id}`:
+        setPath("Product Details");
+        break;
         case "/women/dresses":
         setPath("Dresses");
         break;
         case "/women/hoodies":
         setPath("Hoodies");
+        break;
+        case `/women/dresses/${id}`:
+        setPath("Product Details");
+        break;
+        case `/women/hoodies/${id}`:
+        setPath("Product Details");
         break;
       default:
         setPath("Tops");
