@@ -3,12 +3,9 @@ import { Link } from "react-router-dom";
 import { Outlet, useLocation, useParams } from "react-router-dom";
 import leftArrowIcon from "../../assets/icons/left-arrow.svg";
 import SidebarAccount from "./SidebarAccount";
-import "./Account.css"
-import { auth } from '../../firebase/firebase';
-
+import "./Account.css";
 
 export default function Account ({email,uid,name}) {
-
       
 
 
@@ -53,7 +50,7 @@ export default function Account ({email,uid,name}) {
                 </div>
 
                 <div className="pb-8 lg:pt-0 pt-8 lg:w-3/4 w-full">
-                <h3 className='text-darkText flex lg:text-2xl text-md font-bold pb-14'>{path}</h3>
+                <h3 className='text-darkText flex lg:text-2xl text-md font-bold md:pb-14 pb-3'>{path}</h3>
                     <Outlet />
                 </div>
             </div>
