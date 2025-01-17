@@ -1,5 +1,5 @@
-export const handleAddWishlist = async (e, title, image, price) => {
-    e.preventDefault();
+export const handleAddWishlist = async (title, image, price) => {
+    
     try {
       let result = await fetch('http://localhost:5000/add-wishlist', {
         method: 'post',
