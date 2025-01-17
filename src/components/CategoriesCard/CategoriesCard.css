@@ -1,0 +1,11 @@
+.likeSvg {
+    fill: none !important;
+    stroke: #807D7E !important;
+    margin-top: 6px;
+    border-radius: 50%;
+  }
+  
+  .cardSvgLike:hover .likeSvg:hover {
+    /* background-color: pink; */
+    stroke: red !important;
+  }
