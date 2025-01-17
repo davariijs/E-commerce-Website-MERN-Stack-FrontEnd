@@ -46,10 +46,10 @@ export default function SidebarAccount ({email,name}) {
                 </div>
 
                 <div className="flex lg:hidden justify-center topPanel">
-                    <div className="flex text-nowrap  px-8 py-2 lg:w-full  hover:bg-secondary border-b-2 border-transparent hover:border-darkText"><img src={orderIcon} className="w-5 h-5 mt-1" alt="orders"/><Link to="orders" className="font-semibold text-lg text-grayText pl-2">My Orders</Link></div>
-                    <div className="flex text-nowrap  px-8 py-2 lg:w-full  hover:bg-secondary border-b-2 border-transparent hover:border-darkText"><img src={likeIcon} className="w-5 h-5 mt-1" alt="orders"/><Link to="wishlist" className="font-semibold text-lg text-grayText pl-2">Wishlist</Link></div>
-                    <div className="flex text-nowrap  px-8 py-2 lg:w-full  hover:bg-secondary border-b-2 border-transparent hover:border-darkText"><img src={userIcon} className="w-5 h-5 mt-1" alt="orders"/><Link to="my-info" className="font-semibold text-lg text-grayText pl-2">My info</Link></div>
-                    <button onClick={signOutUser} className="flex text-nowrap px-8 py-2 lg:w-full  hover:bg-secondary border-b-2 border-transparent hover:border-darkText"><img src={signOutIcon} className="w-5 h-5 mt-1" alt="orders"/><span className="font-semibold text-lg text-grayText pl-2">Sign out</span></button>
+                    <div className="flex text-nowrap md:px-5 px-3 py-2 lg:w-full  hover:bg-secondary border-b-2 border-transparent hover:border-darkText"><img src={orderIcon} className="sm:w-4 sm:h-4 w-3  h-3 mt-1" alt="orders"/><Link to="orders" className="md:font-semibold md:text-lg text-sm text-grayText pl-1">My Orders</Link></div>
+                    <div className="flex text-nowrap md:px-5 px-3 py-2 lg:w-full  hover:bg-secondary border-b-2 border-transparent hover:border-darkText"><img src={likeIcon} className="sm:w-4 sm:h-4 w-3 h-3 mt-1" alt="orders"/><Link to="wishlist" className="md:font-semibold md:text-lg text-sm text-grayText pl-1">Wishlist</Link></div>
+                    <div className="flex text-nowrap md:px-5 px-3 py-2 lg:w-full  hover:bg-secondary border-b-2 border-transparent hover:border-darkText"><img src={userIcon} className="sm:w-4 sm:h-4 w-3  h-3 mt-1" alt="orders"/><Link to="my-info" className="md:font-semibold md:text-lg text-sm text-grayText pl-1">My info</Link></div>
+                    <button onClick={signOutUser} className="flex text-nowrap md:px-5 px-3 py-2 lg:w-full  hover:bg-secondary border-b-2 border-transparent hover:border-darkText"><img src={signOutIcon} className="w-3 sm:w-4 sm:h-4 h-3 mt-1" alt="orders"/><span className="md:font-semibold md:text-lg text-sm text-grayText pl-1">Sign out</span></button>
                 </div>
         </Fragment>
     )
