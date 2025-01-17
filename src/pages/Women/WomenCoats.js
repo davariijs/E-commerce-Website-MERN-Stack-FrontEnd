@@ -7,6 +7,8 @@ import "./productCard.css"
 import { selectFilterPrices } from '../../redux/filterProducts/filterProductsSlice';
 import { handleAddWishlist } from '../../utils/wishlistFunc';
 import { getWomenCoats, selectErrorState, selectLoadingState,selectWomenCoats } from '../../redux/womenProducts/womenCoatsSlice/womenCoatsSlice';
+import { ToastContainer, toast } from 'react-toastify';
+import likeIconGif from "../../assets/icons/icons8-like.gif";
 
 export default function WomenCoats() {
 
@@ -15,6 +17,9 @@ export default function WomenCoats() {
     const loading = useSelector (selectLoadingState);
     const error = useSelector(selectErrorState);
     const values = useSelector (selectFilterPrices);
+    const notify = () => toast.success('Product added to you wishlist !', {
+      position: 'bottom-right',
+    });
 
     useEffectAfterMount(() => {
       if (loading === 'idle') {
@@ -22,7 +27,10 @@ export default function WomenCoats() {
       }
     }, [loading,dispatch]);
 
-    console.log(womenCoats);
+    function handleButtonWishlist ( title, image, price) {
+      handleAddWishlist(title, image, price);
+      notify();
+    }
 
     let contentToDisplay = '';
     if (loading === 'loading') {
@@ -32,9 +40,8 @@ export default function WomenCoats() {
       <div className="lg:grid md:grid sm:grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 flex  justify-center flex-wrap  lg:gap-10 gap-5 h-fit w-full">
         {womenCoats?.payload?.products.filter(itemCategory => itemCategory.productTitle !== null  ).map(itemCategory => (
           <CategoriesCard
-          onClick={(e) =>
-            handleAddWishlist(
-              e,
+          onClick={() =>
+            handleButtonWishlist(
               itemCategory.productTitle,
               itemCategory.image.url,
               itemCategory.prices[0].regularPrice.minPrice
@@ -58,6 +65,14 @@ export default function WomenCoats() {
   return (
     <Fragment>
        {contentToDisplay} 
+       <ToastContainer icon={({ type}) => {
+          switch (type) {
+            case 'success':
+              return <img src={likeIconGif} width={50} alt="like"/>;
+            default:
+              return null;
+          }
+        }} />
     </Fragment>
   )
 }

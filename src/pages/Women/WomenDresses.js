@@ -6,6 +6,9 @@ import CategoriesCard from '../../components/CategoriesCard/CategoriesCard';
 import "./productCard.css"
 import { selectFilterPrices } from '../../redux/filterProducts/filterProductsSlice';
 import { getWomenDresses, selectErrorState, selectLoadingState,selectWomenDresses } from '../../redux/womenProducts/womenDressesSlice/womenDressesSlice';
+import { handleAddWishlist } from '../../utils/wishlistFunc';
+import { ToastContainer, toast } from 'react-toastify';
+import likeIconGif from "../../assets/icons/icons8-like.gif";
 
 export default function WomenDresses() {
 
@@ -14,6 +17,9 @@ export default function WomenDresses() {
     const loading = useSelector (selectLoadingState);
     const error = useSelector(selectErrorState);
     const values = useSelector (selectFilterPrices);
+    const notify = () => toast.success('Product added to you wishlist !', {
+      position: 'bottom-right',
+    });
 
     useEffectAfterMount(() => {
       if (loading === 'idle') {
@@ -21,7 +27,10 @@ export default function WomenDresses() {
       }
     }, [loading,dispatch]);
 
-    console.log(womenDresses);
+    function handleButtonWishlist ( title, image, price) {
+      handleAddWishlist(title, image, price);
+      notify();
+    }
 
     let contentToDisplay = '';
     if (loading === 'loading') {
@@ -31,6 +40,13 @@ export default function WomenDresses() {
       <div className="lg:grid md:grid sm:grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 flex  justify-center flex-wrap  lg:gap-10 gap-5 h-fit w-full">
         {womenDresses?.payload?.products.filter(itemCategory => itemCategory.productTitle !== null  ).map(itemCategory => (
           <CategoriesCard
+          onClick={() =>
+            handleButtonWishlist(
+              itemCategory.productTitle,
+              itemCategory.image.url,
+              itemCategory.prices[0].regularPrice.minPrice
+            )
+          }
           key={itemCategory.webID}
           srcCategoriesCard={itemCategory.image.url} 
           textCategoriesCard={itemCategory.productTitle}
@@ -48,7 +64,15 @@ export default function WomenDresses() {
 
   return (
     <Fragment>
-       {contentToDisplay} 
+       {contentToDisplay}
+       <ToastContainer icon={({ type}) => {
+          switch (type) {
+            case 'success':
+              return <img src={likeIconGif} width={50} alt="like"/>;
+            default:
+              return null;
+          }
+        }} /> 
     </Fragment>
   )
 }

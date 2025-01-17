@@ -7,12 +7,17 @@ import useEffectAfterMount from '../../utils/useEffectAfterMount';
 import CategoriesCard from '../../components/CategoriesCard/CategoriesCard';
 import "./productCard.css";
 import { handleAddWishlist } from '../../utils/wishlistFunc';
+import { ToastContainer, toast } from 'react-toastify';
+import likeIconGif from "../../assets/icons/icons8-like.gif";
 
 export default function WomenTops({}) {
     const dispatch = useDispatch();
     const womenDresses = useSelector (selectwomenDresses);
     const loading = useSelector (selectLoadingState);
     const error = useSelector(selectErrorState);
+    const notify = () => toast.success('Product added to you wishlist !', {
+      position: 'bottom-right',
+    });
 
     useEffectAfterMount(() => {
       if (loading === 'idle') {
@@ -20,6 +25,11 @@ export default function WomenTops({}) {
       }
     }, [loading,dispatch]);
     console.log(womenDresses);
+
+    function handleButtonWishlist ( title, image, price) {
+      handleAddWishlist(title, image, price);
+      notify();
+    }
 
 
     let contentToDisplay = '';
@@ -31,9 +41,8 @@ export default function WomenTops({}) {
       <div className="lg:grid md:grid sm:grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 flex  justify-center flex-wrap  lg:gap-10 gap-5 h-fit w-full">
         {womenDresses?.payload?.products.filter(itemCategory => itemCategory.productTitle !== null  ).map(itemCategory => (
           <CategoriesCard
-          onClick={(e) =>
-            handleAddWishlist(
-              e,
+          onClick={() =>
+            handleButtonWishlist(
               itemCategory.productTitle,
               itemCategory.image.url,
               itemCategory.prices[0].regularPrice.minPrice
@@ -57,6 +66,14 @@ export default function WomenTops({}) {
   return (
     <Fragment>
        {contentToDisplay} 
+       <ToastContainer icon={({ type}) => {
+          switch (type) {
+            case 'success':
+              return <img src={likeIconGif} width={50} alt="like"/>;
+            default:
+              return null;
+          }
+        }} />
     </Fragment>
   )
 }
