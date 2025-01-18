@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import useEffectAfterMount from "../../utils/useEffectAfterMount";
@@ -12,6 +12,7 @@ import { GoArrowRight } from "react-icons/go";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductDetails, selectErrorState,selectLoadingState,selectProductsDetails } from "../../redux/productDetails/productDetails";
 // productsDetails?.payload?.products[0].swatchImages.color // color names
+import { addToCart } from "../../redux/cart/cartSlice";
 
 export default function ProductDetails() {
     const id = useParams();
@@ -21,6 +22,9 @@ export default function ProductDetails() {
     const productsDetails = useSelector (selectProductsDetails);
     const loading = useSelector (selectLoadingState);
     const error = useSelector(selectErrorState);
+    const [colorProduct, setColorProduct] = useState("");
+    console.log(colorProduct);
+  
 
     const CartIcon = () => (
       <svg
@@ -46,6 +50,19 @@ export default function ProductDetails() {
     useEffectAfterMount(() => {
       handleFetchProduct()
     }, []);
+
+    const handleAddToCart = () => {
+      const product = {
+        id: productsDetails?.payload?.products[0].webID,
+        title: productsDetails?.payload?.products[0].productTitle,
+        price: productsDetails?.payload?.products[0]?.price.regularPrice.minPrice,
+        image: productsDetails?.payload?.products[0].images[0].url,
+        color: colorProduct
+      };
+      console.log(product);
+
+      dispatch(addToCart(product));
+    };
 
     let contentToDisplay = '';
     if (loading === 'loading') {
@@ -76,12 +93,12 @@ export default function ProductDetails() {
                 <div className="text-grayText font-medium text-lg mb-5"><a className=" flex" href={productsDetails?.payload?.products[0].styleGuide.sizeChartURL}>Size guide <GoArrowRight className="mt-1 w-10" /></a></div>
                 <div className="text-darkText font-semibold text-lg mb-5">Colors Available </div>
                 <div className="grid grid-cols-6 gap-2 mb-6">{productsDetails?.payload?.products[0].swatchImages.map(color => ( <div>
-                    <div><img className="rounded-full" src={color.URL} alt="color"/></div>
+                    <div className="cursor-pointer" onClick={()=> {setColorProduct(color.color)}} ><img className="rounded-full" src={color.URL} alt="color"/></div>
                 </div>))}</div>
                 
                 <div className="flex lg:justify-start justify-center mb-9">
                 <Link>
-                  <button className="rounded-lg flex w-52 h-12 bg-primary font-semibold text-lg text-white justify-center items-center">
+                  <button onClick={handleAddToCart} className="rounded-lg flex w-52 h-12 bg-primary font-semibold text-lg text-white justify-center items-center">
                     <span className="pr-2">
                       <CartIcon /> 
                     </span>

@@ -6,8 +6,10 @@ import searchIcon from "../../assets/icons/search-icon.svg";
 import likeIcon from "../../assets/icons/like.svg";
 import cartIcon from "../../assets/icons/cart.svg";
 import userIcon from "../../assets/icons/user.svg";
+import { useSelector } from 'react-redux';
 
 export default function DesktopNavbar({uid}) {
+    const totalQuantity = useSelector((state) => state.cart.totalQuantity);
     
     return (
         <Fragment>
@@ -46,8 +48,9 @@ export default function DesktopNavbar({uid}) {
                         </div>
                         </Link>
                         <Link to="/cart">
-                        <div className='bg-secondary cartIcon'>
+                        <div className='bg-secondary cartIcon relative'>
                             <img src={cartIcon} alt='cart'/>
+                            <span className='absolute -top-0 text-center text-sm items-center w-5 h-5 left-6 text-white bg-primary rounded-full '>{totalQuantity}</span>
                         </div>
                         </Link>
                     </div>

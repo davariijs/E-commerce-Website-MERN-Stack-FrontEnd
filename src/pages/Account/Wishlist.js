@@ -32,7 +32,6 @@ export default function Wishlist () {
     
 
       if (loading) return <p>Loading wishlist...</p>;
-      if (error) return <p>Error: {error}</p>;
 
     return(
         <Fragment>

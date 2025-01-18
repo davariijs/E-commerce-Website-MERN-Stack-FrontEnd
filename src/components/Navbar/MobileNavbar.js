@@ -8,9 +8,11 @@ import cartIcon from "../../assets/icons/cart.svg";
 import userIcon from "../../assets/icons/user.svg";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoClose } from "react-icons/io5";
+import { useSelector } from 'react-redux';
 
 export default function MobileNavbar({uid}) {
     const [showNavbar, setShowNavbar] = useState(false);
+    const totalQuantity = useSelector((state) => state.cart.totalQuantity);
 
     function showNavbarClose () {
         setShowNavbar(!showNavbar)
@@ -71,8 +73,9 @@ export default function MobileNavbar({uid}) {
                         </div>
                         </Link>
                         <Link to="/cart">
-                        <div onClick={showNavbarClose} className='bg-secondary cartIcon'>
+                        <div onClick={showNavbarClose} className='bg-secondary cartIcon relative'>
                             <img src={cartIcon} alt='cart'/>
+                            <span className='absolute text-sm -top-0 text-center items-center w-5 h-5 left-6 text-white bg-primary rounded-full '>{totalQuantity}</span>
                         </div>
                         </Link>
                     </div>
