@@ -6,13 +6,9 @@ const uriRequest = {
   method: 'GET',
   url: 'https://kohls.p.rapidapi.com/products/list',
   params: {
-    q: 'men tops',
-    country: 'us, au, ca',
-    language: 'en',
-    page: '1',
-    limit: '100',
-    sort_by: 'BEST_MATCH',
-    product_condition: 'ANY'
+    limit: '48',
+    offset: '8',
+    keyword: 'men tops',
   },
   headers: {
     'x-rapidapi-key': process.env.REACT_APP_X_RAPIDAPI_KEY,

@@ -5,23 +5,32 @@ import useEffectAfterMount from '../../utils/useEffectAfterMount';
 import CategoriesCard from '../../components/CategoriesCard/CategoriesCard';
 import "./productCard.css"
 import { selectFilterPrices } from '../../redux/filterProducts/filterProductsSlice';
-import { getWomenTShirts, selectErrorState, selectLoadingState,selectWomenTShirts } from '../../redux/womenProducts/TShirtSlice/tShirtSlice';
+import { getMenTShirts, selectErrorState, selectLoadingState,selectMenTShirts } from '../../redux/menProducts/TShirtSlice/tShirtSlice';
+import { handleAddWishlist } from '../../utils/wishlistFunc';
+import { ToastContainer, toast } from 'react-toastify';
+import likeIconGif from "../../assets/icons/icons8-like.gif";
 
 export default function MenTShirts() {
 
     const dispatch = useDispatch();
-    const womenTShirts = useSelector (selectWomenTShirts);
+    const menTShirts = useSelector (selectMenTShirts);
     const loading = useSelector (selectLoadingState);
     const error = useSelector(selectErrorState);
     const values = useSelector (selectFilterPrices);
+    const notify = () => toast.success('Product added to you wishlist !', {
+      position: 'bottom-right',
+    });
 
     useEffectAfterMount(() => {
       if (loading === 'idle') {
-        dispatch(getWomenTShirts())
+        dispatch(getMenTShirts())
       }
     }, [loading,dispatch]);
 
-    console.log(womenTShirts);
+    function handleButtonWishlist ( title, image, price) {
+      handleAddWishlist(title, image, price);
+      notify();
+    }
 
     let contentToDisplay = '';
     if (loading === 'loading') {
@@ -29,15 +38,22 @@ export default function MenTShirts() {
     } else if (loading === 'succeeded') {
       contentToDisplay = <>
       <div className="lg:grid md:grid sm:grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 flex  justify-center flex-wrap  lg:gap-10 gap-5 h-fit w-full">
-        {womenTShirts?.data?.products.filter(itemCategory => itemCategory.product_title !== null && itemCategory.offer?.price > `$${values[0].toFixed(2).toString()}` && itemCategory.offer?.price < `$${values[1].toFixed(2).toString()}` ).map(itemCategory => (
+        {menTShirts?.payload?.products.filter(itemCategory => itemCategory.productTitle !== null).map(itemCategory => (
           <CategoriesCard
-          key={itemCategory.product_id}
-          srcCategoriesCard={itemCategory.product_photos[0]} 
-          textCategoriesCard={itemCategory.product_title}
+          onClick={() =>
+            handleButtonWishlist(
+              itemCategory.productTitle,
+              itemCategory.image.url,
+              itemCategory.prices[0].regularPrice.minPrice
+            )
+          }
+          key={itemCategory.webID}
+          srcCategoriesCard={itemCategory.image.url} 
+          textCategoriesCard={itemCategory.productTitle}
           categoriesFashionCard={false}
-          linkCard="/"
+          linkCard={itemCategory.webID}
           brand=""
-          price={itemCategory.offer?.price}
+          price={itemCategory.prices[0].regularPrice.minPrice}
           />
     ))}
       </div>
@@ -48,7 +64,15 @@ export default function MenTShirts() {
 
   return (
     <Fragment>
-       {contentToDisplay} 
+       {contentToDisplay}
+       <ToastContainer icon={({ type}) => {
+          switch (type) {
+            case 'success':
+              return <img src={likeIconGif} width={50} alt="like"/>;
+            default:
+              return null;
+          }
+        }} /> 
     </Fragment>
   )
 }

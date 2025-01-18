@@ -63,7 +63,20 @@ export default function Women() {
       <div className=' lg:my-20 container mx-auto lg:px-0 px-4 lg:flex gap-12'>
         {path === "Product Details" ?
         <ProductDetails/> : <>
-        <FilterPart className=""/>
+        <FilterPart 
+        firstItem={"Tops"}
+        secondItem={"Shoes"} 
+        thirdItem={"T-shirt"} 
+        fourthItem={"Coats"} 
+        fifthItem={"Dresses"} 
+        sixthItem={"Hoodies"}
+        firstPath={"/women/tops"}
+        secondPath={"/women/shoes"} 
+        thirdPath={"/women/t-shirts"} 
+        fourthPath={"/women/coats"} 
+        fifthPath={"/women/dresses"} 
+        sixthPath={"/women/hoodies"}
+        />
             <div className='py-14 w-full'>
                   <div className='flex text-2xl font-semibold pb-14'>
                     {path}

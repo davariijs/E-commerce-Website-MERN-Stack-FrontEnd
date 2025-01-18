@@ -6,13 +6,9 @@ const uriRequest = {
   method: 'GET',
   url: 'https://kohls.p.rapidapi.com/products/list',
   params: {
-    q: 'men T-shirt',
-    country: 'us, au, ca, nz, tk, nf, hm, cx, cc',
-    language: 'en',
-    page: '1',
-    limit: '100',
-    sort_by: 'BEST_MATCH',
-    product_condition: 'ANY'
+    limit: '48',
+    offset: '8',
+    keyword: 'men T-shirt',
   },
   headers: {
     'x-rapidapi-key': process.env.REACT_APP_X_RAPIDAPI_KEY,
