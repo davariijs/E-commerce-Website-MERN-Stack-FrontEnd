@@ -4,6 +4,8 @@ mongoose.connect('mongodb+srv://narjesdavari0:sEV1fFf6QwEgH04k@shoply-cluster.km
 })
 .catch (error => console.log(error));
 
+const { CartSchema } = require('./Schema');
+
 // Schema for users of app
 const WishlistSchema = new mongoose.Schema({
     title: {
@@ -21,6 +23,9 @@ const WishlistSchema = new mongoose.Schema({
 });
 const Wishlist = mongoose.model('wishlists', WishlistSchema);
 Wishlist.createIndexes();
+
+const CartList= mongoose.model('cartLists', CartSchema);
+CartList.createIndexes();
 
 // For backend and express
 const express = require('express');
