@@ -18,7 +18,7 @@ export default function MobileNavbar({uid}) {
 
     return (
         <Fragment>
-                        <div className='lg:hidden block bg-white  border-borderGrey border-b-2'>
+                        <div className='lg:hidden block bg-white  border-borderGrey border-b-2 '>
             <nav className=' container mx-auto'>
                 <div className={showNavbar? "hidden" : "block" }>
                 <div className='flex justify-between '>
@@ -51,9 +51,9 @@ export default function MobileNavbar({uid}) {
 
                 <div className="nav-items text-center">
                 <ul className=''>
-                    <li><Link onClick={showNavbarClose} to="/" >Shop</Link></li>
-                    <li><Link onClick={showNavbarClose} to="men">Men</Link></li>
-                    <li><Link onClick={showNavbarClose} to="/women">Women</Link></li>
+                    <li><button onClick={showNavbarClose}><Link  to="/" >Shop</Link></button></li>
+                    <li><button onClick={showNavbarClose}><Link  to="men">Men</Link></button></li>
+                    <li><button onClick={showNavbarClose}><Link  to="/women">Women</Link></button></li>
                 </ul>
                 </div>
                 </div>
@@ -61,17 +61,17 @@ export default function MobileNavbar({uid}) {
                 <div className=''>
                     <div className='flex justify-center icons'>
                         <Link to="/account/wishlist">
-                        <div className='bg-secondary likeIcon'>
+                        <div onClick={showNavbarClose} className='bg-secondary likeIcon'>
                             <img src={likeIcon} alt='like'/>
                         </div>
                         </Link>
                         <Link to={uid !== null ? "/account" : "/login"}>
-                        <div className='bg-secondary userIcon'>
+                        <div onClick={showNavbarClose} className='bg-secondary userIcon'>
                             <img src={userIcon} alt='user'/>
                         </div>
                         </Link>
                         <Link to="/cart">
-                        <div className='bg-secondary cartIcon'>
+                        <div onClick={showNavbarClose} className='bg-secondary cartIcon'>
                             <img src={cartIcon} alt='cart'/>
                         </div>
                         </Link>

@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home/Home';
 import Navbar from './components/Navbar/index';
@@ -53,7 +53,6 @@ export default function App() {
             if (user) {
             const uid = user.uid;
             setUid(uid);
-            console.log(uid, name);
             setEmail(user.email);
             setName(user.displayName);
             // ...
@@ -108,12 +107,19 @@ export default function App() {
           
           <Route path="men" element={<Men/>}>
             <Route index  element={<MenTops />} />
+            <Route path=':id' element={<ProductDetails/>}/>
             <Route path='tops'  element={<MenTops />} />
+            <Route path='tops/:id' element={<ProductDetails/>}/>
             <Route path='t-shirts' element={<MenTShirts/>} />
+            <Route path='t-shirts/:id' element={<ProductDetails/>}/>
             <Route path='shoes' element={<MenShoes />} />
+            <Route path='shoes/:id' element={<ProductDetails/>}/>
             <Route path='coats' element={<MenCoats/>}/>
+            <Route path='coats/:id' element={<ProductDetails/>}/>
             <Route path='jeans' element={<MenJeans/>}/>
+            <Route path='jeans/:id' element={<ProductDetails/>}/>
             <Route path='hoodies' element={<MenHoodies/>}/>
+            <Route path='hoodies/:id' element={<ProductDetails/>}/>
           </Route>
 
           <Route path="*" element={<NotFound/>} />

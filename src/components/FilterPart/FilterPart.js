@@ -6,7 +6,7 @@ import RangeBar from "./FilterRangePrice";
 import { Link } from "react-router-dom";
 import { GoChevronRight } from "react-icons/go";
 
-export default function FilterPart () {
+export default function FilterPart ({firstItem,secondItem,thirdItem,fourthItem,fifthItem,sixthItem,firstPath,secondPath,thirdPath,fourthPath,fifthPath,sixthPath}) {
 
 
     return(
@@ -18,23 +18,23 @@ export default function FilterPart () {
             </div>
 
             <div className="text-grayText font-semibold text-base lg:grid-rows-6 grid-rows-1 lg:p-8 p-5 grid lg:grid-cols-1 sm:grid-cols-6 grid-cols-3 lg:gap-5  gap-4 text-center lg:text-left">
-                <Link to="/women/tops" className="flex justify-between lg:w-full w-fit hover:text-primary">
-                Tops
+                <Link to={firstPath}  className="flex justify-between lg:w-full w-fit hover:text-primary">
+                {firstItem}
                 <GoChevronRight  className="lg:block hidden w-5 h-6 hover:text-primary"/>
                 </Link>
-                <Link to="/women/shoes" className="flex justify-between lg:w-full w-fit hover:text-primary">Shoes
+                <Link to={secondPath} className="flex justify-between lg:w-full w-fit hover:text-primary">{secondItem}
                 <GoChevronRight  className="lg:block hidden w-5 h-6 hover:text-primary"/>
                 </Link>
-                <Link to="/women/t-shirts" className="flex justify-between lg:w-full w-fit hover:text-primary">T-shirt
+                <Link to={thirdPath} className="flex justify-between lg:w-full w-fit hover:text-primary">{thirdItem}
                 <GoChevronRight  className="lg:block hidden w-5 h-6 hover:text-primary"/>
                 </Link>
-                <Link to="/women/coats" className="flex justify-between lg:w-full w-fit hover:text-primary">Coats
+                <Link to={fourthPath} className="flex justify-between lg:w-full w-fit hover:text-primary">{fourthItem}
                 <GoChevronRight  className="lg:block hidden w-5 h-6 hover:text-primary"/>
                 </Link>
-                <Link to="/women/dresses" className="flex justify-between lg:w-full w-fit hover:text-primary">Dresses
+                <Link to={fifthPath} className="flex justify-between lg:w-full w-fit hover:text-primary">{fifthItem}
                 <GoChevronRight  className="lg:block hidden w-5 h-6 hover:text-primary"/>
                 </Link>
-                <Link to="/women/hoodies" className="flex justify-between lg:w-full w-fit hover:text-primary">Hoodies
+                <Link to={sixthPath} className="flex justify-between lg:w-full w-fit hover:text-primary">{sixthItem}
                 <GoChevronRight  className="lg:block hidden w-5 h-6 hover:text-primary"/>
                 </Link>
             </div>
