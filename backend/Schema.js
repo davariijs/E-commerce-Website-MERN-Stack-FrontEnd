@@ -23,7 +23,6 @@ export const CartSchema = new mongoose.Schema({
     },
     Quantity: {
         type: Number,
-        // required: true,
-        default:1,
+        required: true,
     },
 });
