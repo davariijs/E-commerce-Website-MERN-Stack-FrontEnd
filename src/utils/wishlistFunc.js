@@ -18,4 +18,24 @@ export const handleAddWishlist = async (title, image, price) => {
     }
   };
 
+  export const handleAddUserToMongo = async (email, name, uid) => {
+    
+    try {
+      let result = await fetch('http://localhost:5000/user', {
+        method: 'post',
+        body: JSON.stringify({ email, name, uid }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      result = await result.json();
+      console.warn(result);
+      if (result) {
+        console.log('Data saved successfully');
+      }
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
+  };
+
 

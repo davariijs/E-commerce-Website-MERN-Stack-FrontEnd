@@ -51,7 +51,7 @@ export default function Account ({email,uid,name}) {
 
                 <div className="pb-8 lg:pt-0 pt-8 lg:w-3/4 w-full">
                 <h3 className='text-darkText flex lg:text-2xl text-md font-bold md:pb-14 pb-3'>{path}</h3>
-                    <Outlet />
+                    <Outlet/>
                 </div>
             </div>
             :

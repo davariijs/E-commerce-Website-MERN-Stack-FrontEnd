@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import imageCard from "../../assets/images/men-jacket.png";
 import leftArrowIcon from "../../assets/icons/left-arrow.svg";
 import googlePay from "../../assets/icons/googlePay.png";
 import visa from "../../assets/icons/visa.png";
@@ -8,7 +7,20 @@ import payPal from "../../assets/icons/paypal.png";
 import payPass from "../../assets/icons/paypass.png";
 import { IoMdEyeOff } from "react-icons/io";
 import { IoMdEye } from "react-icons/io";
+import { useSelector } from "react-redux";
+
 export default function CheckOut () {
+
+    const cartItems = useSelector((state) => state.cart.items); // Get cart items from state
+    const totalQuantity = useSelector((state) => state.cart.totalQuantity); // Get total quantity
+
+      const calculateTotalPrice = () => {
+        return cartItems.reduce((total, item) => total + item.price * item.quantity , 0);
+      };
+
+      const calculateTotalPriceShipping = () => {
+        return cartItems.reduce((total, item) => total + item.price * item.quantity + 5 , 0);
+      };
 
     return(
         <Fragment>
@@ -227,48 +239,36 @@ export default function CheckOut () {
                     <div className="pb-8 py-6 px-6 lg:w-1/4 w-full h-fit border-2 rounded-lg border-secondary md:my-0 my-6">
                         <h3 className="font-bold md:text-2xl text-base pb-3 border-b-2 border-borderGrey">Order Summary</h3>
 
-                        <div className="flex justify-between items-center font-bold text-sm  py-5 border-b-2 border-borderGrey">
+                        {cartItems.map((item) => (
+                        <div key={item.id} className="flex justify-between items-center font-bold text-sm  py-5 border-b-2 border-borderGrey">
                         <div className="flex">
-                        <img className="rounded-md w-16 h-16 md:mr-4 mr-3" src={imageCard} alt=""/>
+                        <img className="rounded-md w-16 h-16 md:mr-4 mr-3" src={item.image} alt={item.title}/>
                         <div className="text-darkText ">
-                        <h4 className="">Men Blue Shirt <span className="text-grayText font-light">x 1</span></h4>
-                        <h4 className="mt-2">Color : <span className="text-grayText font-light">White</span></h4>
+                        <h4 className="">{item.title}<span className="text-grayText font-light"> x {item.quantity}</span></h4>
+                        <h4 className="mt-2">Color : <span className="text-grayText font-light">{item.color}</span></h4>
                         </div>
                         </div>
-                        <h4 className="text-grayText font-bold">$24.00</h4>
+                        <h4 className="text-grayText font-bold">${item.price.toFixed(2)}</h4>
                         </div>
+                        ))}
 
-                        <div className="flex justify-between items-center font-bold text-sm  py-5 border-b-2 border-borderGrey">
-                        <div className="flex">
-                        <img className="rounded-md w-16 h-16 md:mr-4 mr-3" src={imageCard} alt=""/>
-                        <div className="text-darkText ">
-                        <h4 className="">Men Blue Shirt <span className="text-grayText font-light">x 1</span></h4>
-                        <h4 className="mt-2">Color : <span className="text-grayText font-light">White</span></h4>
-                        </div>
-                        </div>
-                        <h4 className="text-grayText font-bold">$24.00</h4>
-                        </div>
+                        
 
                         <div className="py-4 border-b-2 border-borderGrey text-darkText font-bold md:text-lg text-sm">
                             <div className="flex justify-between">
-                            <h4 className="">Subtotal <span className="text-grayText font-light">( 3 items )</span></h4>
-                            <h4 className="">$513.00</h4>
-                            </div>
-
-                            <div className="flex justify-between">
-                            <h4 className="">Savings</h4>
-                            <h4 className="">-$30.00</h4>
+                            <h4 className="">Subtotal <span className="text-grayText font-light">( {totalQuantity} items )</span></h4>
+                            <h4 className="">${calculateTotalPrice().toFixed(2)}</h4>
                             </div>
                         </div>
 
                         <div className="py-4 flex justify-between border-b-2 border-borderGrey text-darkText font-bold md:text-lg text-sm">
                             <h4 className="">Shipping</h4>
-                            <h4 className="">-$5.00</h4>
+                            <h4 className="">+$5.00</h4>
                         </div>
 
                         <div className="pt-4 flex justify-between text-darkText font-bold md:text-lg text-sm">
                             <h4 className="">Total</h4>
-                            <h4 className="">$478.00</h4>
+                            <h4 className="">${calculateTotalPriceShipping().toFixed(2)}</h4>
                         </div>
 
                     </div>

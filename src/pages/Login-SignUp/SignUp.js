@@ -8,6 +8,7 @@ import loginImage from "../../assets/images/signup-image.webp"
 import "./login-signup.css";
 import { auth,googleProvider } from "../../firebase/firebase"; 
 import { signInWithPopup, GoogleAuthProvider,createUserWithEmailAndPassword } from "firebase/auth";
+import { handleAddUserToMongo } from "../../utils/wishlistFunc";
 
 
 export default function Signup() {
@@ -55,6 +56,13 @@ export default function Signup() {
                 // Signed up 
                 const user = userCredential.user;
                 console.log(user.uid);
+                console.log(user);
+                const userMongo = {
+                    uid: user.uid,
+                    email: user.email,
+                    name: user.displayName
+                  };
+                handleAddUserToMongo(userMongo);
                 setErrorMessage("");
                 setEmail("");
                 setPassword("");

@@ -76,7 +76,7 @@ export default function App() {
           <Route path="account" element={<Account email={email} uid={uid} name={name}/>}>
             <Route index  element={<Orders />} />
             <Route path='orders'  element={<Orders />} />
-            <Route path='my-info' element={<MyInfo/>}/>
+            <Route path='my-info' element={<MyInfo email={email} uid={uid} name={name}/>}/>
             <Route path='wishlist'  element={<Wishlist />} />
             <Route path='order-details'  element={<OrderDetails />} />
           </Route>
