@@ -1,10 +1,25 @@
 const mongoose = require('mongoose');
-mongoose.connect(process.env.REACT_APP_URI_MONGODB , {
+mongoose.connect('mongodb+srv://narjesdavari0:sEV1fFf6QwEgH04k@shoply-cluster.kmukf.mongodb.net/?retryWrites=true&w=majority&appName=shoply-cluster', {
     dbName: 'shoply',
 })
 .catch (error => console.log(error));
 
-export const CartSchema = new mongoose.Schema({
+const WishlistSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
+    },
+    image: {
+        type: String,
+        required: true,
+    },
+    price: {
+        type: String,
+        required: true,
+    },
+});
+
+const CartSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -21,8 +36,29 @@ export const CartSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    Quantity: {
+    quantity: {
         type: Number,
         required: true,
     },
+    webID: {
+        type: Number,
+        required: true,
+    }
 });
+
+const UserSchema = new mongoose.Schema({
+    email: {
+        type: String,
+        required: true,
+    },
+    name: {
+        type: String,
+        required: false,
+    },
+    uid: {
+        type: String,
+        required: true,
+    }
+});
+
+module.exports = { CartSchema, UserSchema, WishlistSchema}
