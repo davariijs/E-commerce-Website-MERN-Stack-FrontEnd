@@ -4,9 +4,10 @@ import { IoCloseOutline } from "react-icons/io5";
 import "./Account.css"
 import WishlistEmpty from "../../components/WishlistEmpty/WishlistEmpty";
 import { fetchWishlist } from "../../redux/wishLists/wishlistSlice";
+import loadingBar from "../../assets/images/loader.svg";
 import axios from "axios";
 
-export default function Wishlist () {
+export default function Wishlist ({uid}) {
 
     const dispatch = useDispatch();
     const { items, loading, error } = useSelector((state) => state.wishlist);
@@ -31,13 +32,13 @@ export default function Wishlist () {
 
     
 
-      if (loading) return <p>Loading wishlist...</p>;
+      if (loading) return <div className='flex justify-center items-center h-fit w-full relative'><img className='w-36' src={loadingBar} alt='loading ...'/></div>;;
 
     return(
         <Fragment>
             <div>
 
-            {items.length === 0 ? (
+            {items.length === 0 || items.filter(item => item.uid === uid  ) ? (
                 <div>
                 <WishlistEmpty/>
                 </div>

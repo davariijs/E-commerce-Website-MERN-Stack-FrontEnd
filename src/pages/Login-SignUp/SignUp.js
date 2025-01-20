@@ -48,43 +48,50 @@ export default function Signup() {
     }
      
 
-    const signupEmail = (e) => {
+    const signupEmail = async (e) => {
         e.preventDefault();
-        if (privacy === true){
-            createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed up 
-                const user = userCredential.user;
-                console.log(user.uid);
-                console.log(user);
-                const userMongo = {
-                    uid: user.uid,
-                    email: user.email,
-                    name: user.displayName
-                  };
-                handleAddUserToMongo(userMongo);
-                setErrorMessage("");
-                setEmail("");
-                setPassword("");
-                setSubscribe(false);
-                setPrivacy(false);
-                setErrorPrivacy("");
-                setTimeout(navigate("/account"), 3000);
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessagePassword = error.message;
-                setErrorMessage(errorMessagePassword)
-                if (privacy === false){
-                    setErrorPrivacy("Agree Privacy Policy")
-                }
-                // ..
-            });
-        } else {
-            setErrorPrivacy("Agree Privacy Policy")
+      
+        // Check if the user agrees to the Privacy Policy
+        if (!privacy) {
+          setErrorPrivacy("You must agree to the Privacy Policy");
+          return;
         }
-        
-    }
+      
+        try {
+          // Create a new user with Firebase Authentication
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+          const user = userCredential.user;
+      
+          console.log("Firebase User UID:", user.uid);
+          console.log("Firebase User Info:", user);
+      
+          // Send the correct data to MongoDB
+          await handleAddUserToMongo(email, user.displayName, user.uid); // Replace "John Doe" with the user's name if available
+      
+          // Reset form states after successful signup
+          setErrorMessage(""); // Clear error messages
+          setEmail(""); // Clear email input
+          setPassword(""); // Clear password input
+          setSubscribe(false); // Reset subscription state
+          setPrivacy(false); // Reset privacy agreement
+          setErrorPrivacy(""); // Clear privacy error message
+      
+          // Navigate to the account page
+          setTimeout(() => navigate("/account"), 3000);
+        } catch (error) {
+          // Handle errors during signup
+          console.error("Error during signup:", error);
+      
+          // Extract and show an appropriate error message
+          const errorMessagePassword = error.message;
+          setErrorMessage(errorMessagePassword);
+      
+          // Double-check privacy policy agreement
+          if (!privacy) {
+            setErrorPrivacy("You must agree to the Privacy Policy");
+          }
+        }
+      };
 
     
 

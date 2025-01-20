@@ -10,7 +10,7 @@ import { handleAddWishlist } from '../../utils/wishlistFunc';
 import { ToastContainer, toast } from 'react-toastify';
 import likeIconGif from "../../assets/icons/icons8-like.gif";
 
-export default function MenShoes() {
+export default function MenShoes({uid}) {
 
     const dispatch = useDispatch();
     const menShoes = useSelector (selectMenShoes);
@@ -27,8 +27,8 @@ export default function MenShoes() {
       }
     }, [loading,dispatch]);
 
-    function handleButtonWishlist ( title, image, price) {
-          handleAddWishlist(title, image, price);
+    function handleButtonWishlist ( title, image, price, uid) {
+          handleAddWishlist(title, image, price, uid);
           notify();
     }
 
@@ -44,7 +44,8 @@ export default function MenShoes() {
             handleButtonWishlist(
               itemCategory.productTitle,
               itemCategory.image.url,
-              itemCategory.prices[0].regularPrice.minPrice
+              itemCategory.prices[0].regularPrice.minPrice,
+              uid
             )
           }
           key={itemCategory.webID}

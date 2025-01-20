@@ -17,6 +17,10 @@ const WishlistSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    uid: {
+        type: String,
+        required: true,
+    }
 });
 
 const CartSchema = new mongoose.Schema({
@@ -50,14 +54,17 @@ const UserSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
+        unique: true,
     },
     name: {
         type: String,
         required: false,
+        default: "Anonymous",
     },
     uid: {
         type: String,
         required: true,
+        unique: true,
     }
 });
 

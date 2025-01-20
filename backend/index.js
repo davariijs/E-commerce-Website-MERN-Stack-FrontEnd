@@ -30,11 +30,11 @@ app.get("/", (req, resp) => {
 });
 
 app.post("/add-wishlist", async (req, res) => {
-    const { title, image, price } = req.body;
+    const { title, image, price, uid } = req.body;
     console.log("Request body:", req.body);
   
     try {
-      const wishlist = new Wishlist({ title, image, price });
+      const wishlist = new Wishlist({ title, image, price, uid });
       await wishlist.save();
       res.status(201).json(wishlist);
     } catch (error) {
@@ -106,15 +106,22 @@ app.post("/cart-checkout", async (req, res) => {
 
 
 app.post("/user", async (req, res) => {
+  console.log("Incoming request body:", req.body);
+
   const { email, name, uid } = req.body;
-  console.log("Request body:", req.body);
+
+  // Validate the request body
+  if (!email || !uid) {
+    return res.status(400).json({ error: "Email and UID are required" });
+  }
+
   try {
     const userList = new UserList({ email, name, uid });
     await userList.save();
     res.status(201).json(userList);
   } catch (error) {
-      console.error("Error saving userList item:", error);
-      res.status(500).json({ error: "Failed to add to userList" });
+    console.error("Error saving userList item:", error);
+    res.status(500).json({ error: "Failed to add to userList" });
   }
 });
 
