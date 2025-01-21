@@ -64,8 +64,66 @@ const UserSchema = new mongoose.Schema({
     uid: {
         type: String,
         required: true,
-        unique: true,
     }
 });
 
-module.exports = { CartSchema, UserSchema, WishlistSchema}
+const InfoAccountSchema = new mongoose.Schema({
+    firstName: {
+        type: String,
+        required: true,
+    },
+    lastName: {
+        type: String,
+        required: true,
+    },
+    country: {
+        type: String,
+        required: true,
+    },
+    company: {
+        type: String,
+        required: false,
+    },
+    street: {
+        type: String,
+        required: true,
+    },
+    apt: {
+        type: String,
+        required: false,
+    },
+    city: {
+        type: String,
+        required: true,
+    },
+    state: {
+        type: String,
+        required: true,
+    },
+    number: {
+        type: String,
+        required: true,
+    },
+    postalCode: {
+        type: String,
+        required: true,
+    },
+    instruction: {
+        type: String,
+        required: false,
+    },
+    shipping: {
+        type: Boolean,
+        required: false,
+    },
+    billing: {
+        type: Boolean,
+        required: false,
+    },
+    uid: {
+        type: String,
+        required: true,
+    }
+});
+
+module.exports = { CartSchema, UserSchema, WishlistSchema, InfoAccountSchema}

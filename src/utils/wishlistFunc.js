@@ -42,3 +42,34 @@ export const handleAddWishlist = async (title, image, price, uid) => {
   };
 
 
+  export const InfoAccountFunc = async (uid) => {
+    try {
+      const result = await fetch(`http://localhost:5000/info-account/${uid}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      // Parse the response JSON
+      const response = await result.json();
+  
+      if (result.ok) {
+        console.log('Data fetched successfully:', response); // Log the fetched data
+        return response; // Return the fetched data if needed
+      } else {
+        console.error('Error fetching data:', response); // Log the error response from the server
+        throw new Error(response.message || 'Failed to fetch data'); // Throw a meaningful error
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error.message); // Log the error message
+      throw error; // Rethrow the error so the caller can handle it
+    }
+  };
+
+  // export const InfoAccountFunc = async (uid) => {
+  //   const response = await axios.get(`http://localhost:5000/info-account/${uid}`);
+  //   return response.data;
+  // };
+
+

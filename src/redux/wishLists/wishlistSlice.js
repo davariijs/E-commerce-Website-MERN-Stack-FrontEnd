@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // Async thunk to fetch wishlist from MongoDB
-export const fetchWishlist = createAsyncThunk("wishlist/fetchWishlist", async () => {
-  const response = await axios.get("http://localhost:5000/add-wishlist");
+export const fetchWishlist = createAsyncThunk("wishlist/fetchWishlist", async (uid) => {
+  const response = await axios.get(`http://localhost:5000/add-wishlist/${uid}`);
   return response.data;
 });
 

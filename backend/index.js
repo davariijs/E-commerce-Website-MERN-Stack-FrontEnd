@@ -4,7 +4,7 @@ mongoose.connect('mongodb+srv://narjesdavari0:sEV1fFf6QwEgH04k@shoply-cluster.km
     dbName: 'shoply',
 })
 .catch (error => console.log(error));
-const { CartSchema, UserSchema, WishlistSchema } = require('./Schema');
+const { CartSchema, UserSchema, WishlistSchema, InfoAccountSchema } = require('./Schema');
 
 // Schema for users of app
 
@@ -16,6 +16,9 @@ CartList.createIndexes();
 
 const UserList= mongoose.model('userLists', UserSchema);
 UserList.createIndexes();
+
+const InfoAccountList = mongoose.model('infoAccountLists', InfoAccountSchema);
+InfoAccountList.createIndexes();
 
 // For backend and express
 const express = require('express');
@@ -43,12 +46,15 @@ app.post("/add-wishlist", async (req, res) => {
     }
   });
 
-  app.get("/add-wishlist", async (req, res) => {
+  app.get("/add-wishlist/:uid", async (req, res) => {
+    const { uid } = req.params;
+  
     try {
-      const wishlistItems = await Wishlist.find();
-      res.status(200).json(wishlistItems);
+        const wishlists = await Wishlist.find({ uid: uid });
+        res.status(200).json(wishlists);
     } catch (error) {
-      res.status(500).json({ error: "Failed to fetch wishlist" });
+        console.error("Error fetching wishlists by uid:", error);
+        res.status(500).json({ error: "Failed to fetch wishlists" });
     }
   });
 
@@ -133,4 +139,31 @@ app.get("/user", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch userList" });
   }
 });
+
+app.post("/info-account", async (req, res) => {
+  const { firstName, lastName, country,company,street,apt,city,state,number,postalCode,instruction,shipping,billing, uid } = req.body;
+  console.log("Request body:", req.body);
+
+  try {
+    const infoAccountList = new InfoAccountList({ firstName, lastName, country,company,street,apt,city,state,number,postalCode,instruction,shipping,billing, uid });
+    await infoAccountList.save();
+    res.status(201).json(infoAccountList);
+  } catch (error) {
+      console.error("Error saving infoAccountList item:", error); // Log the error to see more details
+      res.status(500).json({ error: "Failed to add to infoAccountList" });
+  }
+});
+
+app.get("/info-account/:uid", async (req, res) => {
+  const { uid } = req.params;
+
+  try {
+      const accounts = await InfoAccountList.find({ uid: uid });
+      res.status(200).json(accounts);
+  } catch (error) {
+      console.error("Error fetching accounts by uid:", error);
+      res.status(500).json({ error: "Failed to fetch accounts" });
+  }
+});
+
 app.listen(5000);

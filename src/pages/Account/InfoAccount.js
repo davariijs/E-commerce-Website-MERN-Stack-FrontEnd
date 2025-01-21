@@ -1,7 +1,8 @@
 import React, { Fragment, useState } from "react";
-import "./Account.css"
+import "./Account.css";
+import { ToastContainer, toast } from 'react-toastify';
 
-export default function InfoAccount () {
+export default function InfoAccount ({uid,onSave}) {
 
     const [number,setNumber] = useState("");
     const [firstName,setFirstName] = useState("");
@@ -17,9 +18,41 @@ export default function InfoAccount () {
     const [shipping ,setShipping ] = useState(false);
     const [billing ,setBilling ] = useState(false);
 
+    const notify = () => toast.success('Your Address added !', {
+          position: 'bottom-right',
+        });
 
-    const  addAddressDetails = () => {
-        
+        const handleAddInfoAccount = async (firstName, lastName, country,company,street,apt,city,state,number,postalCode,instruction,shipping,billing, uid) => {
+            try {
+              const result = await fetch('http://localhost:5000/info-account', {
+                method: 'POST',
+                body: JSON.stringify({ firstName, lastName, country,company,street,apt,city,state,number,postalCode,instruction,shipping,billing, uid }), // Correct payload structure
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              });
+          
+              const response = await result.json();
+              console.warn(response);
+          
+              if (result.ok) {
+                console.log('Data saved successfully');
+                notify();
+                setTimeout(() => {
+                    onSave();
+                  }, 2000);
+              } else {
+                console.error('Error saving data:', response.error);
+              }
+            } catch (error) {
+              console.error('Error saving data:', error);
+            }
+          };
+
+
+    const  addAddressDetails = async (e) => {
+        e.preventDefault();
+        handleAddInfoAccount(firstName, lastName, country,company,street,apt,city,state,number,postalCode,instruction,shipping,billing, uid);
     } 
 
 
@@ -122,7 +155,7 @@ export default function InfoAccount () {
 
                         <div className="md:flex grid grid-cols-2 md:gap-6 gap-4 mt-9 md:font-bold md:text-xl">
                         <button className="rounded-lg  text-white md:w-32 w-full h-12 bg-primary">Save</button>
-                        <button className="rounded-lg text-grayText  md:w-32 w-full h-12 bg-secondary">Cancel</button>
+                        <button onClick={()=>{onSave()}} className="rounded-lg text-grayText  md:w-32 w-full h-12 bg-secondary">Cancel</button>
                         </div>
                     </form>
                         
@@ -133,6 +166,7 @@ export default function InfoAccount () {
                 </div>
             </div>
             </div>
+            <ToastContainer/> 
         </Fragment>
     )
 }

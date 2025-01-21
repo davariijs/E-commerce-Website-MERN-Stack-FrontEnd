@@ -1,19 +1,37 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 import "./Account.css"
 import { Link } from "react-router-dom";
 import InfoAccount from "./InfoAccount";
+import { useDispatch } from "react-redux";
+import { InfoAccountFunc } from "../../utils/wishlistFunc";
 
 export default function MyInfo ({email,name,uid}) {
-
+    const dispatch = useDispatch();
     const [userName,setName] = useState(name);
     const [number,setNumber] = useState("");
-    const [showNewAddress,setShowNewAddress] = useState(false)
+    const [showNewAddress,setShowNewAddress] = useState(false);
+    const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
 
-    const contactForm  = (e) => {
-        // e.preventDefault();
+    const handleSaveAndClose = () => {
+        setShowNewAddress(false);
+      };
+
+      useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const result = await InfoAccountFunc(uid);
+            setData(result); // Update state with fetched data
+            console.log(result);
+          } catch (err) {
+            setError(err.message); // Update state with error message
+          }
+        };
     
-    }
+        fetchData();
+      }, [uid]);
+        
 
     return(
         <Fragment>
@@ -60,7 +78,7 @@ export default function MyInfo ({email,name,uid}) {
                         </div>
 
                         {showNewAddress? 
-                        <InfoAccount/> : 
+                        <InfoAccount uid={uid} onSave={handleSaveAndClose}/> : 
                         <>
                         <div className=" grid grid-cols-1 lg:grid-cols-2 gap-6">
 

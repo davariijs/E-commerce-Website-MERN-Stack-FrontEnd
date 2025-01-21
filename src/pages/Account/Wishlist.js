@@ -13,8 +13,10 @@ export default function Wishlist ({uid}) {
     const { items, loading, error } = useSelector((state) => state.wishlist);
 
     useEffect(() => {
-        dispatch(fetchWishlist());
-    }, [dispatch]);
+        if (uid) {
+          dispatch(fetchWishlist(uid)); // Pass `uid` to the fetch function
+        }
+      }, [dispatch, uid]);
 
     const handleRemoveWishlist = async (id) => {
         try {
@@ -38,7 +40,7 @@ export default function Wishlist ({uid}) {
         <Fragment>
             <div>
 
-            {items.length === 0 || items.filter(item => item.uid === uid  ) ? (
+            {items.length === 0 ? (
                 <div>
                 <WishlistEmpty/>
                 </div>
