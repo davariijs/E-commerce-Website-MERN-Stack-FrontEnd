@@ -20,6 +20,9 @@ UserList.createIndexes();
 const InfoAccountList = mongoose.model('infoAccountLists', InfoAccountSchema);
 InfoAccountList.createIndexes();
 
+const CartCheckList= mongoose.model('cartCheckLists', CartSchema);
+CartCheckList.createIndexes();
+
 // For backend and express
 const express = require('express');
 const app = express();
@@ -74,7 +77,7 @@ app.post("/add-wishlist", async (req, res) => {
 });
 
 app.post("/cart-checkout", async (req, res) => {
-    const { title, image, price,webID, color,quantity } = req.body;
+    const { title, image, price,webID, color,quantity, uid } = req.body;
     console.log("Request body:", req.body);
     try {
       const cartList = new CartList({ title, image, price,webID, color,quantity });
@@ -164,6 +167,92 @@ app.get("/info-account/:uid", async (req, res) => {
       console.error("Error fetching accounts by uid:", error);
       res.status(500).json({ error: "Failed to fetch accounts" });
   }
+});
+
+app.delete("/info-account/:id", async (req, res) => {
+  const { id } = req.params; // Get the item ID from the request parameters
+
+  try {
+      const deletedItem = await InfoAccountList.findByIdAndDelete(id); // This removes the item by its ID
+      if (!deletedItem) {
+          return res.status(404).json({ message: 'Item not found' });
+      }
+      res.status(200).json({ message: 'Item removed from InfoAccountList' });
+  } catch (error) {
+      console.error("Error removing InfoAccountList item:", error);
+      res.status(500).json({ error: 'Failed to remove item from InfoAccountList' });
+  }
+});
+
+app.put("/info-account/:id", async (req, res) => {
+  const { id } = req.params; // Get the `id` from the request parameters
+  const updateData = req.body; // Get the data to update
+
+  try {
+    // Log id and update data for debugging
+    console.log("Updating document with ID:", id);
+    console.log("Update Data:", updateData);
+
+    // Validate the id format before querying
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid ID format" });
+    }
+
+    // No need to manually convert `id` to ObjectId
+    const updatedInfo = await InfoAccountList.findByIdAndUpdate(
+      id, // Mongoose will automatically cast the string `id` to ObjectId
+      updateData,
+      { new: true, upsert: false } // Return the updated document
+    );
+
+    if (updatedInfo) {
+      res.status(200).json(updatedInfo); // Successfully updated
+    } else {
+      res.status(404).json({ error: "Document not found" }); // Document not found
+    }
+  } catch (error) {
+    console.error("Error updating document:", error); // Log the error
+    res.status(500).json({ error: "Failed to update document" }); // Return 500 if something goes wrong
+  }
+});
+
+
+
+app.post('/cart', async (req, res) => {
+  const { uid, item } = req.body; // Use uid here
+  const cart = await CartCheckList.findOne({ uid });
+
+  if (cart) {
+      const existingItem = cart.items.find(i => i.productId === item.productId);
+      if (existingItem) {
+          existingItem.quantity += item.quantity; // Update quantity
+      } else {
+          cart.items.push(item); // Add new item
+      }
+      await cart.save();
+  } else {
+      const newCart = new CartCheckList({ uid, items: [item] });
+      await newCart.save();
+  }
+  res.status(200).send();
+});
+
+// GET: Retrieve cart
+app.get('/cart/:uid', async (req, res) => { // Change from userId to uid
+  const cart = await CartCheckList.findOne({ uid: req.params.uid });
+  res.status(200).json(cart);
+});
+
+// DELETE: Remove item from cart
+app.delete('/cart/:uid/:itemId', async (req, res) => { // Change from userId to uid
+  const { uid, itemId } = req.params;
+  const cart = await CartCheckList.findOne({ uid });
+
+  if (cart) {
+      cart.items = cart.items.filter(item => item.productId !== itemId);
+      await cart.save();
+  }
+  res.status(200).send();
 });
 
 app.listen(5000);

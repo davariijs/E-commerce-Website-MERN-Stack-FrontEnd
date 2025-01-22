@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import useEffectAfterMount from "../../utils/useEffectAfterMount";
 import loadingBar from "../../assets/images/loader.svg";
 import creditCardIcon from "../../assets/icons/credit-card.svg";
@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductDetails, selectErrorState,selectLoadingState,selectProductsDetails } from "../../redux/productDetails/productDetails";
 // productsDetails?.payload?.products[0].swatchImages.color // color names
 import { addToCart } from "../../redux/cart/cartSlice";
+import { selectUser } from "../../redux/users/userSlice";
 
 export default function ProductDetails() {
     const id = useParams();
@@ -23,8 +24,9 @@ export default function ProductDetails() {
     const loading = useSelector (selectLoadingState);
     const error = useSelector(selectErrorState);
     const [colorProduct, setColorProduct] = useState("");
-    console.log(colorProduct);
-  
+    const { uid } = useSelector(selectUser);
+    const product = productsDetails?.payload?.products[0];
+    console.log(uid);
 
     const CartIcon = () => (
       <svg
@@ -52,17 +54,30 @@ export default function ProductDetails() {
     }, []);
 
     const handleAddToCart = () => {
-      const product = {
-        id: productsDetails?.payload?.products[0].webID,
-        title: productsDetails?.payload?.products[0].productTitle,
-        price: productsDetails?.payload?.products[0]?.price.regularPrice.minPrice,
-        image: productsDetails?.payload?.products[0].images[0].url,
-        color: colorProduct
-      };
-      console.log(product);
+      if (!uid) {
+          console.error("User UID is not available.");
+          return; // Prevent the function from proceeding if uid is not available
+      }
 
-      dispatch(addToCart(product));
-    };
+      if (!product) {
+          console.error("Product details are not available.");
+          return; // Prevent the function from proceeding if product is not available
+      }
+
+      const item = {
+          uid, // User UID
+          item: {
+              id: product.webID,
+              title: product.productTitle,
+              price: product?.price?.regularPrice?.minPrice,
+              image: product.images[0]?.url,
+              color: colorProduct
+          }
+      };
+
+      console.log("Adding product to cart:", item);
+      dispatch(addToCart(item)); // Dispatch action to add product to cart
+  };
 
     let contentToDisplay = '';
     if (loading === 'loading') {

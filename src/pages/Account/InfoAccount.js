@@ -1,59 +1,118 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import "./Account.css";
 import { ToastContainer, toast } from 'react-toastify';
 
-export default function InfoAccount ({uid,onSave}) {
+export default function InfoAccount ({uid, existingData, onSave}) {
 
-    const [number,setNumber] = useState("");
-    const [firstName,setFirstName] = useState("");
-    const [lastName,setLastName] = useState("");
-    const [country,setCountry] = useState("");
-    const [company ,setCompany ] = useState("");
-    const [street,setStreet] = useState("");
-    const [apt,setApt] = useState("");
-    const [city,setCity] = useState("");
-    const [state,setState] = useState("");
-    const [postalCode,setPostalCode] = useState("");
-    const [instruction,setInstruction] = useState("");
-    const [shipping ,setShipping ] = useState(false);
-    const [billing ,setBilling ] = useState(false);
+    const [number, setNumber] = useState("");
+    const [id, setId] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [country, setCountry] = useState("");
+    const [company, setCompany] = useState("");
+    const [street, setStreet] = useState("");
+    const [apt, setApt] = useState("");
+    const [city, setCity] = useState("");
+    const [state, setState] = useState("");
+    const [postalCode, setPostalCode] = useState("");
+    const [instruction, setInstruction] = useState("");
+    const [shipping, setShipping] = useState(false);
+    const [billing, setBilling] = useState(false);
 
-    const notify = () => toast.success('Your Address added !', {
-          position: 'bottom-right',
-        });
+    const notifySuccess = (message) => toast.success(message, { position: "bottom-right" });
+    const notifyError = (message) => toast.error(message, { position: "bottom-right" });
 
-        const handleAddInfoAccount = async (firstName, lastName, country,company,street,apt,city,state,number,postalCode,instruction,shipping,billing, uid) => {
-            try {
-              const result = await fetch('http://localhost:5000/info-account', {
-                method: 'POST',
-                body: JSON.stringify({ firstName, lastName, country,company,street,apt,city,state,number,postalCode,instruction,shipping,billing, uid }), // Correct payload structure
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-              });
-          
-              const response = await result.json();
-              console.warn(response);
-          
-              if (result.ok) {
-                console.log('Data saved successfully');
-                notify();
-                setTimeout(() => {
-                    onSave();
-                  }, 2000);
-              } else {
-                console.error('Error saving data:', response.error);
-              }
-            } catch (error) {
-              console.error('Error saving data:', error);
-            }
-          };
+    console.log(id);
 
+    useEffect(() => {
+        if (existingData) {
+            setId(existingData._id || "");  // Set the `_id` for updating
+            setFirstName(existingData.firstName || "");
+            setLastName(existingData.lastName || "");
+            setCountry(existingData.country || "");
+            setCompany(existingData.company || "");
+            setStreet(existingData.street || "");
+            setApt(existingData.apt || "");
+            setCity(existingData.city || "");
+            setState(existingData.state || "");
+            setNumber(existingData.number || "");
+            setPostalCode(existingData.postalCode || "");
+            setInstruction(existingData.instruction || "");
+            setShipping(existingData.shipping || false);
+            setBilling(existingData.billing || false);
+        }
+    }, [existingData]);
 
-    const  addAddressDetails = async (e) => {
+    const handleFormSubmission = async (e) => {
         e.preventDefault();
-        handleAddInfoAccount(firstName, lastName, country,company,street,apt,city,state,number,postalCode,instruction,shipping,billing, uid);
-    } 
+      
+        // Prepare data payload
+        const payload = {
+          firstName,
+          lastName,
+          country,
+          company,
+          street,
+          apt,
+          city,
+          state,
+          number,
+          postalCode,
+          instruction,
+          shipping,
+          billing,
+          uid
+        };
+      
+        try {
+          // Determine request type (POST for create, PUT for update)
+          const method = existingData ? "PUT" : "POST";
+      
+          // Ensure we only try to update if the `id` is available
+          const url = method === "PUT" && id
+            ? `http://localhost:5000/info-account/${id}`  // Update endpoint
+            : "http://localhost:5000/info-account";       // Create endpoint
+      
+          if (method === "PUT" && !id) {
+            notifyError("Cannot update without a valid ID.");
+            return;
+          }
+      
+          // Log the id and payload for debugging
+          console.log("Request URL:", url);
+          console.log("Payload:", payload);
+          console.log("ID being sent:", id);
+      
+          const response = await fetch(url, {
+            method,
+            body: JSON.stringify(payload),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+      
+          const result = await response.json();
+      
+          if (response.ok) {
+            if (method === "POST") {
+              notifySuccess("Address added successfully!");
+            } else {
+              notifySuccess("Address updated successfully!");
+            }
+      
+            // Trigger parent callback after save
+            setTimeout(() => {
+              onSave();
+            }, 2000);
+          } else {
+            notifyError(result.error || "Something went wrong!");
+          }
+        } catch (error) {
+          console.error("Error saving data:", error);
+          notifyError("Failed to save address. Please try again.");
+        }
+      };
+        
 
 
     return(
@@ -67,7 +126,7 @@ export default function InfoAccount ({uid,onSave}) {
                     <h4 className='text-darkText flex lg:text-xl text-md font-bold pb-8'>Add Address</h4>
 
                     <div className="pb-4 w-full">
-                    <form onSubmit={addAddressDetails}>
+                    <form onSubmit={handleFormSubmission}>
 
                         <div className="grid md:grid-cols-2 grid-cols-1 md:gap-8 gap-4">
                             <div className="w-full">
@@ -158,8 +217,6 @@ export default function InfoAccount ({uid,onSave}) {
                         <button onClick={()=>{onSave()}} className="rounded-lg text-grayText  md:w-32 w-full h-12 bg-secondary">Cancel</button>
                         </div>
                     </form>
-                        
-                        
                     </div>
 
                     </div>

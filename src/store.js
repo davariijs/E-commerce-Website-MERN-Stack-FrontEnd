@@ -17,7 +17,8 @@ import menHoodiesList from './redux/menProducts/menHoodiesSlice/menHoodiesSlice'
 import MenTopsList from './redux/menProducts/menTopsSlice/menTopsSlice';
 import ProductsDetailsList from './redux/productDetails/productDetails';
 import wishlistReducer from "./redux/wishLists/wishlistSlice";
-import cartReducer from './redux/cart/cartSlice'
+import cartReducer from './redux/cart/cartSlice';
+import userReducer from './redux/users/userSlice'; 
 
 const reducersToPersist = [
   womenTops,
@@ -58,6 +59,7 @@ const reducers = combineReducers({
   ProductsDetailsList: ProductsDetailsList,
   wishlist: wishlistReducer,
   cart: cartReducer,
+  user: userReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

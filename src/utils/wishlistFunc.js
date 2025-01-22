@@ -67,9 +67,5 @@ export const handleAddWishlist = async (title, image, price, uid) => {
     }
   };
 
-  // export const InfoAccountFunc = async (uid) => {
-  //   const response = await axios.get(`http://localhost:5000/info-account/${uid}`);
-  //   return response.data;
-  // };
 
 

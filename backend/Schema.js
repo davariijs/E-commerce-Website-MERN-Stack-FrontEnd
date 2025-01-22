@@ -24,30 +24,17 @@ const WishlistSchema = new mongoose.Schema({
 });
 
 const CartSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true,
-    },
-    image: {
-        type: String,
-        required: true,
-    },
-    price: {
-        type: String,
-        required: true,
-    },
-    color: {
-        type: String,
-        required: true,
-    },
-    quantity: {
-        type: Number,
-        required: true,
-    },
-    webID: {
-        type: Number,
-        required: true,
-    }
+    uid: String,
+    items: [
+        {
+        title: String,
+        image: String,
+        price: String,
+        color: String,
+        quantity: Number,
+        webID: Number,
+        }
+    ]
 });
 
 const UserSchema = new mongoose.Schema({

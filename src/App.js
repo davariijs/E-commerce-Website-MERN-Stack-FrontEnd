@@ -38,6 +38,8 @@ import OrderDetails from './pages/Account/OrderDetails';
 import CheckOut from './pages/CheckOut/CheckOut';
 import { auth } from './firebase/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+import { clearUser, setUser } from './redux/users/userSlice';
+import { useDispatch } from 'react-redux';
 
 export default function App() {
 
@@ -45,6 +47,7 @@ export default function App() {
   const [name,setName] = useState(null);
   const [uid,setUid] = useState(null);
 
+  const dispatch = useDispatch();
   
   
   useEffect(() => {
@@ -52,14 +55,17 @@ export default function App() {
         onAuthStateChanged(auth, (user) => {
             if (user) {
             const uid = user.uid;
+            console.log(uid);
             setUid(uid);
             setEmail(user.email);
             setName(user.displayName);
+            dispatch(setUser({ uid, email: user.email, name: user.displayName }));
             // ...
             } else {
             setUid(null);
             setEmail(null);
             setName(null);
+            dispatch(clearUser());
             }
         });
     }
@@ -88,38 +94,26 @@ export default function App() {
           <Route path="/confirmed-order"  element={<ConfirmedOrder />}/>
           <Route path="/cart-empty"  element={<CartEmpty />}/>
           <Route path="/cart"  element={<Cart />}/>
-          <Route path="women" element={<Women />}>
+          <Route path="women" element={<Women uid={uid}/>}>
             <Route index  element={<WomenTops uid={uid}/>} />
-            <Route path=':id' element={<ProductDetails/>}/>
+            <Route path=':id' element={<ProductDetails />} />
             <Route path='tops'  element={<WomenTops uid={uid}/>} />
-            <Route path='tops/:id' element={<ProductDetails/>}/>
             <Route path='t-shirts' element={<WomenTShirts uid={uid}/>} />
-            <Route path='t-shirts/:id' element={<ProductDetails/>}/>
             <Route path='shoes' element={<WomenShoes uid={uid}/>} />
-            <Route path='shoes/:id' element={<ProductDetails/>}/>
             <Route path='coats' element={<WomenCoats uid={uid}/>}/>
-            <Route path='coats/:id' element={<ProductDetails/>}/>
             <Route path='dresses' element={<WomenDresses uid={uid}/>}/>
-            <Route path='dresses/:id' element={<ProductDetails/>}/>
             <Route path='hoodies' element={<WomenHoodies uid={uid}/>}/>
-            <Route path='hoodies/:id' element={<ProductDetails/>}/>
           </Route>
           
           <Route path="men" element={<Men/>}>
             <Route index  element={<MenTops uid={uid}/>} />
-            <Route path=':id' element={<ProductDetails/>}/>
+            <Route path=':id' element={<ProductDetails />} />
             <Route path='tops'  element={<MenTops uid={uid}/>} />
-            <Route path='tops/:id' element={<ProductDetails/>}/>
             <Route path='t-shirts' element={<MenTShirts uid={uid}/>} />
-            <Route path='t-shirts/:id' element={<ProductDetails/>}/>
             <Route path='shoes' element={<MenShoes uid={uid}/>} />
-            <Route path='shoes/:id' element={<ProductDetails/>}/>
             <Route path='coats' element={<MenCoats uid={uid}/>}/>
-            <Route path='coats/:id' element={<ProductDetails/>}/>
             <Route path='jeans' element={<MenJeans uid={uid}/>}/>
-            <Route path='jeans/:id' element={<ProductDetails/>}/>
             <Route path='hoodies' element={<MenHoodies uid={uid}/>}/>
-            <Route path='hoodies/:id' element={<ProductDetails/>}/>
           </Route>
 
           <Route path="*" element={<NotFound/>} />
