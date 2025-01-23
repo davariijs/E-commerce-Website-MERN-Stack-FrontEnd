@@ -66,7 +66,11 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 
 const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false}),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: false, // Disable immutable state check
+      serializableCheck: false, // Disable serializable state check
+    }),
 });
 
 const persistor = persistStore(store);

@@ -1,33 +1,48 @@
-import React , { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import leftArrowIcon from "../../assets/icons/left-arrow.svg";
 import "./Cart.css";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { decreaseQuantity, increaseQuantity, removeFromCart } from "../../redux/cart/cartSlice";
+import { decreaseQuantity, fetchCart, increaseQuantity, removeFromCart } from "../../redux/cart/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import CartEmpty from "../../components/CartEmpty/CartEmpty";
+import { selectUser } from "../../redux/users/userSlice";
 
 export default function Cart() {
-    const cartItems = useSelector((state) => state.cart.items); // Get cart items from state
+    const cartItems = useSelector((state) => state.cart.cart); // Updated to match slice state
     const totalQuantity = useSelector((state) => state.cart.totalQuantity); // Get total quantity
     const dispatch = useDispatch();
+    const { uid } = useSelector(selectUser);
 
+    // useEffect(() => {
+    //     dispatch(fetchCart(uid));
+    // }, [dispatch, uid]);
 
     const handleRemoveFromCart = (id) => {
-        dispatch(removeFromCart(id)); // Dispatch action to remove item
-      };
-    
-      const calculateTotalPrice = () => {
-        return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-      };
+        dispatch(removeFromCart({ uid, itemId: id })); // Pass uid and itemId
+    };
 
-      const handleIncreaseQuantity = (id) => {
-        dispatch(increaseQuantity(id)); // Dispatch action to increase quantity
-      };
-    
-      const handleDecreaseQuantity = (id) => {
-        dispatch(decreaseQuantity(id)); // Dispatch action to decrease quantity
-      };
+    const calculateTotalPrice = () => {
+        return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    };
+
+    console.log(cartItems);
+
+
+    const handleIncreaseQuantity = (id) => {
+        dispatch(increaseQuantity(id));
+    };
+
+    const handleDecreaseQuantity = (id) => {
+        // Guard against empty or null cart
+        if (!cartItems || cartItems.length === 0) {
+            console.error("Cart is empty or null, cannot decrease quantity");
+            return;
+        }
+
+        console.log("Decreasing quantity for ID:", id);
+        dispatch(decreaseQuantity(id));
+    };
 
     return(
         <Fragment>
@@ -63,7 +78,7 @@ export default function Cart() {
                                     </thead>
                                     <tbody>
                                     {cartItems.map((item) => (
-                                        <tr key={item.id} className="border-b border-borderGrey px-4 py-2">
+                                        <tr key={item._id} className="border-b border-borderGrey px-4 py-2">
                                         <td className="px-4 py-2">
                                         <td className="py-2 font-bold text-darkText md:text-md text-sm">{item.title}</td>
                                         <h4 className="font-medium text-grayText text-sm py-2">Color : {item.color}</h4>
@@ -74,13 +89,13 @@ export default function Cart() {
                                             />
                                         </td>
                                         <td className="px-4 py-2 font-bold text-darkText md:text-sm text-sm"></td>
-                                        <td className="px-3 py-2 font-bold text-darkText md:text-base text-xs text-end">${item.price.toFixed(2)}</td>
+                                        <td className="px-3 py-2 font-bold text-darkText md:text-base text-xs text-end">${item.price}</td>
                                         <td className="px-4 py-2">
                                         <div className="flex  justify-end items-center">
                                         <div className="md:w-24 w-16   h-9 bg-secondary rounded-lg text-darkText text-center flex items-center justify-between md:px-5 px-2">
-                                                <button onClick={() => handleDecreaseQuantity(item.id)}>-</button>
+                                                <button onClick={() => handleDecreaseQuantity(item._id)}>-</button>
                                                 {item.quantity}
-                                                <button onClick={() => handleIncreaseQuantity(item.id)}>+</button>
+                                                <button onClick={() => handleIncreaseQuantity(item._id)}>+</button>
                                             </div>
                                         </div>
                                             </td>
@@ -88,7 +103,7 @@ export default function Cart() {
                                             ${(item.price * item.quantity).toFixed(2)}
                                         </td>
                                         <td className="px-10 py-2 text-end">
-                                            <button onClick={() => handleRemoveFromCart(item.id)} className="  py-2 rounded "><FaRegTrashAlt className="text-primary"/></button>
+                                            <button onClick={() => handleRemoveFromCart(item._id)} className="  py-2 rounded "><FaRegTrashAlt className="text-primary"/></button>
                                         </td>
                                         </tr>
                                     ))}
@@ -114,7 +129,7 @@ export default function Cart() {
 
                                 <div className="flex justify-between py-9 px-20 text-darkText font-bold text-xl">
                                     <span>Sub Total</span> 
-                                    <span>${calculateTotalPrice().toFixed(2)}</span>
+                                    <span>${calculateTotalPrice()}</span>
                                 </div>
                                 
                                 <hr className="text-borderGrey"/>

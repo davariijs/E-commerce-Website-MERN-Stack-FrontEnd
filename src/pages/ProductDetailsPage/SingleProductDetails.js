@@ -16,16 +16,16 @@ import { addToCart } from "../../redux/cart/cartSlice";
 import { selectUser } from "../../redux/users/userSlice";
 
 export default function ProductDetails() {
-    const id = useParams();
-    const productSingleId = id.id;
-    const productIdDetails = productSingleId;
-    const dispatch = useDispatch();
-    const productsDetails = useSelector (selectProductsDetails);
-    const loading = useSelector (selectLoadingState);
-    const error = useSelector(selectErrorState);
-    const [colorProduct, setColorProduct] = useState("");
-    const { uid } = useSelector(selectUser);
-    const product = productsDetails?.payload?.products[0];
+  const id = useParams();
+  const productSingleId = id.id;
+  const productIdDetails = productSingleId;
+  const dispatch = useDispatch();
+  const productsDetails = useSelector(selectProductsDetails);
+  const loading = useSelector(selectLoadingState);
+  const error = useSelector(selectErrorState);
+  const [colorProduct, setColorProduct] = useState("");
+  const { uid } = useSelector(selectUser);
+  const product = productsDetails?.payload?.products[0];
     console.log(uid);
 
     const CartIcon = () => (
@@ -45,39 +45,45 @@ export default function ProductDetails() {
     );
 
     const handleFetchProduct = () => {
-      const productId = `${productIdDetails}`; // Dynamic product ID
+      const productId = `${productIdDetails}`;
       dispatch(fetchProductDetails(productId));
     };
-
+  
     useEffectAfterMount(() => {
-      handleFetchProduct()
+      handleFetchProduct();
     }, []);
-
+  
     const handleAddToCart = () => {
       if (!uid) {
-          console.error("User UID is not available.");
-          return; // Prevent the function from proceeding if uid is not available
+        console.error("User UID is not available.");
+        return;
       }
-
+    
       if (!product) {
-          console.error("Product details are not available.");
-          return; // Prevent the function from proceeding if product is not available
+        console.error("Product details are not available.");
+        return;
       }
-
+    
+      if (!colorProduct) {
+        console.error("Please select a color.");
+        return;
+      }
+    
       const item = {
-          uid, // User UID
-          item: {
-              id: product.webID,
-              title: product.productTitle,
-              price: product?.price?.regularPrice?.minPrice,
-              image: product.images[0]?.url,
-              color: colorProduct
-          }
+        uid,
+        item: {
+          id: product.webID,
+          title: product.productTitle,
+          price: product?.price?.regularPrice?.minPrice,
+          image: product.images[0]?.url,
+          color: colorProduct,
+          quantity: 1, // Default quantity to 1
+        },
       };
-
+    
       console.log("Adding product to cart:", item);
-      dispatch(addToCart(item)); // Dispatch action to add product to cart
-  };
+      dispatch(addToCart(item)); // Dispatch the item to the Redux action
+    };
 
     let contentToDisplay = '';
     if (loading === 'loading') {
