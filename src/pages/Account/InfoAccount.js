@@ -122,9 +122,6 @@ export default function InfoAccount ({uid, existingData, onSave}) {
 
                 <div className="pb-8 w-full">
                     <div className="w-full">
-                    <h3 className='text-darkText flex lg:text-2xl text-md font-bold pb-3'>My Info</h3>
-                    <h4 className='text-darkText flex lg:text-xl text-md font-bold pb-8'>Add Address</h4>
-
                     <div className="pb-4 w-full">
                     <form onSubmit={handleFormSubmission}>
 
