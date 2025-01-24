@@ -7,12 +7,46 @@ import payPal from "../../assets/icons/paypal.png";
 import payPass from "../../assets/icons/paypass.png";
 import { IoMdEyeOff } from "react-icons/io";
 import { IoMdEye } from "react-icons/io";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "../../redux/users/userSlice";
+import InfoAccount from "../Account/InfoAccount";
 
 export default function CheckOut () {
 
-    const cartItems = useSelector((state) => state.cart.items); // Get cart items from state
+    const cartItems = useSelector((state) => state.cart.cart); // Updated to match slice state
     const totalQuantity = useSelector((state) => state.cart.totalQuantity); // Get total quantity
+    const dispatch = useDispatch();
+    const { uid } = useSelector(selectUser);
+
+
+    const today = new Date();
+
+    // Arrays for day names and month names
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+    ];
+
+    // Function to get the formatted date
+    function getFormattedDate(date) {
+    const dayName = days[date.getDay()];
+    const monthName = months[date.getMonth()];
+    const dayNumber = date.getDate();
+    return `${dayName}, ${monthName} ${dayNumber}`;
+    }
+
+    // Get the next 5 days (including today)
+    const nextFiveDays = [];
+    for (let i = 0; i < 6; i++) {
+    const nextDate = new Date(today); // Create a copy of today's date
+    nextDate.setDate(today.getDate() + i); // Increment the day by `i`
+    nextFiveDays.push(getFormattedDate(nextDate)); // Add the formatted date to the array
+    }
+
+    // Output the next 5 days
+    console.log(nextFiveDays);
+
 
       const calculateTotalPrice = () => {
         return cartItems.reduce((total, item) => total + item.price * item.quantity , 0);
@@ -38,73 +72,10 @@ export default function CheckOut () {
                     <h3 className="text-darkText md:text-xl text-md font-bold pb-8">Billing Details</h3>
                     <form action="" method="GET">
 
-                        <div className="grid md:grid-cols-2 grid-cols-1 md:gap-8 gap-4 ">
-                            <div className="w-full">
-                            <label for="fname" className="lg:text-lg text-md font-semibold text-darkText">First Name*</label>
-                                <div className="bg-secondary rounded-lg mt-2">
-                                    <input className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="fname" name="fname" placeholder="First Name"/>
-                                </div>
-                            </div>
-                            <div className="w-full">
-                            <label for="lname" className="lg:text-lg text-md font-semibold text-darkText">Last Name*</label>
-                                <div className="bg-secondary rounded-lg mt-2">
-                                    <input className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="lname" name="lname" placeholder="Last Name"/>
-                                </div>
-                            </div>
-                            <div className="w-full">
-                            <label for="country" className="lg:text-lg text-md font-semibold text-darkText">Country / Region*</label>
-                                <div className="bg-secondary rounded-lg mt-2">
-                                    <input className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="country" name="country" placeholder="Country / Region"/>
-                                </div>
-                            </div>
-                            <div className="w-full">
-                            <label for="company" className="lg:text-lg text-md font-semibold text-darkText">Company Name</label>
-                                <div className="bg-secondary rounded-lg mt-2">
-                                    <input className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="company" name="company" placeholder="Company (optional)"/>
-                                </div>
-                            </div>
-                            <div className="w-full">
-                            <label for="street" className="lg:text-lg text-md font-semibold text-darkText">Street Address*</label>
-                                <div className="bg-secondary rounded-lg mt-2">
-                                    <input className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="street" name="street" placeholder="House number and street name"/>
-                                </div>
-                            </div>
-                            <div className="w-full">
-                            <label for="apt" className="lg:text-lg text-md font-semibold text-darkText">Apt, suite, unit</label>
-                                <div className="bg-secondary rounded-lg mt-2">
-                                    <input className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="apt" name="apt" placeholder="apartment, suite, unit, etc. (optional)"/>
-                                </div>
-                            </div>
-                            <div className="w-full">
-                            <label for="city" className="lg:text-lg text-md font-semibold text-darkText">City*</label>
-                                <div className="bg-secondary rounded-lg mt-2">
-                                    <input className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="city" name="city" placeholder="Town / City"/>
-                                </div>
-                            </div>
-                            <div className="w-full">
-                            <label for="state" className="lg:text-lg text-md font-semibold text-darkText">State*</label>
-                                <div className="bg-secondary rounded-lg mt-2">
-                                    <input className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="state" name="state" placeholder="State"/>
-                                </div>
-                            </div>
-
-                            <div className="w-full">
-                            <label for="postalCode" className="lg:text-lg text-md font-semibold text-darkText">Postal Code*</label>
-                                <div className="bg-secondary rounded-lg mt-2">
-                                    <input className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="postalCode" name="postalCode" placeholder="Postal Code"/>
-                                </div>
-                            </div>
-                            
-                            <div className="w-full">
-                            <label for="phone" className="lg:text-lg text-md font-semibold text-darkText">Phone*</label>
-                                <div className="bg-secondary rounded-lg mt-2">
-                                    <input className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="phone" name="phone" placeholder="Phone"/>
-                                </div>
-                            </div>
-                            
-                        </div>
                         
-                        <div className="mt-9 font-medium md:text-lg text-base flex md:justify-start justify-center">
+                        <InfoAccount/>
+                        
+                        {/* <div className="mt-9 font-medium md:text-lg text-base flex md:justify-start justify-center">
                         <button className="rounded-lg  text-white py-4 px-5 bg-primary">Continue to delivery</button>
                         </div>
 
@@ -113,12 +84,12 @@ export default function CheckOut () {
                         <input className=" rounded-lg  w-4 h-4  font-normal text-grayText" type="checkbox" id="shipping" name="shipping" placeholder="Delivery Instruction"/>
                         </div>
                             <label for="shipping" className="pl-2 md:-mt-1   md:text-lg text-sm font-normal text-darkText">Save my information for a faster checkout</label>
-                        </div>
+                        </div> */}
 
                         
                         </form>
 
-                        <div className="pt-6 pb-6 border-b-2 border-secondary">
+                        {/* <div className="pt-6 pb-6 border-b-2 border-secondary">
                             <h3 className="text-darkText md:text-xl text-base font-bold pb-3">Shipping Address</h3>
                             <p className="text-darkText font-medium text-sm">Select the address that matches your card or payment method.</p>
                             <div className="rounded-xl bg-secondary py-9 px-7 mt-7 ">
@@ -136,14 +107,14 @@ export default function CheckOut () {
                                     <label for="diffAddress" className="pl-2 md:-mt-1  font-bold md:text-lg text-base text-darkText">Use a different shipping address</label>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="pt-6 pb-6 border-b-2 border-secondary">
                             <h3 className="text-darkText md:text-xl text-base font-bold pb-3">Shipping Method</h3>
                             <div className="rounded-xl bg-secondary py-9 px-7 mt-7 ">
                                 <div className="w-full pb-6 border-b-2 border-borderGrey">
                                 
-                                    <h4 className="font-bold md:text-lg text-base text-darkText">Arrives by Monday, June 7</h4>
+                                    <h4 className="font-bold md:text-lg text-base text-darkText">Arrives by {nextFiveDays[5]}</h4>
                                 </div>
 
                                 <div className="w-full mt-6">
@@ -240,7 +211,7 @@ export default function CheckOut () {
                         <h3 className="font-bold md:text-2xl text-base pb-3 border-b-2 border-borderGrey">Order Summary</h3>
 
                         {cartItems.map((item) => (
-                        <div key={item.id} className="flex justify-between items-center font-bold text-sm  py-5 border-b-2 border-borderGrey">
+                        <div key={item._id} className="flex justify-between items-center font-bold text-sm  py-5 border-b-2 border-borderGrey">
                         <div className="flex">
                         <img className="rounded-md w-16 h-16 md:mr-4 mr-3" src={item.image} alt={item.title}/>
                         <div className="text-darkText ">
@@ -248,7 +219,7 @@ export default function CheckOut () {
                         <h4 className="mt-2">Color : <span className="text-grayText font-light">{item.color}</span></h4>
                         </div>
                         </div>
-                        <h4 className="text-grayText font-bold">${item.price.toFixed(2)}</h4>
+                        <h4 className="text-grayText font-bold">${item.price}</h4>
                         </div>
                         ))}
 

@@ -8,7 +8,7 @@ margin-top: 70px;
 
 @media (max-width: 1024px) {
     .checkout-bg {
-        height: 670px;
+        height: 600px;
         }
     .header-types{
         margin-top: 75px;
@@ -20,6 +20,9 @@ margin-top: 70px;
     .header-types{
         margin-top: 80px;
     }
+    .checkout-bg {
+        height: 520px;
+        }
 }
 
 

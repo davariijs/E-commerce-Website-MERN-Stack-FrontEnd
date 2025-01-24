@@ -27,13 +27,14 @@ export const addToCart = createAsyncThunk(
     async ({ uid, item }, { rejectWithValue }) => {
       try {
         const response = await axios.post("http://localhost:5000/cart", { uid, item });
-        console.log("Backend response:", response.data); // Log the response to debug
-        return response.data.cart; // Return the updated cart
+        console.log("Backend response:", response.data); // Log backend response for debugging
+        return response.data; // This should return { cart: ... }
       } catch (error) {
+        console.error("Error adding to cart:", error);
         return rejectWithValue(error.response.data);
       }
     }
-);
+  );
 
 // Async thunk for removing from cart
 export const removeFromCart = createAsyncThunk('cart/removeFromCart', async ({ uid, itemId }, { rejectWithValue }) => {
@@ -87,7 +88,7 @@ const cartSlice = createSlice({
             state.totalQuantity = 0; // Reset quantity when cart is cleared
         },
         increaseQuantity: (state, action) => {
-            const item = state.cart.find((item) => item.id === action.payload);
+            const item = state.cart.find((item) => item._id === action.payload);
             if (item) {
                 item.quantity += 1;
                 state.totalQuantity += 1; // Increment total quantity
@@ -99,7 +100,7 @@ const cartSlice = createSlice({
             console.log("Current cart:", state.cart); // Log the cart state before changes
 
             // Find the item in the cart
-            const itemIndex = state.cart.findIndex((item) => item.id === itemId);
+            const itemIndex = state.cart.findIndex((item) => item._id === itemId);
 
             if (itemIndex !== -1) {
                 const item = state.cart[itemIndex];
@@ -110,7 +111,7 @@ const cartSlice = createSlice({
                     };
                 } else {
                     // Remove the item if quantity becomes 0
-                    state.cart = state.cart.filter((item) => item.id !== itemId);
+                    state.cart = state.cart.filter((item) => item._id !== itemId);
                 }
             }
 
@@ -135,7 +136,8 @@ const cartSlice = createSlice({
             .addCase(addToCart.fulfilled, (state, action) => {
                 console.log("Action payload:", action.payload); // Debug action payload
               
-                const cartItems = action.payload.items || []; // Extract items from payload
+                // Check if payload contains 'cart' and 'items'
+                const cartItems = action.payload?.cart?.items || []; // Safely access 'items'
               
                 cartItems.forEach((newItem) => {
                   const existingItem = state.cart.find(
@@ -143,18 +145,17 @@ const cartSlice = createSlice({
                   );
               
                   if (existingItem) {
-                    existingItem.quantity += newItem.quantity || 1;
+                    // If the item already exists, update its quantity
+                    existingItem.quantity = newItem.quantity;
                   } else {
-                    state.cart.push({
-                      ...newItem,
-                      quantity: newItem.quantity || 1,
-                    });
+                    // If the item does not exist, add it to the cart
+                    state.cart.push(newItem);
                   }
                 });
               
                 state.totalQuantity = calculateTotalQuantity(state.cart);
               })
-              .addCase(removeFromCart.fulfilled, (state, action) => {
+            .addCase(removeFromCart.fulfilled, (state, action) => {
                 console.log("Removing item with ID:", action.payload); // Log the itemId
                 state.cart = state.cart.filter(item => item.webID !== action.payload); // Use webID to match
                 state.totalQuantity = calculateTotalQuantity(state.cart); // Update total quantity

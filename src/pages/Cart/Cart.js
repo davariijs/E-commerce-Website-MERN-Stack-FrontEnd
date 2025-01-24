@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import leftArrowIcon from "../../assets/icons/left-arrow.svg";
 import "./Cart.css";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { decreaseQuantity, fetchCart, increaseQuantity, removeFromCart } from "../../redux/cart/cartSlice";
+import { decreaseQuantityAsync, fetchCart, increaseQuantityAsync} from "../../redux/cart/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import CartEmpty from "../../components/CartEmpty/CartEmpty";
 import { selectUser } from "../../redux/users/userSlice";
@@ -15,11 +15,12 @@ export default function Cart() {
     const dispatch = useDispatch();
     const { uid } = useSelector(selectUser);
 
-    
+    useEffect(() => {
+        dispatch(fetchCart(uid))
+      }, [dispatch,uid]);
 
     function handleRemove(id) {
         console.log(`Requesting deletion of item with ID: ${id} from cart of user: ${uid}`);
-        console.log(`Type of webID:, Type of id: ${typeof id}`);
         const handleRemoveItem = async ({ id }) => {
             console.log(`second clg: ${id}`);
             try {
@@ -30,6 +31,7 @@ export default function Cart() {
                     // Convert id to a number for state update
                     const itemId = parseInt(id, 10);
                     console.log(`Item with id: ${itemId} removed successfully.`);
+                    dispatch(fetchCart(uid))
                 } else {
                     console.error('Failed to remove item:', response.data);
                 }
@@ -39,6 +41,7 @@ export default function Cart() {
             }
         };
         handleRemoveItem({ id }); // Pass an object with the id property
+        ;
     }
 
     
@@ -51,26 +54,25 @@ export default function Cart() {
     console.log(cartItems);
 
 
-    const handleIncreaseQuantity = (id) => {
-        console.log(id);
-        dispatch(increaseQuantity(id));
-    };
-
     const handleDecreaseQuantity = (id) => {
-        // Guard against empty or null cart
         if (!cartItems || cartItems.length === 0) {
             console.error("Cart is empty or null, cannot decrease quantity");
             return;
         }
-
+    
         console.log("Decreasing quantity for ID:", id);
-        dispatch(decreaseQuantity(id));
+        dispatch(decreaseQuantityAsync({ uid, itemId: id })); // Use the async thunk
+    };
+    
+    const handleIncreaseQuantity = (id) => {
+        console.log("Increasing quantity for ID:", id);
+        dispatch(increaseQuantityAsync({ uid, itemId: id })); // Use the async thunk
     };
 
     return(
         <Fragment>
                 <div className="relative">
-                    <div className="absolute bg-darkText w-full h-20 top-48 z-0"></div>
+                {cartItems.length === 0 ? (null):(<div className="absolute bg-darkText w-full h-20 top-48 z-0"></div>)}
                     <div className="absolute bg-secondary z-0 w-full bottom-0 checkout-bg"></div>
                 <div className="container mx-auto px-5 md:px-0">
                     
@@ -152,7 +154,7 @@ export default function Cart() {
 
                                 <div className="flex justify-between py-9 px-20 text-darkText font-bold text-xl">
                                     <span>Sub Total</span> 
-                                    <span>${calculateTotalPrice()}</span>
+                                    <span>${calculateTotalPrice().toFixed(2)}</span>
                                 </div>
                                 
                                 <hr className="text-borderGrey"/>
