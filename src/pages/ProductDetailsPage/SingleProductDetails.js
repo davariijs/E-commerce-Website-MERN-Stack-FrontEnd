@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
 import React from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useEffectAfterMount from "../../utils/useEffectAfterMount";
 import loadingBar from "../../assets/images/loader.svg";
 import creditCardIcon from "../../assets/icons/credit-card.svg";
@@ -11,9 +11,10 @@ import StarRatings from "react-star-ratings";
 import { GoArrowRight } from "react-icons/go";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductDetails, selectErrorState,selectLoadingState,selectProductsDetails } from "../../redux/productDetails/productDetails";
-// productsDetails?.payload?.products[0].swatchImages.color // color names
 import { addToCart } from "../../redux/cart/cartSlice";
 import { selectUser } from "../../redux/users/userSlice";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 export default function ProductDetails() {
   const id = useParams();
@@ -26,7 +27,20 @@ export default function ProductDetails() {
   const [colorProduct, setColorProduct] = useState("");
   const { uid } = useSelector(selectUser);
   const product = productsDetails?.payload?.products[0];
-    console.log(uid);
+      const notify = () => toast.success('Product added to cart', {
+                position: 'bottom-right',
+      });
+
+      const notifySuccessColor = () => toast.success('Color added', {
+        position: 'bottom-right',
+});
+      const notifyErrorColor = () => toast.error('Please choose a color!', {
+        position: 'bottom-right',
+      });
+
+      const notifyErrorLogin = () => toast.error('Please Login!', {
+        position: 'bottom-right',
+      });
 
     const CartIcon = () => (
       <svg
@@ -56,6 +70,7 @@ export default function ProductDetails() {
     const handleAddToCart = () => {
       if (!uid) {
         console.error("User UID is not available.");
+        notifyErrorLogin();
         return;
       }
     
@@ -66,6 +81,7 @@ export default function ProductDetails() {
     
       if (!colorProduct) {
         console.error("Please select a color.");
+        notifyErrorColor();
         return;
       }
     
@@ -83,6 +99,7 @@ export default function ProductDetails() {
     
       console.log("Adding product to cart:", item);
       dispatch(addToCart(item)); // Dispatch the item to the Redux action
+      notify();
     };
 
     let contentToDisplay = '';
@@ -114,7 +131,10 @@ export default function ProductDetails() {
                 <div className="text-grayText font-medium text-lg mb-5"><a className=" flex" href={productsDetails?.payload?.products[0].styleGuide.sizeChartURL}>Size guide <GoArrowRight className="mt-1 w-10" /></a></div>
                 <div className="text-darkText font-semibold text-lg mb-5">Colors Available </div>
                 <div className="grid grid-cols-6 gap-2 mb-6">{productsDetails?.payload?.products[0].swatchImages.map(color => ( <div>
-                    <div className="cursor-pointer" onClick={()=> {setColorProduct(color.color)}} ><img className="rounded-full" src={color.URL} alt="color"/></div>
+                    <div className="cursor-pointer" onClick={()=> {
+                      setColorProduct(color.color);
+                      notifySuccessColor();
+                      }} ><img className="rounded-full" src={color.URL} alt="color"/></div>
                 </div>))}</div>
                 
                 <div className="flex lg:justify-start justify-center mb-9">
@@ -147,6 +167,7 @@ export default function ProductDetails() {
     return (
       <Fragment>
       {contentToDisplay} 
+      <ToastContainer/>
       </Fragment>
       )
 }
