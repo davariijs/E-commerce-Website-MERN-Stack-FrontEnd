@@ -233,7 +233,7 @@ app.post("/cart", async (req, res) => {
     // Check if the item already exists in the cart
     const existingItemIndex = cart.items.findIndex(
       (cartItem) =>
-        cartItem.webID === item.id && cartItem.color === item.color
+        cartItem.webID === item.webID && cartItem.color === item.color
     );
 
     if (existingItemIndex > -1) {
@@ -247,7 +247,7 @@ app.post("/cart", async (req, res) => {
         price: item.price,
         color: item.color,
         quantity: item.quantity || 1, // Default quantity to 1
-        webID: item.id,
+        webID: item.webID, // Use consistent naming
       });
     }
 
@@ -277,17 +277,21 @@ app.put('/cart/increase/:uid/:itemId', async (req, res) => {
   try {
       const cart = await CartCheckList.findOne({ uid });
 
-      if (cart) {
-          const item = cart.items.find(item => item.webID === parseInt(itemId));
-
-          if (item) {
-              item.quantity += 1; // Increment quantity
-              await cart.save();
-              return res.status(200).json({ cart });
-          }
+      if (!cart) {
+          return res.status(404).json({ message: 'Cart not found' });
       }
 
-      return res.status(404).json({ message: 'Item not found in cart' });
+      const id = new mongoose.Types.ObjectId(itemId); // Convert to ObjectId
+
+      const item = cart.items.find((item) => item._id.equals(id));
+      if (!item) {
+          return res.status(404).json({ message: 'Item not found in cart' });
+      }
+
+      item.quantity += 1; // Increment quantity
+      await cart.save();
+
+      return res.status(200).json({ cart });
   } catch (error) {
       console.error("Error increasing item quantity:", error);
       return res.status(500).json({ message: 'Failed to increase item quantity' });
@@ -301,69 +305,77 @@ app.put('/cart/decrease/:uid/:itemId', async (req, res) => {
   try {
       const cart = await CartCheckList.findOne({ uid });
 
-      if (cart) {
-          const item = cart.items.find((item) => item.webID === parseInt(itemId));
-
-          if (item) {
-              // Decrease quantity or remove if quantity is 1
-              if (item.quantity > 1) {
-                  item.quantity -= 1;
-              } else {
-                  // Remove the item from the cart if quantity is 1
-                  cart.items = cart.items.filter((item) => item.webID !== parseInt(itemId));
-              }
-
-              await cart.save();
-              return res.status(200).json({ cart });
-          }
+      if (!cart) {
+          return res.status(404).json({ message: 'Cart not found' });
       }
 
-      return res.status(404).json({ message: 'Item not found in cart' });
+      const id = new mongoose.Types.ObjectId(itemId); // Convert to ObjectId
+
+      const item = cart.items.find((item) => item._id.equals(id));
+      if (!item) {
+          return res.status(404).json({ message: 'Item not found in cart' });
+      }
+
+      // Decrease quantity or remove item if quantity is 1
+      if (item.quantity > 1) {
+          item.quantity -= 1;
+      } else {
+          cart.items = cart.items.filter((item) => !item._id.equals(id));
+      }
+
+      await cart.save();
+
+      return res.status(200).json({ cart });
   } catch (error) {
-      console.error('Error decreasing item quantity:', error);
+      console.error("Error decreasing item quantity:", error);
       return res.status(500).json({ message: 'Failed to decrease item quantity' });
   }
 });
+
 
 // DELETE: Remove item from cart
 app.delete('/cart/:uid/:id', async (req, res) => {
   const { uid, id } = req.params;
 
   try {
-      console.log(`Deleting item with id: ${id} from cart of user: ${uid}`);
+    console.log(`Deleting item with id: ${id} from cart of user: ${uid}`);
 
-      // Find the cart associated with the user ID
-      const cart = await CartCheckList.findOne({ uid });
+    // Find the cart associated with the user ID
+    const cart = await CartCheckList.findOne({ uid });
 
-      if (!cart) {
-          console.log(`No cart found for user: ${uid}`);
-          return res.status(404).json({ message: 'Cart not found' });
-      }
+    if (!cart) {
+      console.log(`No cart found for user: ${uid}`);
+      return res.status(404).json({ message: 'Cart not found' });
+    }
 
-      // Log current items for debugging
-      console.log(`Cart items before filtering: ${JSON.stringify(cart.items)}`);
+    // Log current items for debugging
+    console.log(`Cart items before filtering: ${JSON.stringify(cart.items)}`);
+    
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      console.log(`Invalid ObjectId: ${id}`);
+      return res.status(400).json({ message: 'Invalid item ID' });
+    }
+    // Convert id from string to ObjectId
+    const itemId = new mongoose.Types.ObjectId(id); // Use 'new' here
 
-      // Convert id to a number for comparison
-      const itemId = parseInt(id, 10); // Convert id string to an integer
+    // Check if the item exists before filtering
+    const itemExists = cart.items.some((item) => item._id.equals(itemId)); // Use equals() for comparison
+    if (!itemExists) {
+      console.log(`Item with id: ${itemId} not found in cart items.`);
+      return res.status(404).json({ message: 'Item not found in cart' });
+    }
 
-      // Check if the item exists before filtering
-      const itemExists = cart.items.some((item) => item.webID === itemId); // Compare as numbers
-      if (!itemExists) {
-          console.log(`Item with id: ${itemId} not found in cart items.`);
-          return res.status(404).json({ message: 'Item not found in cart' });
-      }
+    // Filter out the item by its ObjectId
+    cart.items = cart.items.filter((item) => !item._id.equals(itemId)); // Use equals() for filtering
 
-      // Filter out the item by its webID
-      cart.items = cart.items.filter((item) => item.webID !== itemId); // Ensure comparison is done as numbers
+    // Save the updated cart
+    await cart.save();
 
-      // Save the updated cart
-      await cart.save();
-
-      console.log(`Successfully removed item with id: ${itemId} from user: ${uid}'s cart`);
-      return res.status(200).json({ message: 'Item removed successfully' });
+    console.log(`Successfully removed item with id: ${itemId} from user: ${uid}'s cart`);
+    return res.status(200).json({ message: 'Item removed successfully' });
   } catch (error) {
-      console.error('Error removing item from cart:', error);
-      return res.status(500).json({ message: 'Failed to remove item from cart' });
+    console.error('Error removing item from cart:', error);
+    return res.status(500).json({ message: 'Failed to remove item from cart' });
   }
 });
 
