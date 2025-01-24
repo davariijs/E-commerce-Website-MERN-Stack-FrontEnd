@@ -132,29 +132,6 @@ const cartSlice = createSlice({
                 state.loading = false;
                 state.error = action.error.message;
             })
-            // .addCase(addToCart.fulfilled, (state, action) => {
-            //     console.log("Action payload:", action.payload);
-              
-            //     // Ensure cart is always an array
-            //     if (!Array.isArray(state.cart)) {
-            //       state.cart = [];
-            //     }
-              
-            //     const existingItem = state.cart.find(item => item.productId === action.payload.productId);
-              
-            //     if (existingItem) {
-            //       // Increment quantity if item exists
-            //       existingItem.quantity += action.payload.quantity || 1;
-            //     } else {
-            //       // Add new item to cart
-            //       state.cart.push({ ...action.payload, quantity: action.payload.quantity || 1 });
-            //     }
-              
-            //     // Update total quantity
-            //     state.totalQuantity = state.cart.reduce((total, item) => total + item.quantity, 0);
-              
-            //     console.log("Updated cart:", state.cart);
-            //   })
             .addCase(addToCart.fulfilled, (state, action) => {
                 console.log("Action payload:", action.payload); // Debug action payload
               

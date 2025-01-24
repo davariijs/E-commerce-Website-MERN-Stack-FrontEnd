@@ -326,19 +326,41 @@ app.put('/cart/decrease/:uid/:itemId', async (req, res) => {
 });
 
 // DELETE: Remove item from cart
-app.delete('/cart/:uid/:itemId', async (req, res) => {
-  const { uid, itemId } = req.params;
+app.delete('/cart/:uid/:id', async (req, res) => {
+  const { uid, id } = req.params;
 
   try {
+      console.log(`Deleting item with id: ${id} from cart of user: ${uid}`);
+
+      // Find the cart associated with the user ID
       const cart = await CartCheckList.findOne({ uid });
 
-      if (cart) {
-          // Filter out the item by its webID
-          cart.items = cart.items.filter((item) => item.webID !== parseInt(itemId));
-          await cart.save();
+      if (!cart) {
+          console.log(`No cart found for user: ${uid}`);
+          return res.status(404).json({ message: 'Cart not found' });
       }
 
-      return res.status(200).send();
+      // Log current items for debugging
+      console.log(`Cart items before filtering: ${JSON.stringify(cart.items)}`);
+
+      // Convert id to a number for comparison
+      const itemId = parseInt(id, 10); // Convert id string to an integer
+
+      // Check if the item exists before filtering
+      const itemExists = cart.items.some((item) => item.webID === itemId); // Compare as numbers
+      if (!itemExists) {
+          console.log(`Item with id: ${itemId} not found in cart items.`);
+          return res.status(404).json({ message: 'Item not found in cart' });
+      }
+
+      // Filter out the item by its webID
+      cart.items = cart.items.filter((item) => item.webID !== itemId); // Ensure comparison is done as numbers
+
+      // Save the updated cart
+      await cart.save();
+
+      console.log(`Successfully removed item with id: ${itemId} from user: ${uid}'s cart`);
+      return res.status(200).json({ message: 'Item removed successfully' });
   } catch (error) {
       console.error('Error removing item from cart:', error);
       return res.status(500).json({ message: 'Failed to remove item from cart' });

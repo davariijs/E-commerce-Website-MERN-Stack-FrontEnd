@@ -7,6 +7,7 @@ import { decreaseQuantity, fetchCart, increaseQuantity, removeFromCart } from ".
 import { useDispatch, useSelector } from "react-redux";
 import CartEmpty from "../../components/CartEmpty/CartEmpty";
 import { selectUser } from "../../redux/users/userSlice";
+import axios from "axios";
 
 export default function Cart() {
     const cartItems = useSelector((state) => state.cart.cart); // Updated to match slice state
@@ -14,13 +15,34 @@ export default function Cart() {
     const dispatch = useDispatch();
     const { uid } = useSelector(selectUser);
 
-    // useEffect(() => {
-    //     dispatch(fetchCart(uid));
-    // }, [dispatch, uid]);
+    
 
-    const handleRemoveFromCart = (id) => {
-        dispatch(removeFromCart({ uid, itemId: id })); // Pass uid and itemId
-    };
+    function handleRemove(id) {
+        console.log(`Requesting deletion of item with ID: ${id} from cart of user: ${uid}`);
+        console.log(`Type of webID:, Type of id: ${typeof id}`);
+        const handleRemoveItem = async ({ id }) => {
+            console.log(`second clg: ${id}`);
+            try {
+                console.log(`Requesting deletion of item with ID: ${id} from cart`);
+                const response = await axios.delete(`http://localhost:5000/cart/${uid}/${id}`);
+                
+                if (response.status === 200) {
+                    // Convert id to a number for state update
+                    const itemId = parseInt(id, 10);
+                    console.log(`Item with id: ${itemId} removed successfully.`);
+                } else {
+                    console.error('Failed to remove item:', response.data);
+                }
+            } catch (error) {
+                console.error('Error while removing item:', error);
+                alert('Failed to remove item');
+            }
+        };
+        handleRemoveItem({ id }); // Pass an object with the id property
+    }
+
+    
+    
 
     const calculateTotalPrice = () => {
         return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -30,6 +52,7 @@ export default function Cart() {
 
 
     const handleIncreaseQuantity = (id) => {
+        console.log(id);
         dispatch(increaseQuantity(id));
     };
 
@@ -103,7 +126,7 @@ export default function Cart() {
                                             ${(item.price * item.quantity).toFixed(2)}
                                         </td>
                                         <td className="px-10 py-2 text-end">
-                                            <button onClick={() => handleRemoveFromCart(item._id)} className="  py-2 rounded "><FaRegTrashAlt className="text-primary"/></button>
+                                            <button onClick={() => handleRemove(item._id)} className="  py-2 rounded "><FaRegTrashAlt className="text-primary"/></button>
                                         </td>
                                         </tr>
                                     ))}
