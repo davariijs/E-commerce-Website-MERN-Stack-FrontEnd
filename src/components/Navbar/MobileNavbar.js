@@ -23,6 +23,7 @@ export default function MobileNavbar({uid}) {
                         <div className='lg:hidden block bg-white  border-borderGrey border-b-2 '>
             <nav className=' container mx-auto'>
                 <div className={showNavbar? "hidden" : "block" }>
+
                 <div className='flex justify-between '>
                 <button className=' ' onClick={showNavbarClose}>
                 <RxHamburgerMenu className='w-6 h-6 text-darkText' />
@@ -31,6 +32,26 @@ export default function MobileNavbar({uid}) {
                 <Link to="/"><img src={logo} alt='logo' height="45px" width="91px"/></Link>
                 </div>
                 <div></div>
+                </div>
+                <div className='mt-5'>
+                    <div className='flex justify-center icons'>
+                        <Link to="/account/wishlist">
+                        <div className='bg-secondary likeIcon'>
+                            <img src={likeIcon} alt='like'/>
+                        </div>
+                        </Link>
+                        <Link to={uid !== null ? "/account" : "/login"}>
+                        <div className='bg-secondary userIcon'>
+                            <img src={userIcon} alt='user'/>
+                        </div>
+                        </Link>
+                        <Link to="/cart">
+                        <div className='bg-secondary cartIcon relative'>
+                            <img src={cartIcon} alt='cart'/>
+                            <span className='absolute text-xs top-1 text-center items-center w-4 h-4 left-6 text-white bg-primary rounded-full '>{totalQuantity}</span>
+                        </div>
+                        </Link>
+                    </div>
                 </div>
                 </div>
 
@@ -60,26 +81,7 @@ export default function MobileNavbar({uid}) {
                 </div>
                 </div>
                 
-                <div className=''>
-                    <div className='flex justify-center icons'>
-                        <Link to="/account/wishlist">
-                        <div onClick={showNavbarClose} className='bg-secondary likeIcon'>
-                            <img src={likeIcon} alt='like'/>
-                        </div>
-                        </Link>
-                        <Link to={uid !== null ? "/account" : "/login"}>
-                        <div onClick={showNavbarClose} className='bg-secondary userIcon'>
-                            <img src={userIcon} alt='user'/>
-                        </div>
-                        </Link>
-                        <Link to="/cart">
-                        <div onClick={showNavbarClose} className='bg-secondary cartIcon relative'>
-                            <img src={cartIcon} alt='cart'/>
-                            <span className='absolute text-sm -top-0 text-center items-center w-5 h-5 left-6 text-white bg-primary rounded-full '>{totalQuantity}</span>
-                        </div>
-                        </Link>
-                    </div>
-                </div>
+                
                 </div>
                 </div>
             </nav>
