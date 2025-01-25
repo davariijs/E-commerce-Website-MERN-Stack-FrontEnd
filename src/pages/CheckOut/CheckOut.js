@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import leftArrowIcon from "../../assets/icons/left-arrow.svg";
 import googlePay from "../../assets/icons/googlePay.png";
@@ -16,6 +16,9 @@ export default function CheckOut () {
     const cartItems = useSelector((state) => state.cart.cart); // Updated to match slice state
     const totalQuantity = useSelector((state) => state.cart.totalQuantity); // Get total quantity
     const dispatch = useDispatch();
+    const [showNewAddress,setShowNewAddress] = useState(false);
+    const [editingAddress, setEditingAddress] = useState(null);
+    
     const { uid } = useSelector(selectUser);
 
 
@@ -44,8 +47,6 @@ export default function CheckOut () {
     nextFiveDays.push(getFormattedDate(nextDate)); // Add the formatted date to the array
     }
 
-    // Output the next 5 days
-    console.log(nextFiveDays);
 
 
       const calculateTotalPrice = () => {
@@ -54,6 +55,11 @@ export default function CheckOut () {
 
       const calculateTotalPriceShipping = () => {
         return cartItems.reduce((total, item) => total + item.price * item.quantity + 5 , 0);
+      };
+
+      const handleSaveAndClose = () => {
+        setShowNewAddress(false);
+        setEditingAddress(null);
       };
 
     return(
@@ -70,44 +76,8 @@ export default function CheckOut () {
 
                     <div className="pb-8 lg:pt-0 pt-4 lg:w-3/4 w-full md:mr-10">
                     <h3 className="text-darkText md:text-xl text-md font-bold pb-8">Billing Details</h3>
-                    <form action="" method="GET">
-
-                        
-                        <InfoAccount/>
-                        
-                        {/* <div className="mt-9 font-medium md:text-lg text-base flex md:justify-start justify-center">
-                        <button className="rounded-lg  text-white py-4 px-5 bg-primary">Continue to delivery</button>
-                        </div>
-
-                        <div className="w-full mt-6 flex pb-6 border-b-2 border-secondary">
-                        <div className=" rounded-lg ">
-                        <input className=" rounded-lg  w-4 h-4  font-normal text-grayText" type="checkbox" id="shipping" name="shipping" placeholder="Delivery Instruction"/>
-                        </div>
-                            <label for="shipping" className="pl-2 md:-mt-1   md:text-lg text-sm font-normal text-darkText">Save my information for a faster checkout</label>
-                        </div> */}
-
-                        
-                        </form>
-
-                        {/* <div className="pt-6 pb-6 border-b-2 border-secondary">
-                            <h3 className="text-darkText md:text-xl text-base font-bold pb-3">Shipping Address</h3>
-                            <p className="text-darkText font-medium text-sm">Select the address that matches your card or payment method.</p>
-                            <div className="rounded-xl bg-secondary py-9 px-7 mt-7 ">
-                                <div className="w-full  flex pb-6 border-b-2 border-borderGrey">
-                                <div className=" rounded-lg ">
-                                <input className=" rounded-lg  w-4 h-4 md:mt-0 mt-1 font-normal text-grayText" type="radio" id="billingAddress" name="billingAddress" placeholder="Delivery Instruction"/>
-                                </div>
-                                    <label for="billingAddress" className="pl-2 md:-mt-1  font-bold md:text-lg text-base text-darkText">Same as Billing address</label>
-                                </div>
-
-                                <div className="w-full mt-6 flex">
-                                <div className=" rounded-lg ">
-                                <input className=" rounded-lg  w-4 h-4 md:mt-0 mt-1 font-normal text-grayText" type="radio" id="diffAddress" name="diffAddress" placeholder="Delivery Instruction"/>
-                                </div>
-                                    <label for="diffAddress" className="pl-2 md:-mt-1  font-bold md:text-lg text-base text-darkText">Use a different shipping address</label>
-                                </div>
-                            </div>
-                        </div> */}
+                    <InfoAccount uid={uid} onSave={handleSaveAndClose} existingData={editingAddress}/>
+                    <form>
 
                         <div className="pt-6 pb-6 border-b-2 border-secondary">
                             <h3 className="text-darkText md:text-xl text-base font-bold pb-3">Shipping Method</h3>
@@ -204,6 +174,7 @@ export default function CheckOut () {
                         <div className="mt-9 font-medium md:text-lg text-base flex md:justify-start justify-center">
                         <button className="rounded-lg  text-white py-4 px-5 bg-primary">Pay Now</button>
                         </div>
+                    </form>
 
                     </div>
 
