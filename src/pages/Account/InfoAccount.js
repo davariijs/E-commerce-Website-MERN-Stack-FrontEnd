@@ -117,7 +117,7 @@ export default function InfoAccount ({uid, existingData, onSave}) {
 
     return(
         <Fragment>
-            <div className="container mx-auto w-full h-full accountPage">
+            <div className="container mx-auto w-full accountPage">
             <div className="lg:flex pb-8 ">
 
                 <div className="pb-8 w-full">
