@@ -10,51 +10,35 @@ import { IoMdEye } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../redux/users/userSlice";
 import InfoAccount from "../Account/InfoAccount";
+import { nextFiveDays } from "../../utils/usefulFunc";
 
 export default function CheckOut () {
 
     const cartItems = useSelector((state) => state.cart.cart); // Updated to match slice state
+    const items = cartItems?.items || [];
     const totalQuantity = useSelector((state) => state.cart.totalQuantity); // Get total quantity
     const dispatch = useDispatch();
     const [showNewAddress,setShowNewAddress] = useState(false);
     const [editingAddress, setEditingAddress] = useState(null);
-    
+    const [ cardNumber, SetCardNumber] = useState();
+    const [ nameCard, setNameCard] = useState();
+    const [ expirationDate, setExpirationDate] = useState();
+    const [ securityCode, setSecurityCode] = useState();
+    const [creditCard, setCreditCard] = useState(false);
+    const [cash, setCash] = useState(false);
+    const [paypal, setPaypal] = useState(false);
     const { uid } = useSelector(selectUser);
 
-
-    const today = new Date();
-
-    // Arrays for day names and month names
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-    ];
-
-    // Function to get the formatted date
-    function getFormattedDate(date) {
-    const dayName = days[date.getDay()];
-    const monthName = months[date.getMonth()];
-    const dayNumber = date.getDate();
-    return `${dayName}, ${monthName} ${dayNumber}`;
-    }
-
-    // Get the next 5 days (including today)
-    const nextFiveDays = [];
-    for (let i = 0; i < 6; i++) {
-    const nextDate = new Date(today); // Create a copy of today's date
-    nextDate.setDate(today.getDate() + i); // Increment the day by `i`
-    nextFiveDays.push(getFormattedDate(nextDate)); // Add the formatted date to the array
-    }
+    console.log(creditCard,cash,paypal);
 
 
 
       const calculateTotalPrice = () => {
-        return cartItems.reduce((total, item) => total + item.price * item.quantity , 0);
+        return items.reduce((total, item) => total + item.price * item.quantity , 0);
       };
 
       const calculateTotalPriceShipping = () => {
-        return cartItems.reduce((total, item) => total + item.price * item.quantity + 5 , 0);
+        return items.reduce((total, item) => total + item.price * item.quantity + 5 , 0);
       };
 
       const handleSaveAndClose = () => {
@@ -106,7 +90,7 @@ export default function CheckOut () {
                                 <div className="w-full  pb-6 border-b-2 border-borderGrey">
                                 <div className="flex ">
                                 <div className=" rounded-lg ">
-                                <input className=" rounded-lg  w-4 h-4 md:mt-3 mt-1 font-normal text-grayText" type="radio" id="billingAddress" name="billingAddress" placeholder="Delivery Instruction"/>
+                                <input onChange={(e)=> {setCreditCard(!creditCard)}} value={creditCard} className=" rounded-lg  w-4 h-4 md:mt-3 mt-1 font-normal text-grayText" type="radio" id="creditCard" name="creditCard" placeholder="Delivery Instruction"/>
                                 </div>
                                 <div>
                                     <label for="billingAddress" className="pl-4 md:-mt-4  font-bold md:text-lg text-base text-darkText">Credit Card</label>
@@ -124,25 +108,25 @@ export default function CheckOut () {
                                     <div className="grid md:grid-cols-2 grid-cols-1 md:gap-8 gap-4 mt-6 ml-8">
                                         <div className="w-full">
                                             <div className="bg-secondary rounded-lg mt-2 border-2 border-grayText">
-                                                <input className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="cardNumber" name="cardNumber" placeholder="Card Number"/>
+                                                <input onChange={(e)=> {SetCardNumber(e.target.value)}} value={cardNumber} className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="cardNumber" name="cardNumber" placeholder="Card Number"/>
                                             </div>
                                         </div>
 
                                         <div className="w-full">
                                             <div className="bg-secondary rounded-lg mt-2 border-2 border-grayText">
-                                                <input className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="nameCard" name="nameCard" placeholder="Name of Card"/>
+                                                <input onChange={(e)=> {setNameCard(e.target.value)}} value={nameCard} className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="nameCard" name="nameCard" placeholder="Name of Card"/>
                                             </div>
                                         </div>
 
                                         <div className="w-full">
                                             <div className="bg-secondary rounded-lg mt-2 border-2 border-grayText">
-                                                <input className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="expirationDate" name="expirationDate" placeholder="Expiration date (MM/YY)"/>
+                                                <input onChange={(e)=> {setExpirationDate(e.target.value)}} value={expirationDate} className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="expirationDate" name="expirationDate" placeholder="Expiration date (MM/YY)"/>
                                             </div>
                                         </div>
 
                                         <div className="w-full">
                                             <div className="bg-secondary rounded-lg mt-2 border-2 border-grayText flex justify-between">
-                                                <input className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="securityCode" name="securityCode" placeholder="Security Code"/>
+                                                <input onChange={(e)=> {setSecurityCode(e.target.value)}} value={securityCode} className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="securityCode" name="securityCode" placeholder="Security Code"/>
                                                 <button className="flex justify-center items-center text-grayText"><IoMdEye className="mr-4"/><IoMdEyeOff className="mr-4"/></button>
                                             </div>
                                         </div>
@@ -153,7 +137,7 @@ export default function CheckOut () {
 
                                 <div className="w-full mt-6 flex pb-6 border-b-2 border-borderGrey">
                                 <div className=" rounded-lg ">
-                                <input className=" rounded-lg  w-4 h-4 md:mt-3 mt-1 font-normal text-grayText" type="radio" id="billingAddress" name="billingAddress" placeholder="Delivery Instruction"/>
+                                <input onChange={(e)=> {setCash(!cash)}} value={cash} className=" rounded-lg  w-4 h-4 md:mt-3 mt-1 font-normal text-grayText" type="radio" id="cash" name="cash" placeholder="Delivery Instruction"/>
                                 </div>
                                     <div>
                                     <label for="billingAddress" className="pl-4 md:-mt-1  font-bold md:text-lg text-base text-darkText">Cash on delivery</label>
@@ -163,7 +147,7 @@ export default function CheckOut () {
 
                                 <div className="w-full mt-6 flex">
                                 <div className=" rounded-lg ">
-                                <input className=" rounded-lg  w-4 h-4 md:mt-0 mt-1 font-normal text-grayText" type="radio" id="diffAddress" name="diffAddress" placeholder="Delivery Instruction"/>
+                                <input onChange={(e)=> {setPaypal(!paypal)}} value={paypal} className=" rounded-lg  w-4 h-4 md:mt-0 mt-1 font-normal text-grayText" type="radio" id="paypal" name="paypal" placeholder="Delivery Instruction"/>
                                 </div>
                                     <label for="diffAddress" className="pl-4 md:-mt-1  font-bold md:text-lg text-base text-darkText">Paypal</label>
                                     
@@ -181,7 +165,7 @@ export default function CheckOut () {
                     <div className="pb-8 py-6 px-6 lg:w-1/4 w-full h-fit border-2 rounded-lg border-secondary md:my-0 my-6">
                         <h3 className="font-bold md:text-2xl text-base pb-3 border-b-2 border-borderGrey">Order Summary</h3>
 
-                        {cartItems.map((item) => (
+                        {items.map((item) => (
                         <div key={item._id} className="flex justify-between items-center font-bold text-sm  py-5 border-b-2 border-borderGrey">
                         <div className="flex">
                         <img className="rounded-md w-16 h-16 md:mr-4 mr-3" src={item.image} alt={item.title}/>
