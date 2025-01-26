@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import leftArrowIcon from "../../assets/icons/left-arrow.svg";
 import "./Cart.css";
@@ -8,15 +8,29 @@ import { useDispatch, useSelector } from "react-redux";
 import CartEmpty from "../../components/CartEmpty/CartEmpty";
 import { selectUser } from "../../redux/users/userSlice";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Cart() {
     const cartItems = useSelector((state) => state.cart.cart); // Updated to match slice state
-    const totalQuantity = useSelector((state) => state.cart.totalQuantity); // Get total quantity
+    const items = cartItems?.items || [];
     const dispatch = useDispatch();
     const { uid } = useSelector(selectUser);
+    const loading = useSelector((state) => state.cart.loading);
+    const [coupon, setCoupon] = useState();
+    const [discountCode, setDiscountCode] = useState(10945);
+    const [startCoupon, setStartCoupon] = useState(0);
+
+    const notifySuccess = () => toast.success('Your coupon applied !', {
+              position: 'bottom-right',
+    });
+    const notifyError = () => toast.error("Your discount code isn't valid !", {
+        position: 'bottom-right',
+});
 
     useEffect(() => {
-        dispatch(fetchCart(uid))
+        if (uid){
+            dispatch(fetchCart(uid))
+        }
       }, [dispatch,uid]);
 
     function handleRemove(id) {
@@ -44,35 +58,46 @@ export default function Cart() {
         ;
     }
 
-    
-    
 
     const calculateTotalPrice = () => {
-        return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+        const items = cartItems?.items || []; // Safely access items
+        return items.reduce((total, item) => total + item.price * item.quantity, startCoupon);
     };
-
-    console.log(cartItems);
+    const applyCoupon = () => {
+        if(coupon !== undefined){
+            if (parseInt(coupon)  === discountCode) {
+                setStartCoupon(-10);
+                notifySuccess();
+            }
+            else {
+                notifyError()
+            }
+        }else {
+        notifyError()
+        }
+    }
 
 
     const handleDecreaseQuantity = (id) => {
-        if (!cartItems || cartItems.length === 0) {
+        if (!items || items.length === 0) {
             console.error("Cart is empty or null, cannot decrease quantity");
             return;
         }
-    
-        console.log("Decreasing quantity for ID:", id);
         dispatch(decreaseQuantityAsync({ uid, itemId: id })); // Use the async thunk
     };
     
     const handleIncreaseQuantity = (id) => {
-        console.log("Increasing quantity for ID:", id);
         dispatch(increaseQuantityAsync({ uid, itemId: id })); // Use the async thunk
     };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return(
         <Fragment>
                 <div className="relative">
-                {cartItems.length === 0 ? (null):(<div className="absolute bg-darkText w-full h-20 top-48 z-0"></div>)}
+                {items.length === 0 || cartItems.uid !== uid ? (null):(<div className="absolute bg-darkText w-full h-20 top-48 z-0"></div>)}
                     <div className="absolute bg-secondary z-0 w-full bottom-0 checkout-bg"></div>
                 <div className="container mx-auto px-5 md:px-0">
                     
@@ -86,7 +111,7 @@ export default function Cart() {
                         <div>
                             <div className=" w-full -mt-7">
 
-                            {cartItems.length === 0 ? (
+                            {items.length === 0 || cartItems.uid !== uid ? (
                                 <div><CartEmpty/></div>
                             ) : (
                                 <div>
@@ -102,7 +127,7 @@ export default function Cart() {
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {cartItems.map((item) => (
+                                    {items.map((item) => (
                                         <tr key={item._id} className="border-b border-borderGrey px-4 py-2">
                                         <td className="px-4 py-2">
                                         <td className="py-2 font-bold text-darkText md:text-md text-sm">{item.title}</td>
@@ -144,8 +169,15 @@ export default function Cart() {
                                 <h4 className="text-darkText font-semibold text-2xl">Discount  Codes</h4>
                                 <h5 className="text-grayText font-normal text-base mt-2">Enter your coupon code if you have one</h5>
                                 <div className="my-10">
-                                <input className="border-2 border-borderGrey bg-white sm:py-3 py-2 sm:px-5 px-2 rounded-l-xl"/>
-                                <button className="bg-primary font-semibold text-white sm:py-3 py-2 sm:px-5 px-2 sm:text-base rounded-r-xl border-y-2 border-r-2 border-borderGrey">Apply Coupon</button>
+                                <input onChange={(e)=> {
+                                    setCoupon(e.target.value)
+                                }}
+                                className="border-2 border-borderGrey bg-white sm:py-3 py-2 sm:px-5 px-2 rounded-l-xl"/>
+                                <button 
+                                onClick={()=> {
+                                    applyCoupon()
+                                }}
+                                className="bg-primary font-semibold text-white sm:py-3 py-2 sm:px-5 px-2 sm:text-base rounded-r-xl border-y-2 border-r-2 border-borderGrey">Apply Coupon</button>
                                 </div>
                                 <Link to="/" className="bg-white text-base text-darkText font-semibold py-3 px-5 rounded-lg border-2 border-borderGrey w-fit">Continue Shopping</Link>
                             </div>
@@ -167,6 +199,7 @@ export default function Cart() {
                     </div>
                 </div>
                 </div>
+                <ToastContainer/>  
         </Fragment>
     )
 }
