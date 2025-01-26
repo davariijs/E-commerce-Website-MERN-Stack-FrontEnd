@@ -130,7 +130,8 @@ export default function ProductDetails() {
                   <span className="text-grayText font-medium text-lg pl-2">{productsDetails?.payload?.products[0].avgRating}</span></div>
                 <div className="text-grayText font-medium text-lg mb-5"><a className=" flex" href={productsDetails?.payload?.products[0].styleGuide.sizeChartURL}>Size guide <GoArrowRight className="mt-1 w-10" /></a></div>
                 <div className="text-darkText font-semibold text-lg mb-5">Colors Available </div>
-                <div className="grid grid-cols-6 gap-2 mb-6">{productsDetails?.payload?.products[0].swatchImages.map(color => ( <div>
+                <div className="grid grid-cols-6 gap-2 mb-6">{productsDetails?.payload?.products[0].swatchImages.map(color => ( 
+                  <div key={color.URL}>
                     <div className="cursor-pointer" onClick={()=> {
                       setColorProduct(color.color);
                       notifySuccessColor();
