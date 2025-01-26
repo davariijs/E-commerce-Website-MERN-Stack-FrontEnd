@@ -32,8 +32,6 @@ export default function WomenTShirts({uid}) {
       notify();
     }
 
-    console.log(womenTShirts);
-
     let contentToDisplay = '';
     if (loading === 'loading') {
       contentToDisplay = <div className='flex justify-center items-center h-fit w-full relative'><img className='w-36' src={loadingBar} alt='loading ...'/></div>;

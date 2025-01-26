@@ -24,7 +24,6 @@ export default function WomenTops({uid}) {
         dispatch(getWomenDresses())
       }
     }, [loading,dispatch]);
-    console.log(womenDresses);
 
     function handleButtonWishlist ( title, image, price, uid) {
       handleAddWishlist(title, image, price, uid);
