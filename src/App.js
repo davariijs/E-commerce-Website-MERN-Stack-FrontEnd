@@ -55,7 +55,6 @@ export default function App() {
         onAuthStateChanged(auth, (user) => {
             if (user) {
             const uid = user.uid;
-            console.log(uid);
             setUid(uid);
             setEmail(user.email);
             setName(user.displayName);
@@ -70,7 +69,7 @@ export default function App() {
         });
     }
     userState();
-  }, [uid,email,name]);
+  }, [dispatch,uid,email,name]);
 
   return (
     <BrowserRouter>
@@ -98,22 +97,34 @@ export default function App() {
             <Route index  element={<WomenTops uid={uid}/>} />
             <Route path=':id' element={<ProductDetails />} />
             <Route path='tops'  element={<WomenTops uid={uid}/>} />
+            <Route path='tops/:id' element={<ProductDetails />} />
             <Route path='t-shirts' element={<WomenTShirts uid={uid}/>} />
+            <Route path='t-shirts/:id' element={<ProductDetails />} />
             <Route path='shoes' element={<WomenShoes uid={uid}/>} />
+            <Route path='shoes/:id' element={<ProductDetails />} />
             <Route path='coats' element={<WomenCoats uid={uid}/>}/>
+            <Route path='coats/:id' element={<ProductDetails />} />
             <Route path='dresses' element={<WomenDresses uid={uid}/>}/>
+            <Route path='dresses/:id' element={<ProductDetails />} />
             <Route path='hoodies' element={<WomenHoodies uid={uid}/>}/>
+            <Route path='hoodies/:id' element={<ProductDetails />} />
           </Route>
           
           <Route path="men" element={<Men/>}>
             <Route index  element={<MenTops uid={uid}/>} />
             <Route path=':id' element={<ProductDetails />} />
             <Route path='tops'  element={<MenTops uid={uid}/>} />
+            <Route path='tops/:id' element={<ProductDetails />} />
             <Route path='t-shirts' element={<MenTShirts uid={uid}/>} />
+            <Route path='t-shirts/:id' element={<ProductDetails />} />
             <Route path='shoes' element={<MenShoes uid={uid}/>} />
+            <Route path='shoes/:id' element={<ProductDetails />} />
             <Route path='coats' element={<MenCoats uid={uid}/>}/>
+            <Route path='coats/:id' element={<ProductDetails />} />
             <Route path='jeans' element={<MenJeans uid={uid}/>}/>
+            <Route path='jeans/:id' element={<ProductDetails />} />
             <Route path='hoodies' element={<MenHoodies uid={uid}/>}/>
+            <Route path='hoodies/:id' element={<ProductDetails />} />
           </Route>
 
           <Route path="*" element={<NotFound/>} />
