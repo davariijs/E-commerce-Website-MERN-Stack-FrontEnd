@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import './Navbar.css';
 import logo from "../../assets/icons/logo-shoply.png";
 import { Link } from 'react-router-dom';
@@ -6,11 +6,21 @@ import searchIcon from "../../assets/icons/search-icon.svg";
 import likeIcon from "../../assets/icons/like.svg";
 import cartIcon from "../../assets/icons/cart.svg";
 import userIcon from "../../assets/icons/user.svg";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCart } from '../../redux/cart/cartSlice';
 
 export default function DesktopNavbar({uid}) {
     const totalQuantity = useSelector((state) => state.cart.totalQuantity);
-    
+    const cartItems = useSelector((state) => state.cart.cart);
+    const uidCart = cartItems?.uid || cartItems?.cart?.uid;
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+            if (uid){
+                dispatch(fetchCart(uid))
+            }
+          }, [dispatch,uid]);
+
     return (
         <Fragment>
                         <div className='lg:block hidden  bg-white border-b-2 border-borderGrey'>
@@ -50,7 +60,7 @@ export default function DesktopNavbar({uid}) {
                         <Link to="/cart">
                         <div className='bg-secondary cartIcon relative'>
                             <img src={cartIcon} alt='cart'/>
-                            <span className='absolute -top-0 text-center text-sm items-center w-5 h-5 left-6 text-white bg-primary rounded-full '>{totalQuantity}</span>
+                            { uidCart !== uid ? (null):(<span className='absolute text-xs top-1 text-center items-center w-4 h-4 left-6 text-white bg-primary rounded-full '>{totalQuantity}</span>)}
                         </div>
                         </Link>
                     </div>

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import './Navbar.css';
 import logo from "../../assets/icons/logo-shoply.png";
 import { Link } from 'react-router-dom';
@@ -8,11 +8,21 @@ import cartIcon from "../../assets/icons/cart.svg";
 import userIcon from "../../assets/icons/user.svg";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoClose } from "react-icons/io5";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCart } from '../../redux/cart/cartSlice';
 
 export default function MobileNavbar({uid}) {
     const [showNavbar, setShowNavbar] = useState(false);
     const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+    const cartItems = useSelector((state) => state.cart.cart);
+    const uidCart = cartItems?.uid || cartItems?.cart?.uid;
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+            if (uid){
+                dispatch(fetchCart(uid))
+            }
+          }, [dispatch,uid]);
 
     function showNavbarClose () {
         setShowNavbar(!showNavbar)
@@ -48,7 +58,7 @@ export default function MobileNavbar({uid}) {
                         <Link to="/cart">
                         <div className='bg-secondary cartIcon relative'>
                             <img src={cartIcon} alt='cart'/>
-                            <span className='absolute text-xs top-1 text-center items-center w-4 h-4 left-6 text-white bg-primary rounded-full '>{totalQuantity}</span>
+                            {uidCart === uid  ? (<span className='absolute text-xs top-1 text-center items-center w-4 h-4 left-6 text-white bg-primary rounded-full '>{totalQuantity}</span>):(null)}
                         </div>
                         </Link>
                     </div>
