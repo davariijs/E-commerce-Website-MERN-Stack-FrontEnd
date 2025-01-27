@@ -22,3 +22,16 @@ const today = new Date();
     nextDate.setDate(today.getDate() + i); // Increment the day by `i`
     nextFiveDays.push(getFormattedDate(nextDate)); // Add the formatted date to the array
     }
+
+
+    export const formatDate = (isoDate) => {
+        const options = {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        };
+        return new Intl.DateTimeFormat("en-US", options).format(new Date(isoDate));
+      };

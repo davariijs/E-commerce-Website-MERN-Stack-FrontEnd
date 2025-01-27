@@ -16,7 +16,9 @@ const initialState = {
 export const fetchCart = createAsyncThunk('cart/fetchCart', async (uid, { rejectWithValue }) => {
     try {
         const response = await axios.get(`http://localhost:5000/cart/${uid}`);
+        console.log(response.data);
         return response.data; // Full cart object is returned
+        
     } catch (error) {
         console.error('Error fetching cart:', error);
         return rejectWithValue(error.response.data);

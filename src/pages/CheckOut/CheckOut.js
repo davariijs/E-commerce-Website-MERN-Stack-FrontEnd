@@ -1,5 +1,5 @@
-import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { Fragment, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import leftArrowIcon from "../../assets/icons/left-arrow.svg";
 import googlePay from "../../assets/icons/googlePay.png";
 import visa from "../../assets/icons/visa.png";
@@ -11,6 +11,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../redux/users/userSlice";
 import InfoAccount from "../Account/InfoAccount";
 import { nextFiveDays } from "../../utils/usefulFunc";
+import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import { fetchCart } from "../../redux/cart/cartSlice";
 
 export default function CheckOut () {
 
@@ -28,10 +31,11 @@ export default function CheckOut () {
     const [cash, setCash] = useState(false);
     const [paypal, setPaypal] = useState(false);
     const { uid } = useSelector(selectUser);
+    const [address, setAddress] = useState(null);
+    const navigate = useNavigate(); 
 
-    console.log(creditCard,cash,paypal);
-
-
+    const notifySuccess = (message) => toast.success(message, { position: "bottom-right" });
+    const notifyError = (message) => toast.error(message, { position: "bottom-right" });
 
       const calculateTotalPrice = () => {
         return items.reduce((total, item) => total + item.price * item.quantity , 0);
@@ -41,14 +45,106 @@ export default function CheckOut () {
         return items.reduce((total, item) => total + item.price * item.quantity + 5 , 0);
       };
 
-      const handleSaveAndClose = () => {
-        setShowNewAddress(false);
-        setEditingAddress(null);
+      const handleSaveAndClose = (savedAddress) => {
+        setAddress(savedAddress);
       };
+
+      useEffect(() => {
+              if (uid){
+                  dispatch(fetchCart(uid))
+              }
+        }, [dispatch,uid]);
+
+
+        console.log();
+        const handleDeleteCart = async (uid) => {
+            console.log('Frontend UID:', uid);  // Check if uid is an object or string
+
+            try {
+                // Make DELETE request to the backend to remove the cart
+                await axios.delete(`http://localhost:5000/cart/${uid}`);
+                fetchCart(); // Refresh the cart after deletion
+            } catch (error) {
+                console.error('Failed to remove cart:', error);
+                alert('Failed to remove cart');
+            }
+        };
+        
+
+        // Handle "Pay Now" button click
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validate Payment Method
+    if (!creditCard && !cash && !paypal) {
+      notifyError("Please select a payment method.")
+      return;
+    }
+
+    // Validate Address
+    if (!address) {
+      notifyError("Please provide your billing/shipping address.")
+      return;
+    }
+
+    // Format Orders Data
+    const orders = [
+      {
+        orderDate: new Date().toISOString(), // Current date
+        deliveryDate: nextFiveDays[5], // Predefined delivery date
+        orderStatus: "Pending",
+        paymentMethod: creditCard ? "Credit Card" : cash ? "Cash on Delivery" : "Paypal",
+        totalPrice: calculateTotalPriceShipping(),
+        cartItems: items.map((item) => ({
+          title: item.title,
+          image: item.image,
+          price: item.price,
+          color: item.color,
+          quantity: item.quantity,
+        })),
+        address: [address], // Use the saved address
+        payment: creditCard
+          ? [
+              {
+                cardNumber,
+                nameCard,
+                expirationDate,
+                securityCode,
+              },
+            ]
+          : [], // Empty if not using credit card
+      },
+    ];
+
+    // Prepare Payload
+    const payload = {
+      uid, // User ID
+      orders, // Orders array
+    };
+
+    console.log("Payload to send:", payload);
+
+    // Send POST request to backend
+    try {
+      const response = await axios.post("http://localhost:5000/check-out", payload);
+      notifySuccess(response.data.message);
+      console.log(response.data);
+      if (response.status === 200) {
+        setTimeout(navigate("/account"), 3000);
+      } else {
+        notifyError("Something went wrong!");
+      }
+      console.log("Response from backend:", response.data);
+    } catch (error) {
+      console.error("Error during checkout:", error);
+      notifyError(error)
+    }
+  };
 
     return(
         <Fragment>
             <div className="container mx-auto w-full h-full accountPage">
+                <button onClick={() => handleDeleteCart(uid)}>delete</button>
                 <div className="pb-12 pt-3 flex lg:text-lg"><Link to="/" className="text-grayText font-normal  pr-3">Home</Link><img src={leftArrowIcon} width="5px" height="10.14px" alt="arrow"/>
                 <Link to="/account" className="pl-3 pr-3 text-grayText font-normal ">My Account</Link><img src={leftArrowIcon} width="5px" height="10.14px" alt="arrow"/>
                 <Link className="text-darkText font-normal  pl-3">Check Out</Link>
@@ -61,7 +157,7 @@ export default function CheckOut () {
                     <div className="pb-8 lg:pt-0 pt-4 lg:w-3/4 w-full md:mr-10">
                     <h3 className="text-darkText md:text-xl text-md font-bold pb-8">Billing Details</h3>
                     <InfoAccount uid={uid} onSave={handleSaveAndClose} existingData={editingAddress}/>
-                    <form>
+                    <form onSubmit={handleSubmit}>
 
                         <div className="pt-6 pb-6 border-b-2 border-secondary">
                             <h3 className="text-darkText md:text-xl text-base font-bold pb-3">Shipping Method</h3>
@@ -90,7 +186,14 @@ export default function CheckOut () {
                                 <div className="w-full  pb-6 border-b-2 border-borderGrey">
                                 <div className="flex ">
                                 <div className=" rounded-lg ">
-                                <input onChange={(e)=> {setCreditCard(!creditCard)}} value={creditCard} className=" rounded-lg  w-4 h-4 md:mt-3 mt-1 font-normal text-grayText" type="radio" id="creditCard" name="creditCard" placeholder="Delivery Instruction"/>
+                                <input 
+                                checked={creditCard}
+                                onChange={() => {
+                                  setCreditCard(true);
+                                  setCash(false);
+                                  setPaypal(false);
+                                }} 
+                                className=" rounded-lg  w-4 h-4 md:mt-3 mt-1 font-normal text-grayText" type="radio" id="creditCard" name="creditCard" placeholder="Delivery Instruction"/>
                                 </div>
                                 <div>
                                     <label for="billingAddress" className="pl-4 md:-mt-4  font-bold md:text-lg text-base text-darkText">Credit Card</label>
@@ -105,7 +208,8 @@ export default function CheckOut () {
                                         <div className="bg-white rounded-md py-3 px-2 flex justify-center items-center"><img src={payPass} alt=""/></div>
                                     </div>
 
-                                    <div className="grid md:grid-cols-2 grid-cols-1 md:gap-8 gap-4 mt-6 ml-8">
+                                    {creditCard && (
+                                        <div className="grid md:grid-cols-2 grid-cols-1 md:gap-8 gap-4 mt-6 ml-8">
                                         <div className="w-full">
                                             <div className="bg-secondary rounded-lg mt-2 border-2 border-grayText">
                                                 <input onChange={(e)=> {SetCardNumber(e.target.value)}} value={cardNumber} className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="cardNumber" name="cardNumber" placeholder="Card Number"/>
@@ -130,14 +234,23 @@ export default function CheckOut () {
                                                 <button className="flex justify-center items-center text-grayText"><IoMdEye className="mr-4"/><IoMdEyeOff className="mr-4"/></button>
                                             </div>
                                         </div>
-
-
                                     </div>
+                                    )}
+
+                                    
+                                    
                                 </div>
 
                                 <div className="w-full mt-6 flex pb-6 border-b-2 border-borderGrey">
                                 <div className=" rounded-lg ">
-                                <input onChange={(e)=> {setCash(!cash)}} value={cash} className=" rounded-lg  w-4 h-4 md:mt-3 mt-1 font-normal text-grayText" type="radio" id="cash" name="cash" placeholder="Delivery Instruction"/>
+                                <input 
+                                checked={cash}
+                                onChange={() => {
+                                  setCreditCard(false);
+                                  setCash(true);
+                                  setPaypal(false);
+                                }}
+                                 className=" rounded-lg  w-4 h-4 md:mt-3 mt-1 font-normal text-grayText" type="radio" id="cash" name="cash" placeholder="Delivery Instruction"/>
                                 </div>
                                     <div>
                                     <label for="billingAddress" className="pl-4 md:-mt-1  font-bold md:text-lg text-base text-darkText">Cash on delivery</label>
@@ -147,7 +260,15 @@ export default function CheckOut () {
 
                                 <div className="w-full mt-6 flex">
                                 <div className=" rounded-lg ">
-                                <input onChange={(e)=> {setPaypal(!paypal)}} value={paypal} className=" rounded-lg  w-4 h-4 md:mt-0 mt-1 font-normal text-grayText" type="radio" id="paypal" name="paypal" placeholder="Delivery Instruction"/>
+                                <input 
+                                checked={paypal}
+                                onChange={() => {
+                                  setCreditCard(false);
+                                  setCash(false);
+                                  setPaypal(true);
+                                }}
+                                
+                                className=" rounded-lg  w-4 h-4 md:mt-0 mt-1 font-normal text-grayText" type="radio" id="paypal" name="paypal" placeholder="Delivery Instruction"/>
                                 </div>
                                     <label for="diffAddress" className="pl-4 md:-mt-1  font-bold md:text-lg text-base text-darkText">Paypal</label>
                                     
@@ -203,6 +324,7 @@ export default function CheckOut () {
 
             
             </div>
+            <ToastContainer/> 
         </Fragment>
     )
 }
