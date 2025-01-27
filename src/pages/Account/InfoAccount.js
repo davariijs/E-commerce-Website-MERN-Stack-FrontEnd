@@ -22,7 +22,6 @@ export default function InfoAccount ({uid, existingData, onSave}) {
     const notifySuccess = (message) => toast.success(message, { position: "bottom-right" });
     const notifyError = (message) => toast.error(message, { position: "bottom-right" });
 
-    console.log(id);
 
     useEffect(() => {
         if (existingData) {
@@ -78,11 +77,6 @@ export default function InfoAccount ({uid, existingData, onSave}) {
             return;
           }
       
-          // Log the id and payload for debugging
-          console.log("Request URL:", url);
-          console.log("Payload:", payload);
-          console.log("ID being sent:", id);
-      
           const response = await fetch(url, {
             method,
             body: JSON.stringify(payload),
@@ -99,10 +93,22 @@ export default function InfoAccount ({uid, existingData, onSave}) {
             } else {
               notifySuccess("Address updated successfully!");
             }
-      
+            setFirstName("");
+            setLastName("");
+            setCountry("");
+            setCompany("");
+            setStreet("");
+            setApt("");
+            setCity("");
+            setState("");
+            setNumber("");
+            setPostalCode("");
+            setInstruction("");
+            setShipping(false);
+            setBilling(false);
             // Trigger parent callback after save
             setTimeout(() => {
-              onSave();
+              onSave(payload);
             }, 2000);
           } else {
             notifyError(result.error || "Something went wrong!");

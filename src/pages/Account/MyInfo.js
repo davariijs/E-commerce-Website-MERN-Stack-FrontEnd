@@ -56,6 +56,7 @@ export default function MyInfo ({email,name,uid}) {
       setEditingAddress(address); // Set the address to be edited
       setShowNewAddress(true); // Show the form for editing
     };
+    
 
     return(
         <Fragment>
