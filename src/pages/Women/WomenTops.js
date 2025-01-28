@@ -9,12 +9,14 @@ import "./productCard.css";
 import { handleAddWishlist } from '../../utils/wishlistFunc';
 import { ToastContainer, toast } from 'react-toastify';
 import likeIconGif from "../../assets/icons/icons8-like.gif";
+import { useLocation } from 'react-router';
 
 export default function WomenTops({uid}) {
     const dispatch = useDispatch();
     const womenDresses = useSelector (selectwomenDresses);
     const loading = useSelector (selectLoadingState);
     const error = useSelector(selectErrorState);
+    const location = useLocation();
     const notify = () => toast.success('Product added to you wishlist !', {
       position: 'bottom-right',
     });
@@ -25,10 +27,10 @@ export default function WomenTops({uid}) {
       }
     }, [loading,dispatch]);
 
-    function handleButtonWishlist ( title, image, price, uid) {
-      handleAddWishlist(title, image, price, uid);
-      notify();
-    }
+    function handleButtonWishlist ( title, image, price,pathname, uid) {
+          handleAddWishlist(title, image, price,pathname, uid);
+          notify();
+        }
 
 
     let contentToDisplay = '';
@@ -45,6 +47,7 @@ export default function WomenTops({uid}) {
               itemCategory.productTitle,
               itemCategory.image.url,
               itemCategory.prices[0].regularPrice.minPrice,
+              `${location.pathname}/${itemCategory.webID}`,
               uid
             )
           }

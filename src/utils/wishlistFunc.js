@@ -1,9 +1,9 @@
-export const handleAddWishlist = async (title, image, price, uid) => {
+export const handleAddWishlist = async (title, image, price, pathname, uid) => {
     
     try {
       let result = await fetch('http://localhost:5000/add-wishlist', {
         method: 'post',
-        body: JSON.stringify({ title, image, price, uid }),
+        body: JSON.stringify({ title, image, price, pathname, uid }),
         headers: {
           'Content-Type': 'application/json',
         },

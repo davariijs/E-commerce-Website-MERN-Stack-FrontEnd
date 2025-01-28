@@ -9,6 +9,7 @@ import { selectFilterPrices } from '../../redux/filterProducts/filterProductsSli
 import { handleAddWishlist } from '../../utils/wishlistFunc';
 import { ToastContainer, toast } from 'react-toastify';
 import likeIconGif from "../../assets/icons/icons8-like.gif";
+import { useLocation } from 'react-router';
 
 export default function MenShoes({uid}) {
 
@@ -17,6 +18,8 @@ export default function MenShoes({uid}) {
     const loading = useSelector (selectLoadingState);
     const error = useSelector(selectErrorState);
     const values = useSelector (selectFilterPrices);
+
+    const location = useLocation();
     const notify = () => toast.success('Product added to you wishlist !', {
           position: 'bottom-right',
         });
@@ -45,6 +48,7 @@ export default function MenShoes({uid}) {
               itemCategory.productTitle,
               itemCategory.image.url,
               itemCategory.prices[0].regularPrice.minPrice,
+              `${location.pathname}/${itemCategory.webID}`,
               uid
             )
           }

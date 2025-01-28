@@ -9,6 +9,7 @@ import { handleAddWishlist } from '../../utils/wishlistFunc';
 import { getWomenCoats, selectErrorState, selectLoadingState,selectWomenCoats } from '../../redux/womenProducts/womenCoatsSlice/womenCoatsSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import likeIconGif from "../../assets/icons/icons8-like.gif";
+import { useLocation } from 'react-router';
 
 export default function WomenCoats({uid}) {
 
@@ -17,6 +18,8 @@ export default function WomenCoats({uid}) {
     const loading = useSelector (selectLoadingState);
     const error = useSelector(selectErrorState);
     const values = useSelector (selectFilterPrices);
+
+    const location = useLocation();
     const notify = () => toast.success('Product added to you wishlist !', {
       position: 'bottom-right',
     });
@@ -27,10 +30,10 @@ export default function WomenCoats({uid}) {
       }
     }, [loading,dispatch]);
 
-    function handleButtonWishlist ( title, image, price, uid) {
-      handleAddWishlist(title, image, price, uid);
-      notify();
-    }
+    function handleButtonWishlist ( title, image, price,pathname, uid) {
+          handleAddWishlist(title, image, price,pathname, uid);
+          notify();
+        }
 
     let contentToDisplay = '';
     if (loading === 'loading') {
@@ -45,6 +48,7 @@ export default function WomenCoats({uid}) {
               itemCategory.productTitle,
               itemCategory.image.url,
               itemCategory.prices[0].regularPrice.minPrice,
+              `${location.pathname}/${itemCategory.webID}`,
               uid
             )
           }
