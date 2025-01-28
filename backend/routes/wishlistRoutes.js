@@ -6,11 +6,11 @@ const { WishlistSchema } = require('../models/Schema');
 const Wishlist = mongoose.model('wishlists', WishlistSchema);
 
     router.post("/", async (req, res) => {
-        const { title, image, price, uid } = req.body;
+        const { title, image, price,pathname, uid } = req.body;
         console.log("Request body:", req.body);
     
         try {
-        const wishlist = new Wishlist({ title, image, price, uid });
+        const wishlist = new Wishlist({ title, image, price, pathname, uid });
         await wishlist.save();
         res.status(201).json(wishlist);
         } catch (error) {

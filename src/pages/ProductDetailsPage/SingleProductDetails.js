@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import useEffectAfterMount from "../../utils/useEffectAfterMount";
 import loadingBar from "../../assets/images/loader.svg";
 import creditCardIcon from "../../assets/icons/credit-card.svg";
@@ -27,13 +27,14 @@ export default function ProductDetails() {
   const [colorProduct, setColorProduct] = useState("");
   const { uid } = useSelector(selectUser);
   const product = productsDetails?.payload?.products[0];
+
       const notify = () => toast.success('Product added to cart', {
                 position: 'bottom-right',
       });
 
       const notifySuccessColor = () => toast.success('Color added', {
         position: 'bottom-right',
-});
+      });
       const notifyErrorColor = () => toast.error('Please choose a color!', {
         position: 'bottom-right',
       });

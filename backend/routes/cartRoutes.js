@@ -167,23 +167,30 @@ router.post("/", async (req, res) => {
   });
 
 
-  router.delete('/:uid', async (req, res) => {
-    const { uid } = req.params;
-    console.log('Backend UID:', uid);
+  router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    console.log('Backend id:', id);
 
-    if (!mongoose.Types.ObjectId.isValid(uid)) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({ error: "Invalid cart ID" });
     }
 
     try {
-        const deletedCart = await CartCheckList.findByIdAndDelete({ uid: uid }); // This removes the item by its ID
-        if (!deletedCart) {
+        // Update the cart document by setting the items array to an empty array
+        const updatedCart = await CartCheckList.findByIdAndUpdate(
+            id,
+            { $set: { items: [] } }, // Clear the items array
+            { new: true } // Return the updated document
+        );
+
+        if (!updatedCart) {
             return res.status(404).json({ message: 'Cart not found' });
         }
-        res.status(200).json({ message: 'Cart removed' });
+
+        res.status(200).json({ message: 'Cart items cleared', cart: updatedCart });
     } catch (error) {
-        console.error("Error removing cart:", error);
-        res.status(500).json({ error: 'Failed to remove cart' });
+        console.error("Error clearing cart items:", error);
+        res.status(500).json({ error: 'Failed to clear cart items' });
     }
 });
 

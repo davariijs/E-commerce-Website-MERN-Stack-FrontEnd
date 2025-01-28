@@ -83,7 +83,7 @@ export default function App() {
             <Route path='orders'  element={<Orders />} />
             <Route path='my-info' element={<MyInfo email={email} uid={uid} name={name}/>}/>
             <Route path='wishlist'  element={<Wishlist uid={uid}/>} />
-            <Route path='order-details'  element={<OrderDetails />} />
+            <Route path=':id'  element={<OrderDetails />} />
           </Route>
           <Route path="/sign-up"  element={<Signup />}/>
           <Route path="/reset-password"  element={<ResetPassword />}/>

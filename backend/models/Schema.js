@@ -17,6 +17,10 @@ const WishlistSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    pathname:{
+        type: String,
+        required: true,
+    },
     uid: {
         type: String,
         required: true,
