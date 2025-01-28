@@ -10,6 +10,7 @@ import { selectUser } from "../../redux/users/userSlice";
 import { ToastContainer, toast } from 'react-toastify';
 import { OrderFunc } from "../../utils/wishlistFunc";
 import { formatDate } from "../../utils/usefulFunc";
+import { Link } from "react-router-dom";
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -82,6 +83,7 @@ export default function Orders () {
       <CustomTabPanel value={value} index={0}>
         <div  className="mt-8">
               {orders?.orders?.filter(order => order.orderStatus === "Pending").map(order =>(
+                <Link to={order._id}>
                 <div key={order._id} className="py-7 border-b-2  border-borderGreyLight">
                 <div className=" w-full md:py-7 py-3 md:px-12 px-5 bg-secondary rounded-lg mb-7">
                 <h3 className="md:text-base text-xs text-darkText font-semibold pb-4">Order no: #{order._id}</h3>
@@ -117,6 +119,7 @@ export default function Orders () {
                 ))}
 
               </div>
+                </Link>
               ))}
         </div>
       </CustomTabPanel>

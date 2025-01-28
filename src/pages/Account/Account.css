@@ -21,7 +21,9 @@
 padding: 0px !important;
  }
 
-
+ ._3uApM, ._3CDiP{
+    display: none !important;
+ }
 
 @media screen and (max-width: 660px) {
 .accountPage {

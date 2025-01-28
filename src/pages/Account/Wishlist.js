@@ -6,6 +6,7 @@ import WishlistEmpty from "../../components/WishlistEmpty/WishlistEmpty";
 import { fetchWishlist } from "../../redux/wishLists/wishlistSlice";
 import loadingBar from "../../assets/images/loader.svg";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function Wishlist ({uid}) {
 
@@ -59,9 +60,9 @@ export default function Wishlist ({uid}) {
 
                     <div className="lg:flex hidden justify-between items-center">
                         <h4 className="text-grayText font-bold lg:text-xl text-sm">${item.price}</h4>
-                        <div className="bg-primary rounded-lg py-3 px-3 text-white md:ml-12 ml-5">Add to cart</div>
+                        <Link to={item.pathname} className="bg-primary rounded-lg py-3 px-3 text-white md:ml-12 ml-5">Add to cart</Link>
                     </div>
-                    <div className="lg:hidden flex justify-center mt-6 text-center items-center bg-primary rounded-lg py-3 px-3 text-white md:ml-12 ml-5">Add to cart</div>
+                    <Link to={item.pathname} className="lg:hidden flex justify-center mt-6 text-center items-center bg-primary rounded-lg py-3 px-3 text-white md:ml-12 ml-5">Add to cart</Link>
                     </div>
                 ))}
                 </div>
