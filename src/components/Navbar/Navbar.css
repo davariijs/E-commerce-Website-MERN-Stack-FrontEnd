@@ -25,7 +25,9 @@ nav {
     font-weight: 600;
   }
 
-
+  .searchCom{
+    max-width: 300px;
+  }
 
 .searchbar{
     border-radius: 8px;
@@ -106,7 +108,7 @@ nav {
     nav {
         padding: 31px 20px;
     }
-    .searchbar {
+      .searchCom{
         max-width: 230px;
       }
 }

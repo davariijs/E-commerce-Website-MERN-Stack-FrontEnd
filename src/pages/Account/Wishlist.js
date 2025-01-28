@@ -18,6 +18,7 @@ export default function Wishlist ({uid}) {
           dispatch(fetchWishlist(uid)); // Pass `uid` to the fetch function
         }
       }, [dispatch, uid]);
+      console.log(items);
 
     const handleRemoveWishlist = async (id) => {
         try {
@@ -25,7 +26,7 @@ export default function Wishlist ({uid}) {
           await axios.delete(`http://localhost:5000/add-wishlist/${id}`);
           
           // After removing the item, fetch the updated wishlist
-          dispatch(fetchWishlist());
+          dispatch(fetchWishlist(uid));
         } catch (error) {
           console.error('Failed to remove item:', error);
           console.log(id);

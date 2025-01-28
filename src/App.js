@@ -93,6 +93,7 @@ export default function App() {
           <Route path="/confirmed-order"  element={<ConfirmedOrder />}/>
           <Route path="/cart-empty"  element={<CartEmpty />}/>
           <Route path="/cart"  element={<Cart />}/>
+          <Route path=':id' element={<ProductDetails />} />
           <Route path="women" element={<Women uid={uid}/>}>
             <Route index  element={<WomenTops uid={uid}/>} />
             <Route path=':id' element={<ProductDetails />} />

@@ -8,6 +8,7 @@ import cartIcon from "../../assets/icons/cart.svg";
 import userIcon from "../../assets/icons/user.svg";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCart } from '../../redux/cart/cartSlice';
+import SearchBar from './Search';
 
 export default function DesktopNavbar({uid}) {
     const totalQuantity = useSelector((state) => state.cart.totalQuantity);
@@ -40,10 +41,7 @@ export default function DesktopNavbar({uid}) {
                 
                 <div className='flex justify-between'>
                 <div className='pr-4 lg:pr-20'>
-                    <div className='flex relative'>
-                        <img className='searchIcon absolute' src={searchIcon} alt='search'/>
-                        <input className='searchbar bg-secondary' type="search" name="searchNav" placeholder='Search'/>
-                    </div>
+                    <SearchBar/>
                 </div>
                 <div className=''>
                     <div className='flex icons'>

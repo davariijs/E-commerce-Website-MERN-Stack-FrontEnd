@@ -10,6 +10,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCart } from '../../redux/cart/cartSlice';
+import SearchBar from './Search';
 
 export default function MobileNavbar({uid}) {
     const [showNavbar, setShowNavbar] = useState(false);
@@ -73,10 +74,7 @@ export default function MobileNavbar({uid}) {
 
                 <div className='flex justify-between'>
                 <div></div>
-                    <div className='relative'>
-                        <img className='searchIcon absolute' src={searchIcon} alt='search'/>
-                        <input className='searchbar bg-secondary' type="search" name="searchNav" placeholder='Search'/>
-                    </div>
+                    <SearchBar/>
                     <button className=' ' onClick={showNavbarClose}>
                     <IoClose className='w-6 h-6 text-darkText'/>
                     </button>
