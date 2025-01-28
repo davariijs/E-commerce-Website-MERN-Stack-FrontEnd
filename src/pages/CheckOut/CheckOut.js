@@ -19,6 +19,7 @@ export default function CheckOut () {
 
     const cartItems = useSelector((state) => state.cart.cart); // Updated to match slice state
     const items = cartItems?.items || [];
+    const cartId = cartItems?._id || [];
     const totalQuantity = useSelector((state) => state.cart.totalQuantity); // Get total quantity
     const dispatch = useDispatch();
     const [showNewAddress,setShowNewAddress] = useState(false);
@@ -56,14 +57,13 @@ export default function CheckOut () {
         }, [dispatch,uid]);
 
 
-        console.log();
-        const handleDeleteCart = async (uid) => {
-            console.log('Frontend UID:', uid);  // Check if uid is an object or string
+        const handleDeleteCart = async (cartId,uid) => {
+            console.log('Frontend cartId:', cartId);  // Check if cartId is an object or string
 
             try {
                 // Make DELETE request to the backend to remove the cart
-                await axios.delete(`http://localhost:5000/cart/${uid}`);
-                fetchCart(); // Refresh the cart after deletion
+                await axios.delete(`http://localhost:5000/cart/${cartId}`);
+                await dispatch(fetchCart(uid)); // Refresh the cart after deletion
             } catch (error) {
                 console.error('Failed to remove cart:', error);
                 alert('Failed to remove cart');
@@ -130,7 +130,10 @@ export default function CheckOut () {
       notifySuccess(response.data.message);
       console.log(response.data);
       if (response.status === 200) {
-        setTimeout(navigate("/account"), 3000);
+        setTimeout(() => {
+          navigate("/account"); // Navigate after 3 seconds
+        }, 3000);
+        handleDeleteCart(cartId,uid);
       } else {
         notifyError("Something went wrong!");
       }
@@ -144,7 +147,6 @@ export default function CheckOut () {
     return(
         <Fragment>
             <div className="container mx-auto w-full h-full accountPage">
-                <button onClick={() => handleDeleteCart(uid)}>delete</button>
                 <div className="pb-12 pt-3 flex lg:text-lg"><Link to="/" className="text-grayText font-normal  pr-3">Home</Link><img src={leftArrowIcon} width="5px" height="10.14px" alt="arrow"/>
                 <Link to="/account" className="pl-3 pr-3 text-grayText font-normal ">My Account</Link><img src={leftArrowIcon} width="5px" height="10.14px" alt="arrow"/>
                 <Link className="text-darkText font-normal  pl-3">Check Out</Link>
