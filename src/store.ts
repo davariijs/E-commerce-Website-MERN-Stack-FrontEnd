@@ -21,19 +21,19 @@ import cartReducer from './redux/cart/cartSlice';
 import userReducer from './redux/users/userSlice'; 
 
 const reducersToPersist = [
-  womenTops,
-  womenTShirtsList,
-  WomenShoesList,
-  WomenCoatsList,
-  WomenDressesList,
-  WomenHoodiesList,
-  menTShirtsList,
-  menShoesList,
-  menCoatsList,
-  menJeansList,
-  menHoodiesList,
-  MenTopsList,
-  ProductsDetailsList,
+  'womenTopsList',
+  'womenTShirtsList',
+  'WomenShoesList',
+  'WomenCoatsList',
+  'WomenDressesList',
+  'WomenHoodiesList',
+  'MenTShirtsList',
+  'MenShoesList',
+  'MenCoatsList',
+  'MenJeansList',
+  'MenHoodiesList',
+  'MenTopsList',
+  'ProductsDetailsList'
 ];
 
 const persistConfig = {
@@ -76,3 +76,6 @@ const store = configureStore({
 const persistor = persistStore(store);
 
 export { store, persistor };
+
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
