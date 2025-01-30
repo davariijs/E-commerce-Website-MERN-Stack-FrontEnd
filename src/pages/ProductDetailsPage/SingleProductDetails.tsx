@@ -1,6 +1,6 @@
-import { Fragment, useState } from "react";
+import { Fragment, ReactNode, useState } from "react";
 import React from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useEffectAfterMount from "../../utils/useEffectAfterMount";
 import loadingBar from "../../assets/images/loader.svg";
 import creditCardIcon from "../../assets/icons/credit-card.svg";
@@ -14,19 +14,22 @@ import { fetchProductDetails, selectErrorState,selectLoadingState,selectProducts
 import { addToCart } from "../../redux/cart/cartSlice";
 import { selectUser } from "../../redux/users/userSlice";
 import { ToastContainer, toast } from 'react-toastify';
+import { AppDispatch } from "src/store";
 
 
 export default function ProductDetails() {
   const id = useParams();
   const productSingleId = id.id;
   const productIdDetails = productSingleId;
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const productsDetails = useSelector(selectProductsDetails);
   const loading = useSelector(selectLoadingState);
   const error = useSelector(selectErrorState);
   const [colorProduct, setColorProduct] = useState("");
   const { uid } = useSelector(selectUser);
   const product = productsDetails?.payload?.products[0];
+  const videoUrl = productsDetails?.payload?.products[0].videos?.[0]?.url ?? '';
+  const sizeChartURL = productsDetails?.payload?.products[0].styleGuide?.sizeChartURL ?? '#';
 
       const notify = () => toast.success('Product added to cart', {
                 position: 'bottom-right',
@@ -91,7 +94,7 @@ export default function ProductDetails() {
         item: {
           id: product.webID,
           title: product.productTitle,
-          price: product?.price?.regularPrice?.minPrice,
+          price: product?.price?.regularPrice?.minPrice.toString(),
           image: product.images[0]?.url,
           color: colorProduct,
           quantity: 1, // Default quantity to 1
@@ -103,7 +106,7 @@ export default function ProductDetails() {
       notify();
     };
 
-    let contentToDisplay = '';
+    let contentToDisplay : ReactNode = '';
     if (loading === 'loading') {
       contentToDisplay = <div className='flex justify-center items-center h-fit w-full relative'><img className='w-36' src={loadingBar} alt='loading ...'/></div>;
     } else if (loading === 'succeeded') {
@@ -112,8 +115,8 @@ export default function ProductDetails() {
       <div>
             <div className="lg:grid grid-cols-2 gap-6">
               <div>
-              {productsDetails?.payload?.products[0].videos[0]?.url ? 
-              <video src={productsDetails?.payload?.products[0].videos[0]?.url} width="750" height="500" controls>
+              {videoUrl ? 
+              <video src={videoUrl} width="750" height="500" controls>
               </video> :
               <div><img className="w-full h-full" src={productsDetails?.payload?.products[0].images[0].url} alt="color"/></div>
               }
@@ -129,7 +132,7 @@ export default function ProductDetails() {
                   starSpacing="8px"
                 />
                   <span className="text-grayText font-medium text-lg pl-2">{productsDetails?.payload?.products[0].avgRating}</span></div>
-                <div className="text-grayText font-medium text-lg mb-5"><a className=" flex" href={productsDetails?.payload?.products[0].styleGuide.sizeChartURL}>Size guide <GoArrowRight className="mt-1 w-10" /></a></div>
+                <div className="text-grayText font-medium text-lg mb-5"><a className=" flex" href={sizeChartURL}>Size guide <GoArrowRight className="mt-1 w-10" /></a></div>
                 <div className="text-darkText font-semibold text-lg mb-5">Colors Available </div>
                 <div className="grid grid-cols-6 gap-2 mb-6">{productsDetails?.payload?.products[0].swatchImages.map(color => ( 
                   <div key={color.URL}>
@@ -140,14 +143,12 @@ export default function ProductDetails() {
                 </div>))}</div>
                 
                 <div className="flex lg:justify-start justify-center mb-9">
-                <Link>
                   <button onClick={handleAddToCart} className="rounded-lg flex w-52 h-12 bg-primary font-semibold text-lg text-white justify-center items-center">
                     <span className="pr-2">
                       <CartIcon /> 
                     </span>
                     Add to cart
-                  </button>
-                </Link>                  
+                  </button>          
                 <button className="ml-6 border-darkText rounded-lg w-36 h-12 text-darkText font-bold border-2 bg-transparent text-center">${productsDetails?.payload?.products[0]?.price.regularPrice.minPrice}</button>
                 </div>
                 <hr/>
