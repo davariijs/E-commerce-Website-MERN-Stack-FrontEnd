@@ -1,0 +1,49 @@
+{
+    "compilerOptions": {
+      /* Basic Options */
+      "target": "ESNext",                          // Modern JavaScript target
+      "lib": ["DOM", "DOM.Iterable", "ESNext"],    // Include DOM and modern ES features
+      "jsx": "react-jsx",                          // Use the new JSX transform (React 17+)
+  
+      /* Module Resolution Options */
+      "module": "ESNext",                          // Use ES module system
+      "moduleResolution": "Node",                 // Resolve modules like Node.js
+      "resolveJsonModule": true,                   // Enable importing JSON files
+      "allowSyntheticDefaultImports": true,        // Allow default imports of non-ES modules
+      "esModuleInterop": true,                     // Improve compatibility with CommonJS modules
+  
+      /* Type Checking */
+      "strict": true,                              // Enable strict type checking
+      "strictNullChecks": true,                    // Ensure null safety
+      "noImplicitAny": true,                       // Prevent using `any` implicitly
+      "noImplicitThis": true,                      // Prevent using `this` implicitly
+  
+      /* Additional Options */
+      "skipLibCheck": true,                        // Skip type checking for library files
+      "forceConsistentCasingInFileNames": true,    // Enforce consistent casing in imports
+  
+      /* Output Options */
+      "outDir": "./build",                         // Output directory for compiled files
+      "sourceMap": true,                           // Generate source maps for debugging
+  
+      /* Experimental ESNext Features */
+      "useDefineForClassFields": true,
+  
+      /* Paths and Aliases */
+      "baseUrl": "./",                             // Base URL for resolving non-relative imports
+      "paths": {
+        "@components/*": ["src/components/*"],     // Example alias for components folder
+        "@assets/*": ["src/assets/*"]              // Example alias for assets folder
+      },
+  
+      /* React-Specific Config */
+      "types": ["react", "react-dom","node"]              // Include React and React DOM types
+    },
+    "include": [
+      "src"                                       // Include all files in the `src` folder
+    ],
+    "exclude": [
+      "node_modules",                             // Exclude `node_modules` from compilation
+      "build"                                     // Exclude the build folder
+    ]
+  }
