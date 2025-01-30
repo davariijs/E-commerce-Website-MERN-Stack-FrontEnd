@@ -3,7 +3,7 @@ import './Navbar.css';
 import DesktopNavbar from './DesktopNavbar';
 import MobileNavbar from './MobileNavbar';
 
-export default function Navbar({uid}) {
+export default function Navbar({uid}:{uid:string}) {
 
 
 

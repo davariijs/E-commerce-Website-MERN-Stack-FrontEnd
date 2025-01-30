@@ -6,7 +6,22 @@ import RangeBar from "./FilterRangePrice";
 import { Link } from "react-router-dom";
 import { GoChevronRight } from "react-icons/go";
 
-export default function FilterPart ({firstItem,secondItem,thirdItem,fourthItem,fifthItem,sixthItem,firstPath,secondPath,thirdPath,fourthPath,fifthPath,sixthPath}) {
+type TFilterPart = {
+    firstItem:string,
+    secondItem:string,
+    thirdItem:string,
+    fourthItem:string,
+    fifthItem:string,
+    sixthItem:string,
+    firstPath:string,
+    secondPath:string,
+    thirdPath:string,
+    fourthPath:string,
+    fifthPath:string,
+    sixthPath:string,
+}
+
+export default function FilterPart ({firstItem,secondItem,thirdItem,fourthItem,fifthItem,sixthItem,firstPath,secondPath,thirdPath,fourthPath,fifthPath,sixthPath}:TFilterPart) {
 
 
     return(
@@ -40,7 +55,11 @@ export default function FilterPart ({firstItem,secondItem,thirdItem,fourthItem,f
             </div>
 
             <div className="filter-collapse border-t-2  text-grayText border-opacity-35  border-borderGrey lg:p-8 p-5">
-                <Collapsible className="" trigger={["Price", <GoChevronDown className="w-8 h-17 "/>]}>
+                <Collapsible className="" 
+                trigger={<div style={{ display: 'flex', alignItems: 'center' }}>
+                    Price
+                    <GoChevronDown className="w-8 h-17" />
+                    </div>}>
                     <div className="py-4 flex flex-col">
                     <RangeBar/>
                     </div>

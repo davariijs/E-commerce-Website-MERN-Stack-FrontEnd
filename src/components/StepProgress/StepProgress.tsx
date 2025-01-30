@@ -4,25 +4,32 @@ import 'react-step-progress/dist/index.css';
 import './StepProgress.css';
 import { formatDate } from "../../utils/usefulFunc";
 
-export default function StepProgress ({order}) {
+type TOrder = {
+  order:string,
+}
+
+export default function StepProgress ({order}:TOrder) {
     const step1Content = <div className="card-Progress font-semibold md:text-base text-xs flex"><div className="triangle "></div><h3 className="text-grayText pr-10">{formatDate(order)}</h3> <h4 className="text-darkText">Your order has been successfully verified 1.</h4></div>;
     const step2Content = <div className="card-Progress font-semibold md:text-base text-xs flex" ><div className="triangle "></div><h3 className="text-grayText pr-10">{formatDate(order)}</h3> <h4 className="text-darkText">Your order is in progress</h4></div>;
     const step3Content = <div className="card-Progress font-semibold md:text-base text-xs flex"><div className="triangle "></div><h3 className="text-grayText pr-10">{formatDate(order)}</h3> <h4 className="text-darkText">Your order has been successfully shipped</h4></div>;
     const step4Content = <div className="card-Progress font-semibold md:text-base text-xs flex"><div className="triangle "></div><h3 className="text-grayText pr-10">{formatDate(order)}</h3> <h4 className="text-darkText">Your order has been successfully delivered</h4></div>;
      
     // setup step validators, will be called before proceeding to the next step
-    function step2Validator() {
+    function step2Validator(): boolean {
       // return a boolean
+      return true; 
     }
      
-    function step3Validator() {
+    function step3Validator(): boolean {
       // return a boolean
+      return true; 
     }
-    function step4Validator() {
+    function step4Validator(): boolean {
       // return a boolean
+      return true; 
     }
      
-    function onFormSubmit() {
+    function onFormSubmit(): void  {
       // handle the submit logic here
       // This function will be executed at the last step
       // when the submit button (next button in the previous steps) is pressed

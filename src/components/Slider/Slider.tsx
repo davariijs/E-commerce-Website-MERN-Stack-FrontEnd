@@ -13,7 +13,13 @@ import { GoArrowLeft } from "react-icons/go";
 import { GoArrowRight } from "react-icons/go";
 import { Link } from "react-router-dom";
 
-function SampleNextArrow(props) {
+type TProps = {
+  className?:string,
+   style?:  React.CSSProperties,
+   onClick?: React.MouseEventHandler<SVGElement> ,
+}
+
+function SampleNextArrow(props:TProps) {
   const { className, style, onClick } = props;
   return (
     <GoArrowRight       
@@ -23,7 +29,7 @@ function SampleNextArrow(props) {
   );
 }
 
-function SamplePrevArrow(props) {
+function SamplePrevArrow(props:TProps) {
   const { className, style, onClick } = props;
   return (
     <GoArrowLeft className={className}
@@ -43,7 +49,7 @@ export default function SliderPart() {
       autoplaySpeed: 2000,
       arrows: true,
       nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
+      prevArrow: <SamplePrevArrow />,
       responsive: [
     {
       breakpoint: 1024,

@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from 'react';
 import './Navbar.css';
 import logo from "../../assets/icons/logo-shoply.png";
 import { Link } from 'react-router-dom';
-import searchIcon from "../../assets/icons/search-icon.svg";
 import likeIcon from "../../assets/icons/like.svg";
 import cartIcon from "../../assets/icons/cart.svg";
 import userIcon from "../../assets/icons/user.svg";
@@ -11,13 +10,20 @@ import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCart } from '../../redux/cart/cartSlice';
 import SearchBar from './Search';
+import { AppDispatch, RootState } from 'src/store';
 
-export default function MobileNavbar({uid}) {
-    const [showNavbar, setShowNavbar] = useState(false);
-    const totalQuantity = useSelector((state) => state.cart.totalQuantity);
-    const cartItems = useSelector((state) => state.cart.cart);
-    const uidCart = cartItems?.uid || cartItems?.cart?.uid;
-    const dispatch = useDispatch();
+type TUid = {
+    uid: string,
+}
+
+
+export default function MobileNavbar({uid}:TUid) {
+    const [showNavbar, setShowNavbar] = useState<boolean>(false);
+    const totalQuantity = useSelector((state: RootState) => state.cart.totalQuantity);
+    const cartItems = useSelector((state: RootState) => state.cart.cart);
+    // const uidCart = cartItems?.uid || cartItems?.cart?.uid;
+    const uidCart = cartItems?.uid || null;
+    const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
             if (uid){
@@ -25,7 +31,7 @@ export default function MobileNavbar({uid}) {
             }
           }, [dispatch,uid]);
 
-    function showNavbarClose () {
+    function showNavbarClose ():void {
         setShowNavbar(!showNavbar)
     }
 

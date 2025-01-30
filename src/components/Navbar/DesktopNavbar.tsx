@@ -2,19 +2,19 @@ import React, { Fragment, useEffect } from 'react';
 import './Navbar.css';
 import logo from "../../assets/icons/logo-shoply.png";
 import { Link } from 'react-router-dom';
-import searchIcon from "../../assets/icons/search-icon.svg";
 import likeIcon from "../../assets/icons/like.svg";
 import cartIcon from "../../assets/icons/cart.svg";
 import userIcon from "../../assets/icons/user.svg";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCart } from '../../redux/cart/cartSlice';
 import SearchBar from './Search';
+import { AppDispatch, RootState } from 'src/store';
 
-export default function DesktopNavbar({uid}) {
-    const totalQuantity = useSelector((state) => state.cart.totalQuantity);
-    const cartItems = useSelector((state) => state.cart.cart);
-    const uidCart = cartItems?.uid || cartItems?.cart?.uid;
-    const dispatch = useDispatch();
+export default function DesktopNavbar({uid}:{uid:string}) {
+    const totalQuantity = useSelector((state:RootState) => state.cart.totalQuantity);
+    const cartItems = useSelector((state:RootState) => state.cart.cart);
+    const uidCart = cartItems?.uid || null;
+    const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
             if (uid){

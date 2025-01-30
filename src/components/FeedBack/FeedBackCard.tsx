@@ -2,7 +2,14 @@ import React, { Fragment } from "react";
 import { FaStar } from "react-icons/fa6";
 import { FaStarHalfAlt } from "react-icons/fa";
 
-export default function FeedBackCard ({srcFeedBackCard,userName,feedBackText,feedbackstars}) {
+type TFeedBackCard = {
+    srcFeedBackCard:string,
+    userName:string,
+    feedBackText:string,
+    feedbackstars:boolean,
+}
+
+export default function FeedBackCard ({srcFeedBackCard,userName,feedBackText,feedbackstars}:TFeedBackCard) {
 
     return(
         <Fragment>

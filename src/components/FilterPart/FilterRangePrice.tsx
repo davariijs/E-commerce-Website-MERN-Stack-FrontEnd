@@ -3,10 +3,11 @@ import { Range, getTrackBackground } from "react-range";
 import { useDispatch, useSelector } from "react-redux";
 import { selectFilterPrices } from "../../redux/filterProducts/filterProductsSlice";
 import { setValuesFilter } from "../../redux/filterProducts/filterProductsSlice";
+import { AppDispatch, RootState } from "src/store";
 
-export default function RangeBar () {
-    const dispatch = useDispatch();
-    const values = useSelector (selectFilterPrices);
+const RangeBar: React.FC = () => {
+    const dispatch = useDispatch<AppDispatch>();
+    const values = useSelector((state: RootState) => selectFilterPrices(state));
 
     useEffect(() => {
        
@@ -37,7 +38,7 @@ export default function RangeBar () {
             min={MIN}
             max={MAX}
             
-            onChange={(values) => {
+            onChange={(values: number[]) => {
                 dispatch(setValuesFilter(values))
             }}
             renderTrack={({ props, children }) => (
@@ -106,3 +107,5 @@ export default function RangeBar () {
         </div>
     )
 }
+
+export default RangeBar;

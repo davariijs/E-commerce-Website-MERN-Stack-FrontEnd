@@ -1,9 +1,24 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment} from "react";
 import { Link } from "react-router-dom";
 import "./Card.css";
 import { GoArrowDown } from "react-icons/go";
 
-export default function Card ({priceTitle,mainTitle,discount,seeMore,srcCard,alt,showFirstType,cardFashionTextZone,rowReverse, titleLimited, textColor,borderColor}) {
+type TCard = {
+    priceTitle:string,
+    mainTitle:string,
+    discount:string,
+    seeMore:string,
+    srcCard:string,
+    alt:string,
+    showFirstType?:string,
+    cardFashionTextZone:string,
+    rowReverse?:string,
+    titleLimited?:boolean,
+    textColor:string,
+    borderColor:string,
+}
+
+export default function Card ({priceTitle,mainTitle,discount,seeMore,srcCard,alt,showFirstType,cardFashionTextZone,rowReverse, titleLimited, textColor,borderColor}:TCard) {
 
 
     return (

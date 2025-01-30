@@ -4,16 +4,25 @@ import { selectAllProducts } from "../../utils/selectorImplementation"; // Impor
 import searchIcon from "../../assets/icons/search-icon.svg";
 import './Navbar.css';
 import { Link } from "react-router-dom";
-const SearchBar = () => {
+import { RootState } from "src/store";
+
+interface Product {
+  webID: string;
+  productTitle: string;
+  prices: { regularPrice: { minPrice: number } }[];
+  image?: { url: string };
+}
+
+const SearchBar: React.FC = () => {
   // Local state for the search query
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState<string | undefined>();
 
   // Get all products from the combined selector
-  const allProducts = useSelector(selectAllProducts);
+  const allProducts = useSelector((state: RootState) => selectAllProducts(state));
 
   // Filter products based on the search query
   const filteredProducts = allProducts.filter((product) =>
-    product.productTitle?.toLowerCase().includes(searchQuery.toLowerCase())
+    product.productTitle?.toLowerCase().includes(searchQuery?.toLowerCase() || '')
   );
 
 
@@ -25,7 +34,7 @@ const SearchBar = () => {
         <img className='searchIcon absolute' src={searchIcon} alt='search'/>
         <input 
         value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
         className='searchbar w-full bg-secondary' type="text" name="searchNav" placeholder='Search'/>
       </div>
 
@@ -45,10 +54,9 @@ const SearchBar = () => {
             zIndex: 10,
           }}
         >
-          {filteredProducts.map((product) => (
-            <Link to={product.webID}>
+          {filteredProducts.map((product:Product) => (
+            <Link to={product.webID} key={product.webID}>
               <div
-                key={product.webID}
                 style={{
                   padding: "10px",
                   borderBottom: "1px solid #eee",

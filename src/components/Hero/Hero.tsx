@@ -6,14 +6,14 @@ import { Carousel } from 'react-responsive-carousel';
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import "./Hero.css";
 
-export default function Hero () {
+const Hero: React.FC = () => {
 
     return (
         <Fragment>
             <div>
             <Carousel      
             className="relative"
-            renderArrowPrev={(clickHandler, hasPrev) => {
+            renderArrowPrev={(clickHandler: () => void, hasPrev: boolean) => {
                 return (
                 <div
                     className={`${
@@ -25,7 +25,7 @@ export default function Hero () {
                 </div>
                 );
             }}
-            renderArrowNext={(clickHandler, hasNext) => {
+            renderArrowNext={(clickHandler: () => void, hasNext: boolean) => {
                 return (
                 <div
                     className={`${
@@ -65,3 +65,5 @@ export default function Hero () {
         </Fragment>
     )
 }
+
+export default Hero;
