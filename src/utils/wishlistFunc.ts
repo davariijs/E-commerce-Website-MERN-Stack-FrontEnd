@@ -1,4 +1,18 @@
-export const handleAddWishlist = async (title, image, price, pathname, uid) => {
+interface TWishlist {
+  uid: string;
+  title: string,
+  image: string,
+  price: string | number,
+  pathname: string,
+}
+
+interface TUserToMongo {
+  uid: string;
+  email: string,
+  name: string,
+}
+
+export const handleAddWishlist = async ({title, image, price, pathname, uid}:TWishlist) => {
     
     try {
       let result = await fetch('http://localhost:5000/add-wishlist', {
@@ -16,9 +30,9 @@ export const handleAddWishlist = async (title, image, price, pathname, uid) => {
     } catch (error) {
       console.error('Error saving data:', error);
     }
-  };
+};
 
-  export const handleAddUserToMongo = async (email, name, uid) => {
+  export const handleAddUserToMongo = async ({email, name, uid}:TUserToMongo) => {
     try {
       const result = await fetch('http://localhost:5000/user', {
         method: 'POST',
@@ -36,13 +50,13 @@ export const handleAddWishlist = async (title, image, price, pathname, uid) => {
       } else {
         console.error('Error saving data:', response.error);
       }
-    } catch (error) {
+    } catch (error:any) {
       console.error('Error saving data:', error);
     }
   };
 
 
-  export const InfoAccountFunc = async (uid) => {
+  export const InfoAccountFunc = async (uid:string) => {
     try {
       const result = await fetch(`http://localhost:5000/info-account/${uid}`, {
         method: 'GET',
@@ -61,13 +75,13 @@ export const handleAddWishlist = async (title, image, price, pathname, uid) => {
         console.error('Error fetching data:', response); // Log the error response from the server
         throw new Error(response.message || 'Failed to fetch data'); // Throw a meaningful error
       }
-    } catch (error) {
+    } catch (error:any) {
       console.error('Error fetching data:', error.message); // Log the error message
       throw error; // Rethrow the error so the caller can handle it
     }
   };
 
-  export const OrderFunc = async (uid) => {
+  export const OrderFunc = async (uid:string) => {
     try {
       const result = await fetch(`http://localhost:5000/check-out/${uid}`, {
         method: 'GET',
@@ -86,7 +100,7 @@ export const handleAddWishlist = async (title, image, price, pathname, uid) => {
         console.error('Error fetching data:', response); // Log the error response from the server
         throw new Error(response.message || 'Failed to fetch data'); // Throw a meaningful error
       }
-    } catch (error) {
+    } catch (error:any) {
       console.error('Error fetching data:', error.message); // Log the error message
       throw error; // Rethrow the error so the caller can handle it
     }

@@ -1,5 +1,21 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { ProductCategory } from "src/redux/types/types";
+import { RootState } from "src/store";
+
+
+interface ProductState {
+  MenCoats: ProductCategory | null; // The product details or null if not loaded
+  isLoading: 'idle' | 'loading' | 'succeeded' | 'failed'; // Use string union for loading states
+  hasError: string | null; // Store error messages as strings
+}
+
+// Define initial state
+const initialState: ProductState = {
+  MenCoats: null,
+  isLoading: 'idle',
+  hasError: null,
+};
 
 const uriRequest = {
   method: 'GET',
@@ -15,7 +31,7 @@ const uriRequest = {
   }
 };
 
-export const getMenCoats = createAsyncThunk(
+export const getMenCoats = createAsyncThunk<ProductCategory>(
   "MenCoatsList/getMenCoats", 
   async () => {
     try {
@@ -28,30 +44,27 @@ export const getMenCoats = createAsyncThunk(
 
 const MenCoatsSlice = createSlice({
   name: "MenCoatsList",
-  initialState: {
-    MenCoats: {},
-    isLoading: 'idle',
-    hasError: null,
-  },
+  reducers: {},
+  initialState,
   extraReducers: (builder) => {
     builder
       .addCase(getMenCoats.pending, (state) => {
       state.isLoading = 'loading';
     })
-      .addCase(getMenCoats.fulfilled, (state, action) => {
+      .addCase(getMenCoats.fulfilled, (state, action: PayloadAction<ProductCategory>) => {
         state.MenCoats = action.payload;
         state.isLoading = 'succeeded';
       })
       .addCase(getMenCoats.rejected, (state, action) => {
-        state.hasError = action.hasError.message;
+        state.hasError = action.error.message || "Failed to fetch products";
         state.isLoading = 'failed';
       })
   }
 });
 
 // Selectors
-export const selectMenCoats = state => state.MenCoatsList.MenCoats;
-export const selectLoadingState = state => state.MenCoatsList.isLoading;
-export const selectErrorState = state => state.MenCoatsList.hasError;
+export const selectMenCoats = (state:RootState):ProductCategory | null => state.MenCoatsList.MenCoats;
+export const selectLoadingState = (state:RootState):'idle' | 'loading' | 'succeeded' | 'failed' => state.MenCoatsList.isLoading;
+export const selectErrorState = (state:RootState):string | null => state.MenCoatsList.hasError;
 
 export default MenCoatsSlice.reducer;

@@ -11,7 +11,6 @@ interface Product  {
       minPrice: number;
     };
   };
-  description: string;
   url: string;
   brand: string;
   avgRating?: number;

@@ -62,8 +62,14 @@ export default function Footer () {
                     <div className="w-10 h-10 rounded-lg bg-white flex justify-center pt-2"><TiSocialTwitter/></div>
                     <div className="w-10 h-10 rounded-lg bg-white flex justify-center pt-2"><TiSocialLinkedin/></div>
                     </div>
-                </div>
-                <div className="footer-collapse border-t-2 border-b-2 border-white lg:mx-14 md:mx-14 mx-0 py-6"><Collapsible className="" trigger={["Popular Categories", <GoChevronDown className="w-8 h-17 "   />]}>
+                </div> 
+                <div className="footer-collapse border-t-2 border-b-2 border-white lg:mx-14 md:mx-14 mx-0 py-6"><Collapsible className="" trigger={
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        Popular Categories
+                        <GoChevronDown className="w-8 h-17 "   />
+                    </div>
+                    }
+                    >
                     <div className="py-4 flex flex-col">
                     <Link className="text-white font-light lg:text-lg md:text-base text-sm pb-3" to="/">Women Dress</Link>
                     <Link className="text-white font-light lg:text-lg md:text-base text-sm pb-3" to="/">Men Shoes</Link>

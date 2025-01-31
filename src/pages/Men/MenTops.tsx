@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, ReactNode } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { selectErrorState, selectLoadingState, selectMenTops } from '../../redux/menProducts/menTopsSlice/menTopsSlice';
 import { getMenTops } from '../../redux/menProducts/menTopsSlice/menTopsSlice';
@@ -11,15 +11,17 @@ import { handleAddWishlist } from '../../utils/wishlistFunc';
 import { ToastContainer, toast } from 'react-toastify';
 import likeIconGif from "../../assets/icons/icons8-like.gif";
 import { useLocation } from 'react-router';
+import { AppDispatch, RootState } from 'src/store';
+import { TProduct } from 'src/redux/types/types';
 
-export default function MenTops({uid}) {
+export default function MenTops({uid}:{uid: string}) {
 
     
-    const dispatch = useDispatch();
-    const menTops = useSelector (selectMenTops);
-    const loading = useSelector (selectLoadingState);
-    const error = useSelector(selectErrorState);
-    const values = useSelector (selectFilterPrices);
+    const dispatch = useDispatch<AppDispatch>();
+    const menTops = useSelector((state:RootState) => selectMenTops(state));
+    const loading = useSelector((state:RootState) => selectLoadingState(state));
+    const error = useSelector((state: RootState) => selectErrorState(state));
+    const values = useSelector((state: RootState) => selectFilterPrices(state));
 
     const location = useLocation();
     const notify = () => toast.success('Product added to you wishlist !', {
@@ -32,18 +34,24 @@ export default function MenTops({uid}) {
       }
     }, [loading,dispatch]);
 
-    function handleButtonWishlist ( title, image, price,pathname, uid) {
-          handleAddWishlist(title, image, price,pathname, uid);
+    function handleButtonWishlist (
+        title:string,
+        image:string,
+        price:number,
+        pathname:string,
+        uid:string,
+      ) {
+          handleAddWishlist({title, image, price,pathname, uid});
           notify();
         }
 
-    let contentToDisplay = '';
+    let contentToDisplay: ReactNode = '';
     if (loading === 'loading') {
       contentToDisplay = <div className='flex justify-center items-center h-fit w-full relative'><img className='w-36' src={loadingBar} alt='loading ...'/></div>;
     } else if (loading === 'succeeded') {
       contentToDisplay = <>
       <div className="lg:grid md:grid sm:grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 flex  justify-center flex-wrap  lg:gap-10 gap-5 h-fit w-full">
-        {menTops?.payload?.products.filter(itemCategory => itemCategory.productTitle !== null).map(itemCategory => (
+        {menTops?.payload?.products.filter((itemCategory: TProduct) => itemCategory.productTitle !== null).map((itemCategory: TProduct) => (
           <CategoriesCard
           onClick={() =>
             handleButtonWishlist(

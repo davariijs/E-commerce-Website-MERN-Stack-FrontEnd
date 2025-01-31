@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, ReactNode } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import loadingBar from "../../assets/images/loader.svg";
 import useEffectAfterMount from '../../utils/useEffectAfterMount';
@@ -10,14 +10,16 @@ import { handleAddWishlist } from '../../utils/wishlistFunc';
 import { ToastContainer, toast } from 'react-toastify';
 import likeIconGif from "../../assets/icons/icons8-like.gif";
 import { useLocation } from 'react-router';
+import { AppDispatch, RootState } from 'src/store';
+import { TProduct } from 'src/redux/types/types';
 
-export default function MenCoats({uid}) {
+export default function MenCoats({uid}:{uid:string}) {
 
-    const dispatch = useDispatch();
-    const menCoats = useSelector (selectMenCoats);
-    const loading = useSelector (selectLoadingState);
-    const error = useSelector(selectErrorState);
-    const values = useSelector (selectFilterPrices);
+    const dispatch = useDispatch<AppDispatch>();
+    const menCoats = useSelector((state: RootState) => selectMenCoats(state));
+    const loading = useSelector((state: RootState) => selectLoadingState(state));
+    const error = useSelector((state: RootState) => selectErrorState(state));
+    const values = useSelector((state: RootState) => selectFilterPrices(state));
 
     const location = useLocation();
 
@@ -31,18 +33,31 @@ export default function MenCoats({uid}) {
       }
     }, [loading,dispatch]);
 
-    function handleButtonWishlist ( title, image, price,pathname, uid) {
-          handleAddWishlist(title, image, price,pathname, uid);
-          notify();
-        }
+    function handleButtonWishlist(
+      title: string,
+      image: string,
+      price: number,
+      pathname: string,
+      uid: string
+    ) {
+      // Fix the expected argument issue here
+      handleAddWishlist({
+        title,
+        image,
+        price,
+        pathname,
+        uid,
+      }); // Pass as an object
+      notify();
+    }
 
-    let contentToDisplay = '';
+    let contentToDisplay:ReactNode = '';
     if (loading === 'loading') {
       contentToDisplay = <div className='flex justify-center items-center h-fit w-full relative'><img className='w-36' src={loadingBar} alt='loading ...'/></div>;
     } else if (loading === 'succeeded') {
       contentToDisplay = <>
       <div className="lg:grid md:grid sm:grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 flex  justify-center flex-wrap  lg:gap-10 gap-5 h-fit w-full">
-        {menCoats?.payload?.products.filter(itemCategory => itemCategory.productTitle !== null).map(itemCategory => (
+        {menCoats?.payload?.products.filter((itemCategory: TProduct) => itemCategory.productTitle !== null).map((itemCategory: TProduct) => (
           <CategoriesCard
           onClick={() =>
             handleButtonWishlist(

@@ -1,6 +1,9 @@
 import { useEffect, useRef } from "react";
 
-const useEffectAfterMount = (cb, dependencies) => {
+const useEffectAfterMount = (
+  cb: () => void | (() => void),
+  dependencies: React.DependencyList
+): void => {
   const mounted = useRef(false);
 
   useEffect(() => {
