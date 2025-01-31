@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, ReactNode } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { selectErrorState, selectLoadingState, selectMenShoes, getMenShoes } from '../../redux/menProducts/menShoesSlice/menShoesSlice';
 import loadingBar from "../../assets/images/loader.svg";
@@ -10,14 +10,17 @@ import { handleAddWishlist } from '../../utils/wishlistFunc';
 import { ToastContainer, toast } from 'react-toastify';
 import likeIconGif from "../../assets/icons/icons8-like.gif";
 import { useLocation } from 'react-router';
+import { AppDispatch, RootState } from 'src/store';
+import { TProduct } from 'src/redux/types/types';
+import { selectUser } from 'src/redux/users/userSlice';
+export default function MenShoes() {
 
-export default function MenShoes({uid}) {
-
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const menShoes = useSelector (selectMenShoes);
-    const loading = useSelector (selectLoadingState);
-    const error = useSelector(selectErrorState);
-    const values = useSelector (selectFilterPrices);
+    const loading = useSelector((state: RootState) => selectLoadingState(state));
+    const error = useSelector((state: RootState) => selectErrorState(state));
+    const values = useSelector((state: RootState) => selectFilterPrices(state));
+    const { uid } = useSelector((state:RootState) => selectUser(state));
 
     const location = useLocation();
     const notify = () => toast.success('Product added to you wishlist !', {
@@ -30,18 +33,30 @@ export default function MenShoes({uid}) {
       }
     }, [loading,dispatch]);
 
-    function handleButtonWishlist ( title, image, price, uid) {
-          handleAddWishlist(title, image, price, uid);
-          notify();
+    function handleButtonWishlist(
+      title: string,
+      image: string,
+      price: number,
+      pathname: string,
+      uid: string
+    ) {
+      if (uid) {
+        handleAddWishlist({title, image, price,pathname, uid});
+        notify();
+      } else {
+        toast.error('User is not logged in', {
+          position: 'bottom-right',
+        });
+      }
     }
 
-    let contentToDisplay = '';
+    let contentToDisplay:ReactNode = '';
     if (loading === 'loading') {
       contentToDisplay = <div className='flex justify-center items-center h-fit w-full relative'><img className='w-36' src={loadingBar} alt='loading ...'/></div>;
     } else if (loading === 'succeeded') {
       contentToDisplay = <>
       <div className="lg:grid md:grid sm:grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 flex  justify-center flex-wrap  lg:gap-10 gap-5 h-fit w-full">
-        {menShoes?.payload?.products.filter(itemCategory => itemCategory.productTitle !== null).map(itemCategory => (
+        {menShoes?.payload?.products.filter((itemCategory: TProduct) => itemCategory.productTitle !== null).map((itemCategory: TProduct) => (
           <CategoriesCard
           onClick={() =>
             handleButtonWishlist(
@@ -49,7 +64,7 @@ export default function MenShoes({uid}) {
               itemCategory.image.url,
               itemCategory.prices[0].regularPrice.minPrice,
               `${location.pathname}/${itemCategory.webID}`,
-              uid
+              uid ?? ''
             )
           }
           key={itemCategory.webID}

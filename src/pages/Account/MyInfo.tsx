@@ -5,14 +5,36 @@ import InfoAccount from "./InfoAccount";
 import { InfoAccountFunc } from "../../utils/wishlistFunc";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
+import { useSelector } from "react-redux";
+import { RootState } from "src/store";
+import { selectUser } from "src/redux/users/userSlice";
 
-export default function MyInfo ({email,name,uid}) {
-    const [userName,setName] = useState(name);
-    const [number,setNumber] = useState("");
-    const [showNewAddress,setShowNewAddress] = useState(false);
-    const [information, setInformation] = useState([]);
+
+export interface IAddressInfo {
+  _id?:string,
+  firstName:string,
+  lastName:string,
+  number:string,
+  street:string,
+  apt?:string,
+  city:string,
+  state:string,
+  billing?:boolean,
+  shipping?:boolean,
+  company?:string,
+  postalCode?:string,
+  instruction?:string,
+  country?:string,
+  uid?:string,
+}
+
+export default function MyInfo () {
+    const [showNewAddress,setShowNewAddress] = useState<boolean>(false);
+    const [information, setInformation] = useState<IAddressInfo[] | null>(null);
     const [error, setError] = useState(null);
-    const [editingAddress, setEditingAddress] = useState(null);
+    const [editingAddress, setEditingAddress] = useState<IAddressInfo | null>(null);
+    const { email,name,uid } = useSelector((state:RootState) => selectUser(state));
+    const [userName,setName] = useState(name);
 
     const notify = () => toast.success('The address deleted !', {
               position: 'bottom-right',
@@ -24,7 +46,7 @@ export default function MyInfo ({email,name,uid}) {
         try {
           const result = await InfoAccountFunc(uid);
           setInformation(result); // Update state with fetched data
-        } catch (err) {
+        } catch (err: any) {
           setError(err.message); // Update state with error message
         }
       };
@@ -33,13 +55,14 @@ export default function MyInfo ({email,name,uid}) {
         fetchData(); // Fetch data on component mount
       }, [uid]);
 
-      const handleSaveAndClose = () => {
+      const handleSaveAndClose = (payload: IAddressInfo) => {
+        console.log('Payload received:', payload);
         setShowNewAddress(false);
         setEditingAddress(null);
         fetchData();
       };
 
-      const handleRemove = async (id) => {
+      const handleRemove = async (id:string) => {
         try {
           // Make DELETE request to the backend to remove the item
           await axios.delete(`http://localhost:5000/info-account/${id}`);
@@ -52,7 +75,7 @@ export default function MyInfo ({email,name,uid}) {
         }
     };
         
-    const handleEdit = (address) => {
+    const handleEdit = (address:IAddressInfo) => {
       setEditingAddress(address); // Set the address to be edited
       setShowNewAddress(true); // Show the form for editing
     };
@@ -97,11 +120,11 @@ export default function MyInfo ({email,name,uid}) {
                         </div>
 
                         {showNewAddress? 
-                        <InfoAccount uid={uid} onSave={handleSaveAndClose} existingData={editingAddress}/> : 
+                        <InfoAccount onSave={handleSaveAndClose} existingData={editingAddress}/> : 
                         <>
                         <div className=" grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-                        {information.map(info => (
+                        {information && information.map((info:IAddressInfo) => (
                           <div key={info._id} className="rounded-xl p-5 bg-secondary">
                           <h3 className="lg:text-xl text-md  font-semibold text-darkText pb-4">{info.firstName} {info.lastName}</h3>
                           <h4 className="text-base font-normal text-grayText pb-4">{info.number}</h4>
@@ -116,7 +139,15 @@ export default function MyInfo ({email,name,uid}) {
                           </div>
 
                           <div className="flex">
-                          <button onClick={() => handleRemove(info._id)} className="text-base font-semibold text-darkText border-r-2 border-light pr-3">Remove</button>
+                          <button 
+                          onClick={() => {
+                            if (info._id) {
+                              handleRemove(info._id);
+                            } else {
+                              console.error("Cannot remove item: _id is undefined");
+                            }
+                          }}
+                          className="text-base font-semibold text-darkText border-r-2 border-light pr-3">Remove</button>
                           <button onClick={() => handleEdit(info)} className="text-base font-semibold text-darkText pl-3">Edit</button>
                           </div>
                           </div>

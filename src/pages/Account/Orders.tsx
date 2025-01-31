@@ -4,15 +4,23 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import "./Account.css"
 import PropTypes from 'prop-types';
-import imageCard from "../../assets/images/men-jacket.png"
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/users/userSlice";
 import { ToastContainer, toast } from 'react-toastify';
 import { OrderFunc } from "../../utils/wishlistFunc";
 import { formatDate } from "../../utils/usefulFunc";
 import { Link } from "react-router-dom";
+import { RootState } from "src/store";
+import { TCheckOut, TOrder } from "src/redux/types/types";
+import { TCartItem } from "src/redux/cart/cartSlice";
 
-function CustomTabPanel(props) {
+interface CustomTabPanelProps {
+  children?: React.ReactNode; 
+  value: number;
+  index: number;
+}
+
+const  CustomTabPanel: React.FC<CustomTabPanelProps> = (props) => {
     const { children, value, index, ...other } = props;
   
     return (
@@ -34,26 +42,27 @@ function CustomTabPanel(props) {
     value: PropTypes.number.isRequired,
   };
   
-  function a11yProps(index) {
+  function a11yProps(index:number) {
     return {
       id: `simple-tab-${index}`,
       'aria-controls': `simple-tabpanel-${index}`,
     };
   }
   
+  
 
 export default function Orders () {
 
     const [value, setValue] = React.useState(0);
-    const [orders, setOrders] = useState([]);
-    const { uid } = useSelector(selectUser);
-    const notifyError = (message) => toast.error(message, { position: "bottom-right" });
+    const [orders, setOrders] = useState<TCheckOut | null>(null);
+    const { uid } = useSelector((state:RootState) => selectUser(state));
+    const notifyError = (message:string) => toast.error(message, { position: "bottom-right" });
 
     const fetchData = async () => {
       try {
         const result = await OrderFunc(uid);
         setOrders(result); // Update state with fetched data
-      } catch (err) {
+      } catch (err:any) {
         notifyError(err.message)
       }
     };
@@ -66,7 +75,7 @@ export default function Orders () {
       }
     }, [uid]);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
@@ -82,14 +91,14 @@ export default function Orders () {
       </Box>
       <CustomTabPanel value={value} index={0}>
         <div  className="mt-8">
-              {orders?.orders?.filter(order => order.orderStatus === "Pending").map(order =>(
+              {orders?.orders?.filter((order:TOrder) => order.orderStatus === "Pending").map(order =>(
                 <Link to={order._id}>
                 <div key={order._id} className="py-7 border-b-2  border-borderGreyLight">
                 <div className=" w-full md:py-7 py-3 md:px-12 px-5 bg-secondary rounded-lg mb-7">
                 <h3 className="md:text-base text-xs text-darkText font-semibold pb-4">Order no: #{order._id}</h3>
                     <div className="flex justify-between">
                     <div>
-                        <h4 className="font-medium md:text-base text-xs text-grayText py-2">Order Date : <span className="text-borderGrey font-light">{formatDate(order.orderDate)}</span></h4>
+                        <h4 className="font-medium md:text-base text-xs text-grayText py-2">Order Date : <span className="text-borderGrey font-light">{formatDate(order.orderDate ?? new Date().toISOString())}</span></h4>
                         <h4 className="font-medium md:text-base text-xs text-grayText">Estimated Delivery Date : <span className="text-borderGrey font-light">{order.deliveryDate}</span></h4>
                     </div>
                     <div>
@@ -99,7 +108,7 @@ export default function Orders () {
                     </div>
                 </div>
                 
-                {order.cartItems?.map(item =>(
+                {order.cartItems?.map((item:TCartItem) =>(
                     <div className="flex justify-between items-center mb-8">
 
                     <div className="flex">
@@ -125,13 +134,13 @@ export default function Orders () {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
       <div  className="mt-8">
-              {orders?.orders?.filter(order => order.orderStatus === "Cancelled").map(order =>(
+              {orders?.orders?.filter((order:TOrder) => order.orderStatus === "Cancelled").map(order =>(
                 <div key={order._id} className="py-7 border-b-2  border-borderGreyLight">
                 <div className=" w-full md:py-7 py-3 md:px-12 px-5 bg-secondary rounded-lg mb-7">
                 <h3 className="md:text-base text-xs text-darkText font-semibold pb-4">Order no: #{order._id}</h3>
                     <div className="flex justify-between">
                     <div>
-                        <h4 className="font-medium md:text-base text-xs text-grayText py-2">Order Date : <span className="text-borderGrey font-light">{formatDate(order.orderDate)}</span></h4>
+                        <h4 className="font-medium md:text-base text-xs text-grayText py-2">Order Date : <span className="text-borderGrey font-light">{formatDate(order.orderDate ?? new Date().toISOString())}</span></h4>
                         <h4 className="font-medium md:text-base text-xs text-grayText">Estimated Delivery Date : <span className="text-borderGrey font-light">{order.deliveryDate}</span></h4>
                     </div>
                     <div>
@@ -141,7 +150,7 @@ export default function Orders () {
                     </div>
                 </div>
                 
-                {order.cartItems?.map(item =>(
+                {order.cartItems?.map((item:TCartItem) =>(
                     <div className="flex justify-between items-center mb-8">
 
                     <div className="flex">
@@ -166,13 +175,13 @@ export default function Orders () {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
       <div  className="mt-8">
-              {orders?.orders?.filter(order => order.orderStatus === "Completed").map(order =>(
+              {orders?.orders?.filter((order:TOrder) => order.orderStatus === "Completed").map(order =>(
                 <div key={order._id} className="py-7 border-b-2  border-borderGreyLight">
                 <div className=" w-full md:py-7 py-3 md:px-12 px-5 bg-secondary rounded-lg mb-7">
                 <h3 className="md:text-base text-xs text-darkText font-semibold pb-4">Order no: #{order._id}</h3>
                     <div className="flex justify-between">
                     <div>
-                        <h4 className="font-medium md:text-base text-xs text-grayText py-2">Order Date : <span className="text-borderGrey font-light">{formatDate(order.orderDate)}</span></h4>
+                        <h4 className="font-medium md:text-base text-xs text-grayText py-2">Order Date : <span className="text-borderGrey font-light">{formatDate(order.orderDate ?? new Date().toISOString())}</span></h4>
                         <h4 className="font-medium md:text-base text-xs text-grayText">Estimated Delivery Date : <span className="text-borderGrey font-light">{order.deliveryDate}</span></h4>
                     </div>
                     <div>
@@ -182,7 +191,7 @@ export default function Orders () {
                     </div>
                 </div>
                 
-                {order.cartItems?.map(item =>(
+                {order.cartItems?.map((item:TCartItem) =>(
                     <div className="flex justify-between items-center mb-8">
 
                     <div className="flex">

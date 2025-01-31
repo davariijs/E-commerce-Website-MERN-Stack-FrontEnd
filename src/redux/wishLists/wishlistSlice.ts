@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 
-interface WishListItem {
+export interface WishListItem {
   _id?: string;
   title: string,
   image: string,
@@ -26,7 +26,7 @@ const initialState: WishListState =  {
 }
 
 // Async thunk to fetch wishlist from MongoDB
-export const fetchWishlist = createAsyncThunk("wishlist/fetchWishlist", async (uid: string, { rejectWithValue }) => {
+export const fetchWishlist = createAsyncThunk("wishlist/fetchWishlist", async (uid: string | null , { rejectWithValue }) => {
   try {
   const response = await axios.get(`http://localhost:5000/add-wishlist/${uid}`);
   return response.data;

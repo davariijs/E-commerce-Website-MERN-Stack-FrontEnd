@@ -1,6 +1,20 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { ProductCategory } from "src/redux/types/types";
+import { RootState } from "src/store";
 
+interface ProductState {
+  womenDress: ProductCategory | null; // The product details or null if not loaded
+  isLoading: 'idle' | 'loading' | 'succeeded' | 'failed'; // Use string union for loading states
+  hasError: string | null; // Store error messages as strings
+}
+
+// Define initial state
+const initialState: ProductState = {
+  womenDress: null,
+  isLoading: 'idle',
+  hasError: null,
+};
 
 const uriRequest = {
   method: 'GET',
@@ -16,7 +30,7 @@ const uriRequest = {
   }
 };
 
-export const getWomenDresses = createAsyncThunk(
+export const getWomenDresses = createAsyncThunk<ProductCategory>(
   "womenTopsList/getWomenDresses", 
   async () => {
     try {
@@ -29,30 +43,27 @@ export const getWomenDresses = createAsyncThunk(
 
 const womenTopsSlice = createSlice({
   name: "womenTopsList",
-  initialState: {
-    womenDress: {},
-    isLoading: 'idle',
-    hasError: null,
-  },
+  reducers: {},
+  initialState,
   extraReducers: (builder) => {
     builder
       .addCase(getWomenDresses.pending, (state) => {
       state.isLoading = 'loading';
     })
-      .addCase(getWomenDresses.fulfilled, (state, action) => {
+      .addCase(getWomenDresses.fulfilled, (state, action: PayloadAction<ProductCategory>) => {
         state.womenDress = action.payload;
         state.isLoading = 'succeeded';
       })
       .addCase(getWomenDresses.rejected, (state, action) => {
-        state.hasError = action.hasError.message;
+        state.hasError = action.error.message || "Failed to fetch products";
         state.isLoading = 'failed';
       })
   }
 });
 
 // Selectors
-export const selectwomenDresses = state => state.womenTopsList.womenDress;
-export const selectLoadingState = state => state.womenTopsList.isLoading;
-export const selectErrorState = state => state.womenTopsList.hasError;
+export const selectwomenDresses = (state:RootState):ProductCategory | null => state.womenTopsList.womenDress;
+export const selectLoadingState = (state:RootState):'idle' | 'loading' | 'succeeded' | 'failed' => state.womenTopsList.isLoading;
+export const selectErrorState = (state:RootState):string | null => state.womenTopsList.hasError;
 
 export default womenTopsSlice.reducer;

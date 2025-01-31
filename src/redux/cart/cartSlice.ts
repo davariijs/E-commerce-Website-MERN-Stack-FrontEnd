@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-interface CartItem {
+export interface TCartItem {
     _id?: string;
     quantity: number;
     title: string,
     image: string,
-    price: string,
+    price: number,
     color: string,
     webID?: number,
 }
@@ -15,7 +15,8 @@ interface CartItem {
 interface CartState {
     cart: {
         uid: string | null;
-        items: CartItem[];
+        items: TCartItem[];
+        _id:string | null,
     };
     totalQuantity: number;
     loading: boolean;
@@ -27,6 +28,7 @@ const initialState: CartState = {
     cart: {
         uid: null,
         items: [],
+        _id:null,
     },
     totalQuantity: 0,
     loading: false,
@@ -34,7 +36,7 @@ const initialState: CartState = {
 };
 
 // Async thunk for fetching the cart
-export const fetchCart = createAsyncThunk('cart/fetchCart', async (uid: string, { rejectWithValue }) => {
+export const fetchCart = createAsyncThunk('cart/fetchCart', async (uid: string | null, { rejectWithValue }) => {
     try {
         const response = await axios.get(`http://localhost:5000/cart/${uid}`);
         return response.data; // Full cart object is returned
@@ -46,7 +48,7 @@ export const fetchCart = createAsyncThunk('cart/fetchCart', async (uid: string, 
 });
 
 // Async thunk for adding an item to the cart
-export const addToCart = createAsyncThunk('cart/addToCart', async ({ uid, item }: { uid: string; item: CartItem }, { rejectWithValue }) => {
+export const addToCart = createAsyncThunk('cart/addToCart', async ({ uid, item }: { uid: string | null; item: TCartItem }, { rejectWithValue }) => {
     try {
         const response = await axios.post('http://localhost:5000/cart', { uid, item });
         console.log('Backend response for addToCart:', response.data); // Debugging the response
@@ -58,7 +60,7 @@ export const addToCart = createAsyncThunk('cart/addToCart', async ({ uid, item }
 });
 
 // Async thunk for removing an item from the cart
-export const removeFromCart = createAsyncThunk('cart/removeFromCart', async ({ uid, itemId }: { uid: string; itemId: string }, { rejectWithValue }) => {
+export const removeFromCart = createAsyncThunk('cart/removeFromCart', async ({ uid, itemId }: { uid: string | null; itemId: string }, { rejectWithValue }) => {
     try {
         const response = await axios.delete(`http://localhost:5000/cart/${uid}/${itemId}`);
         console.log('Item removed, backend response:', response.data); // Debugging the response
@@ -72,7 +74,7 @@ export const removeFromCart = createAsyncThunk('cart/removeFromCart', async ({ u
 // Async thunk for increasing item quantity
 export const increaseQuantityAsync = createAsyncThunk(
     'cart/increaseQuantityAsync',
-    async ({ uid, itemId }: { uid: string; itemId: string }, { rejectWithValue }) => {
+    async ({ uid, itemId }: { uid: string | null ; itemId: string }, { rejectWithValue }) => {
         try {
             const response = await axios.put(`http://localhost:5000/cart/increase/${uid}/${itemId}`);
             return response.data; // Full updated cart object
@@ -86,7 +88,7 @@ export const increaseQuantityAsync = createAsyncThunk(
 // Async thunk for decreasing item quantity
 export const decreaseQuantityAsync = createAsyncThunk(
     'cart/decreaseQuantityAsync',
-    async ({ uid, itemId }: { uid: string; itemId: string }, { rejectWithValue }) => {
+    async ({ uid, itemId }: { uid: string | null; itemId: string }, { rejectWithValue }) => {
         try {
             const response = await axios.put(`http://localhost:5000/cart/decrease/${uid}/${itemId}`);
             return response.data; // Full updated cart object
@@ -98,7 +100,7 @@ export const decreaseQuantityAsync = createAsyncThunk(
 );
 
 // Utility function to calculate total quantity from items array
-const calculateTotalQuantity = (items: CartItem[]):number => {
+const calculateTotalQuantity = (items: TCartItem[]):number => {
     if (!Array.isArray(items)) return 0; // Ensure the input is an array
     return items.reduce((total, item) => total + item.quantity, 0);
 };
@@ -109,7 +111,7 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         clearCart: (state) => {
-            state.cart = { uid: null, items: [] }; // Reset cart
+            state.cart = { uid: null, items: [], _id:null }; // Reset cart
             state.totalQuantity = 0; // Reset total quantity
         },
     },

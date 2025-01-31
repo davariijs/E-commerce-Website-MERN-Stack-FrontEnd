@@ -9,11 +9,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCart } from '../../redux/cart/cartSlice';
 import SearchBar from './Search';
 import { AppDispatch, RootState } from 'src/store';
+import { selectUser } from 'src/redux/users/userSlice';
 
-export default function DesktopNavbar({uid}:{uid:string}) {
+export default function DesktopNavbar() {
     const totalQuantity = useSelector((state:RootState) => state.cart.totalQuantity);
     const cartItems = useSelector((state:RootState) => state.cart.cart);
     const uidCart = cartItems?.uid || null;
+    const { uid } = useSelector((state:RootState) => selectUser(state));
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {

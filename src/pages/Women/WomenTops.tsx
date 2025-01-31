@@ -1,24 +1,24 @@
-import { Fragment } from 'react';
+import { Fragment, ReactNode} from 'react';
 import { useDispatch, useSelector } from "react-redux";
+import { selectErrorState, selectLoadingState, selectwomenDresses } from '../../redux/womenProducts/womenProductSlice/womenTopsSlice';
+import { getWomenDresses } from '../../redux/womenProducts/womenProductSlice/womenTopsSlice';
 import loadingBar from "../../assets/images/loader.svg";
 import useEffectAfterMount from '../../utils/useEffectAfterMount';
 import CategoriesCard from '../../components/CategoriesCard/CategoriesCard';
-import "./productCard.css"
-import { selectFilterPrices } from '../../redux/filterProducts/filterProductsSlice';
-import { getWomenTShirts, selectErrorState, selectLoadingState,selectWomenTShirts } from '../../redux/womenProducts/TShirtSlice/tShirtSlice';
+import "./productCard.css";
 import { handleAddWishlist } from '../../utils/wishlistFunc';
 import { ToastContainer, toast } from 'react-toastify';
 import likeIconGif from "../../assets/icons/icons8-like.gif";
 import { useLocation } from 'react-router';
-
-export default function WomenTShirts({uid}) {
-
-    const dispatch = useDispatch();
-    const womenTShirts = useSelector (selectWomenTShirts);
-    const loading = useSelector (selectLoadingState);
-    const error = useSelector(selectErrorState);
-    const values = useSelector (selectFilterPrices);
-
+import { AppDispatch, RootState } from 'src/store';
+import { TProduct } from 'src/redux/types/types';
+import { selectUser } from 'src/redux/users/userSlice';
+export default function WomenTops() {
+    const dispatch = useDispatch<AppDispatch>();
+    const womenDresses = useSelector (selectwomenDresses);
+    const loading = useSelector((state: RootState) => selectLoadingState(state));
+    const error = useSelector((state: RootState) => selectErrorState(state));
+    const { uid } = useSelector((state:RootState) => selectUser(state));
     const location = useLocation();
     const notify = () => toast.success('Product added to you wishlist !', {
       position: 'bottom-right',
@@ -26,22 +26,36 @@ export default function WomenTShirts({uid}) {
 
     useEffectAfterMount(() => {
       if (loading === 'idle') {
-        dispatch(getWomenTShirts())
+        dispatch(getWomenDresses())
       }
     }, [loading,dispatch]);
 
-    function handleButtonWishlist ( title, image, price,pathname, uid) {
-          handleAddWishlist(title, image, price,pathname, uid);
-          notify();
-        }
+    function handleButtonWishlist(
+      title: string,
+      image: string,
+      price: number,
+      pathname: string,
+      uid: string
+    ) {
+      if (uid) {
+        handleAddWishlist({title, image, price,pathname, uid});
+        notify();
+      } else {
+        toast.error('User is not logged in', {
+          position: 'bottom-right',
+        });
+      }
+    }
 
-    let contentToDisplay = '';
+
+    let contentToDisplay:ReactNode = '';
     if (loading === 'loading') {
       contentToDisplay = <div className='flex justify-center items-center h-fit w-full relative'><img className='w-36' src={loadingBar} alt='loading ...'/></div>;
     } else if (loading === 'succeeded') {
+      
       contentToDisplay = <>
       <div className="lg:grid md:grid sm:grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 flex  justify-center flex-wrap  lg:gap-10 gap-5 h-fit w-full">
-        {womenTShirts?.payload?.products.filter(itemCategory => itemCategory.productTitle !== null  ).map(itemCategory => (
+        {womenDresses?.payload?.products.filter((itemCategory: TProduct) => itemCategory.productTitle !== null  ).map((itemCategory: TProduct) => (
           <CategoriesCard
           onClick={() =>
             handleButtonWishlist(
@@ -49,7 +63,7 @@ export default function WomenTShirts({uid}) {
               itemCategory.image.url,
               itemCategory.prices[0].regularPrice.minPrice,
               `${location.pathname}/${itemCategory.webID}`,
-              uid
+              uid ?? ''
             )
           }
           key={itemCategory.webID}
@@ -69,7 +83,7 @@ export default function WomenTShirts({uid}) {
 
   return (
     <Fragment>
-       {contentToDisplay}
+       {contentToDisplay} 
        <ToastContainer icon={({ type}) => {
           switch (type) {
             case 'success':
@@ -77,7 +91,7 @@ export default function WomenTShirts({uid}) {
             default:
               return null;
           }
-        }} /> 
+        }} />
     </Fragment>
   )
 }

@@ -6,7 +6,7 @@ import ProductDetails from '../ProductDetailsPage/SingleProductDetails';
 
 export default function Women() {
 
-  const [path, setPath] = useState();
+  const [path, setPath] = useState<string>();
   const location = useLocation();
 
   const {id} = useParams();

@@ -1,26 +1,53 @@
 import React, { Fragment, useEffect, useState } from "react";
 import "./Account.css";
 import { ToastContainer, toast } from 'react-toastify';
+import { useSelector } from "react-redux";
+import { RootState } from "src/store";
+import { selectUser } from "src/redux/users/userSlice";
+import { IAddressInfo } from "./MyInfo";
 
-export default function InfoAccount ({uid, existingData, onSave}) {
+interface IInfoAccount {
+    onSave: (payload: IAddressInfo) => void,
+    existingData:IAddressInfo | null,
+}
 
-    const [number, setNumber] = useState("");
-    const [id, setId] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [country, setCountry] = useState("");
-    const [company, setCompany] = useState("");
-    const [street, setStreet] = useState("");
-    const [apt, setApt] = useState("");
-    const [city, setCity] = useState("");
-    const [state, setState] = useState("");
-    const [postalCode, setPostalCode] = useState("");
-    const [instruction, setInstruction] = useState("");
-    const [shipping, setShipping] = useState(false);
-    const [billing, setBilling] = useState(false);
+export default function InfoAccount ({ existingData, onSave}:IInfoAccount) {
+    const { uid } = useSelector((state:RootState) => selectUser(state));
+    const [number, setNumber] = useState<string>("");
+    const [id, setId] = useState<string>("");
+    const [firstName, setFirstName] = useState<string>("");
+    const [lastName, setLastName] = useState<string>("");
+    const [country, setCountry] = useState<string>("");
+    const [company, setCompany] = useState<string>("");
+    const [street, setStreet] = useState<string>("");
+    const [apt, setApt] = useState<string>("");
+    const [city, setCity] = useState<string>("");
+    const [state, setState] = useState<string>("");
+    const [postalCode, setPostalCode] = useState<string>("");
+    const [instruction, setInstruction] = useState<string>("");
+    const [shipping, setShipping] = useState<boolean>(false);
+    const [billing, setBilling] = useState<boolean>(false);
 
-    const notifySuccess = (message) => toast.success(message, { position: "bottom-right" });
-    const notifyError = (message) => toast.error(message, { position: "bottom-right" });
+    const defaultPayload: IAddressInfo = {
+        _id: '', // or some default value if applicable
+        firstName: '',
+        lastName: '',
+        country: '',
+        company: '',
+        street: '',
+        apt: '',
+        city: '',
+        state: '',
+        number: '',
+        postalCode: '',
+        instruction: '',
+        shipping: false,
+        billing: false,
+        uid: '',
+      };
+
+    const notifySuccess = (message:string) => toast.success(message, { position: "bottom-right" });
+    const notifyError = (message:string) => toast.error(message, { position: "bottom-right" });
 
 
     useEffect(() => {
@@ -42,11 +69,17 @@ export default function InfoAccount ({uid, existingData, onSave}) {
         }
     }, [existingData]);
 
-    const handleFormSubmission = async (e) => {
+    const handleFormSubmission = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (!uid) {
+            notifyError("User is not authenticated.");
+            return;
+          }
+        
       
         // Prepare data payload
-        const payload = {
+        const payload: IAddressInfo = {
           firstName,
           lastName,
           country,
@@ -133,91 +166,91 @@ export default function InfoAccount ({uid, existingData, onSave}) {
 
                         <div className="grid md:grid-cols-2 grid-cols-1 md:gap-8 gap-4">
                             <div className="w-full">
-                            <label for="fname" className="lg:text-lg text-md font-semibold text-darkText">First Name*</label>
+                            <label htmlFor="fname" className="lg:text-lg text-md font-semibold text-darkText">First Name*</label>
                                 <div className="bg-secondary rounded-lg mt-2">
                                     <input onChange={(e)=> { setFirstName(e.target.value)}} value={firstName} className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="fname" name="fname" placeholder="First Name"/>
                                 </div>
                             </div>
                             <div className="w-full">
-                            <label for="lname" className="lg:text-lg text-md font-semibold text-darkText">Last Name*</label>
+                            <label htmlFor="lname" className="lg:text-lg text-md font-semibold text-darkText">Last Name*</label>
                                 <div className="bg-secondary rounded-lg mt-2">
                                     <input onChange={(e)=> { setLastName(e.target.value)}} value={lastName} className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="lname" name="lname" placeholder="Last Name"/>
                                 </div>
                             </div>
                             <div className="w-full">
-                            <label for="country" className="lg:text-lg text-md font-semibold text-darkText">Country / Region*</label>
+                            <label htmlFor="country" className="lg:text-lg text-md font-semibold text-darkText">Country / Region*</label>
                                 <div className="bg-secondary rounded-lg mt-2">
                                     <input onChange={(e)=> { setCountry(e.target.value)}} value={country} className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="country" name="country" placeholder="Country / Region"/>
                                 </div>
                             </div>
                             <div className="w-full">
-                            <label for="company" className="lg:text-lg text-md font-semibold text-darkText">Company Name</label>
+                            <label htmlFor="company" className="lg:text-lg text-md font-semibold text-darkText">Company Name</label>
                                 <div className="bg-secondary rounded-lg mt-2">
                                     <input onChange={(e)=> { setCompany(e.target.value)}} value={company} className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="company" name="company" placeholder="Company (optional)"/>
                                 </div>
                             </div>
                             <div className="w-full">
-                            <label for="street" className="lg:text-lg text-md font-semibold text-darkText">Street Address*</label>
+                            <label htmlFor="street" className="lg:text-lg text-md font-semibold text-darkText">Street Address*</label>
                                 <div className="bg-secondary rounded-lg mt-2">
                                     <input onChange={(e)=> { setStreet(e.target.value)}} value={street} className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="street" name="street" placeholder="House number and street name"/>
                                 </div>
                             </div>
                             <div className="w-full">
-                            <label for="apt" className="lg:text-lg text-md font-semibold text-darkText">Apt, suite, unit</label>
+                            <label htmlFor="apt" className="lg:text-lg text-md font-semibold text-darkText">Apt, suite, unit</label>
                                 <div className="bg-secondary rounded-lg mt-2">
                                     <input onChange={(e)=> { setApt(e.target.value)}} value={apt} className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="apt" name="apt" placeholder="apartment, suite, unit, etc. (optional)"/>
                                 </div>
                             </div>
                             <div className="w-full">
-                            <label for="city" className="lg:text-lg text-md font-semibold text-darkText">City*</label>
+                            <label htmlFor="city" className="lg:text-lg text-md font-semibold text-darkText">City*</label>
                                 <div className="bg-secondary rounded-lg mt-2">
                                     <input onChange={(e)=> { setCity(e.target.value)}} value={city} className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="city" name="city" placeholder="Town / City"/>
                                 </div>
                             </div>
                             <div className="w-full">
-                            <label for="state" className="lg:text-lg text-md font-semibold text-darkText">State*</label>
+                            <label htmlFor="state" className="lg:text-lg text-md font-semibold text-darkText">State*</label>
                                 <div className="bg-secondary rounded-lg mt-2">
                                     <input onChange={(e)=> { setState(e.target.value)}} value={state} className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="state" name="state" placeholder="State"/>
                                 </div>
                             </div>
                             <div className="w-full">
-                            <label for="phone" className="lg:text-lg text-md font-semibold text-darkText">Phone*</label>
+                            <label htmlFor="phone" className="lg:text-lg text-md font-semibold text-darkText">Phone*</label>
                                 <div className="bg-secondary rounded-lg mt-2">
                                     <input onChange={(e)=> {setNumber(e.target.value)}} value={number} className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="phone" name="phone" placeholder="Phone"/>
                                 </div>
                             </div>
                             <div className="w-full">
-                            <label for="postalCode" className="lg:text-lg text-md font-semibold text-darkText">Postal Code*</label>
+                            <label htmlFor="postalCode" className="lg:text-lg text-md font-semibold text-darkText">Postal Code*</label>
                                 <div className="bg-secondary rounded-lg mt-2">
                                     <input onChange={(e)=> { setPostalCode(e.target.value)}} value={postalCode} className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText py-4 px-5" type="text" id="postalCode" name="postalCode" placeholder="Postal Code"/>
                                 </div>
                             </div>
                         </div>
                         <div className="w-full mt-8">
-                            <label for="delivery" className="lg:text-lg text-md font-semibold text-darkText">Delivery Instruction</label>
+                            <label htmlFor="delivery" className="lg:text-lg text-md font-semibold text-darkText">Delivery Instruction</label>
                                 <div className="bg-secondary rounded-lg mt-2">
-                                    <textarea onChange={(e)=> { setInstruction(e.target.value)}} value={instruction} className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText pt-4 h-36 px-5" type="text" id="delivery" name="delivery" placeholder="Delivery Instruction"/>
+                                    <textarea onChange={(e: React.ChangeEvent<HTMLTextAreaElement>)=> { setInstruction(e.target.value)}} value={instruction} className="bg-secondary text-xs rounded-lg  w-full font-normal text-grayText pt-4 h-36 px-5" id="delivery" name="delivery" placeholder="Delivery Instruction"/>
                                 </div>
                         </div>
 
                         <div className="w-full mt-8 flex">
                         <div className=" rounded-lg ">
-                        <input onChange={(e)=> { setShipping(!shipping)}} value={shipping} className=" rounded-lg  w-full  font-normal text-grayText" type="checkbox" id="shipping" name="shipping" placeholder="Delivery Instruction"/>
+                        <input onChange={(e)=> { setShipping(!shipping)}} checked={shipping} className=" rounded-lg  w-full  font-normal text-grayText" type="checkbox" id="shipping" name="shipping" placeholder="Delivery Instruction"/>
                         </div>
-                            <label for="shipping" className="pl-2 text-sm font-normal text-darkText">Set as default shipping address</label>
+                            <label htmlFor="shipping" className="pl-2 text-sm font-normal text-darkText">Set as default shipping address</label>
                         </div>
 
                         <div className="w-full mt-2 flex">
                         <div className=" rounded-lg ">
-                        <input onChange={(e)=> { setBilling(!billing)}} value={billing} className=" rounded-lg  w-full  font-normal text-grayText" type="checkbox" id="billing" name="billing" placeholder="Delivery Instruction"/>
+                        <input onChange={(e)=> { setBilling(!billing)}} checked={billing} className=" rounded-lg  w-full  font-normal text-grayText" type="checkbox" id="billing" name="billing" placeholder="Delivery Instruction"/>
                         </div>
-                            <label for="billing" className="pl-2 text-sm font-normal text-darkText">Set as default billing address</label>
+                            <label htmlFor="billing" className="pl-2 text-sm font-normal text-darkText">Set as default billing address</label>
                         
                         </div>
 
                         <div className="md:flex grid grid-cols-2 md:gap-6 gap-4 mt-9 md:font-bold md:text-xl">
                         <button className="rounded-lg  text-white md:w-32 w-full h-12 bg-primary">Save</button>
-                        <button onClick={()=>{onSave()}} className="rounded-lg text-grayText  md:w-32 w-full h-12 bg-secondary">Cancel</button>
+                        <button onClick={()=>{onSave(defaultPayload)}} className="rounded-lg text-grayText  md:w-32 w-full h-12 bg-secondary">Cancel</button>
                         </div>
                     </form>
                     </div>

@@ -13,28 +13,25 @@ import { handleAddUserToMongo } from "../../utils/wishlistFunc";
 
 export default function Signup() {
 
-    const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
-    const [type, setType] = useState('password');
-    const [privacy, setPrivacy] = useState(false);
-    const [subscribe, setSubscribe] = useState(false);
-    const [errorPrivacy, setErrorPrivacy] = useState("");
+    const [password, setPassword] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [errorMessage, setErrorMessage] = useState<string>("");
+    const [type, setType] = useState<string>('password');
+    const [privacy, setPrivacy] = useState<boolean>(false);
+    const [subscribe, setSubscribe] = useState<boolean>(false);
+    const [errorPrivacy, setErrorPrivacy] = useState<string>("");
     const [icon, setIcon] = useState(eyeOff);
-    console.log(email,password);
     const navigate = useNavigate();  
 
-    const handleRegisterGoogle = async (e) => {
+    const handleRegisterGoogle = async (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         signInWithPopup(auth, googleProvider)
         .then((result) => {
             // This gives you a Google Access Token. You can use it to access the Google API.
             const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-            // The signed-in user info.
             const user = result.user;
             // IdP data available using getAdditionalUserInfo(result)
             // ...
-            setTimeout(navigate("/account"), 3000);
+            setTimeout(()=>navigate("/account"), 3000);
         }).catch((error) => {
             // Handle Errors here.
             const errorCode = error.code;
@@ -48,7 +45,7 @@ export default function Signup() {
     }
      
 
-    const signupEmail = async (e) => {
+    const signupEmail = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
       
         // Check if the user agrees to the Privacy Policy
@@ -66,7 +63,11 @@ export default function Signup() {
           console.log("Firebase User Info:", user);
       
           // Send the correct data to MongoDB
-          await handleAddUserToMongo(email, user.displayName, user.uid); // Replace "John Doe" with the user's name if available
+          await handleAddUserToMongo({
+            email: email,
+            name: user.displayName,
+            uid: user.uid,
+        }); // Replace "John Doe" with the user's name if available
       
           // Reset form states after successful signup
           setErrorMessage(""); // Clear error messages
@@ -78,7 +79,7 @@ export default function Signup() {
       
           // Navigate to the account page
           setTimeout(() => navigate("/account"), 3000);
-        } catch (error) {
+        } catch (error:any) {
           // Handle errors during signup
           console.error("Error during signup:", error);
       
@@ -127,7 +128,7 @@ export default function Signup() {
                     </div>
 
                     <div>
-                    <div className="font-medium text-lg text-darkText flex justify-between items-center mt-3"><label>Password</label> <span onClick={handleToggle} className="flex justify-center items-center text-grayText"><Icon class="absolute mr-8" icon={icon} size={20}/></span></div>
+                    <div className="font-medium text-lg text-darkText flex justify-between items-center mt-3"><label>Password</label> <span onClick={handleToggle} className="flex justify-center items-center text-grayText"><Icon className="absolute mr-8" icon={icon} size={20}/></span></div>
                     <input autoComplete="current-password" onChange={(e)=> setPassword(e.target.value)} value={password} className="rounded-lg border-2 w-full border-borderLight border-opacity-80 py-4 px-4 mt-2 mb-2"   type={type} name="" id=""/>
                     <span className="font-medium text-xs text-grayText"><h5>Use 8 or more characters with a mix of letters, numbers & symbols</h5></span>
                     </div>
@@ -135,16 +136,16 @@ export default function Signup() {
                     <div className="mt-8"><span className="font-medium text-red text-sm"><h5>{errorPrivacy}</h5></span></div>
                     <div className="w-full flex items-center">
                         <div className=" rounded-lg ">
-                        <input onChange={(e)=> setPrivacy(!privacy)} value={privacy}  className=" rounded-lg  w-full  font-normal text-grayText" type="checkbox" id="privacy" name="privacy" />
+                        <input onChange={(e)=> setPrivacy(!privacy)} checked={privacy}  className=" rounded-lg  w-full  font-normal text-grayText" type="checkbox" id="privacy" name="privacy" />
                         </div>
-                            <label for="privacy" className="pl-2 text-lg font-normal text-grayText">Agree to our Terms of use and Privacy Policy </label>
+                            <label htmlFor="privacy" className="pl-2 text-lg font-normal text-grayText">Agree to our Terms of use and Privacy Policy </label>
                     </div>
                     
                             <div className="w-full mt-2 flex items-center">
                             <div className=" rounded-lg ">
-                            <input onChange={(e)=> setSubscribe(!subscribe)} value={subscribe} className=" rounded-lg  w-full  font-normal text-grayText" type="checkbox" id="subscribe" name="subscribe" />
+                            <input onChange={(e)=> setSubscribe(!subscribe)} checked={subscribe} className=" rounded-lg  w-full  font-normal text-grayText" type="checkbox" id="subscribe" name="subscribe" />
                             </div>
-                                <label for="subscribe" className="pl-2 text-lg font-normal text-grayText">Subscribe to our monthly newsletter</label>
+                                <label htmlFor="subscribe" className="pl-2 text-lg font-normal text-grayText">Subscribe to our monthly newsletter</label>
                             
                             </div>
 

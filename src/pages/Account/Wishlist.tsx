@@ -3,15 +3,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { IoCloseOutline } from "react-icons/io5";
 import "./Account.css"
 import WishlistEmpty from "../../components/WishlistEmpty/WishlistEmpty";
-import { fetchWishlist } from "../../redux/wishLists/wishlistSlice";
+import { fetchWishlist, WishListItem } from "../../redux/wishLists/wishlistSlice";
 import loadingBar from "../../assets/images/loader.svg";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { AppDispatch, RootState } from "src/store";
+import { selectUser } from "src/redux/users/userSlice";
 
-export default function Wishlist ({uid}) {
+export default function Wishlist () {
 
-    const dispatch = useDispatch();
-    const { items, loading, error } = useSelector((state) => state.wishlist);
+    const dispatch = useDispatch<AppDispatch>();
+    const { items, loading, error } = useSelector((state:RootState) => state.wishlist);
+    const { uid } = useSelector((state:RootState) => selectUser(state));
 
     useEffect(() => {
         if (uid) {
@@ -20,7 +23,7 @@ export default function Wishlist ({uid}) {
       }, [dispatch, uid]);
       console.log(items);
 
-    const handleRemoveWishlist = async (id) => {
+    const handleRemoveWishlist = async (id:string) => {
         try {
           // Make DELETE request to the backend to remove the item
           await axios.delete(`http://localhost:5000/add-wishlist/${id}`);
@@ -48,10 +51,19 @@ export default function Wishlist ({uid}) {
                 </div>
             ) : (
                 <div>
-                {items.map((item) => (
+                {items.map((item:WishListItem) => (
                     <div key={item._id} className="lg:flex  justify-between border-b-2 border-borderGreyLight py-6">
                     <div className="flex  justify-between lg:justify-center items-center">
-                    <button  onClick={() => handleRemoveWishlist(item._id)}><IoCloseOutline className="w-5 h-5 text-darkText"/></button>
+                    <button
+                    onClick={() => {
+                      if (item._id) { // Check if _id is defined
+                        handleRemoveWishlist(item._id)
+                      } else {
+                        console.error("Cannot remove item: _id is undefined");
+                        // Optionally handle this case, like showing an error message
+                      }
+                    }}
+                      ><IoCloseOutline className="w-5 h-5 text-darkText"/></button>
                     <img className="rounded-md md:w-28 md:h-28 w-20 h-20 md:mx-6 mx-2" src={item.image} alt=""/>
                     <div className="text-darkText flex justify-center items-center text-center font-bold lg:text-xl text-sm md:max-w-full max-w-72">
                     <h4 className="whitespace-pre-line">{item.title}</h4>

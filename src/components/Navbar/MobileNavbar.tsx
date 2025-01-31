@@ -11,19 +11,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCart } from '../../redux/cart/cartSlice';
 import SearchBar from './Search';
 import { AppDispatch, RootState } from 'src/store';
-
-type TUid = {
-    uid: string,
-}
+import { selectUser } from 'src/redux/users/userSlice';
 
 
-export default function MobileNavbar({uid}:TUid) {
+export default function MobileNavbar() {
     const [showNavbar, setShowNavbar] = useState<boolean>(false);
     const totalQuantity = useSelector((state: RootState) => state.cart.totalQuantity);
     const cartItems = useSelector((state: RootState) => state.cart.cart);
     // const uidCart = cartItems?.uid || cartItems?.cart?.uid;
     const uidCart = cartItems?.uid || null;
     const dispatch = useDispatch<AppDispatch>();
+    const { uid } = useSelector((state:RootState) => selectUser(state));
 
     useEffect(() => {
             if (uid){

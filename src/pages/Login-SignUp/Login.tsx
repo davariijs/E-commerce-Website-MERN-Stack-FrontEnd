@@ -12,10 +12,10 @@ import "./login-signup.css";
 
 export default function Login() {
 
-    const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
-    const [type, setType] = useState('password');
+    const [password, setPassword] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [errorMessage, setErrorMessage] = useState<string>("");
+    const [type, setType] = useState<string>('password');
     const [icon, setIcon] = useState(eyeOff);
     const navigate = useNavigate(); 
 
@@ -30,39 +30,30 @@ export default function Login() {
      }
 
 
-         const handleLoginGoogle = async (e) => {
+         const handleLoginGoogle = async (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             signInWithPopup(auth, googleProvider)
                 .then((result) => {
                     // This gives you a Google Access Token. You can use it to access the Google API.
                     const credential = GoogleAuthProvider.credentialFromResult(result);
-                    const token = credential.accessToken;
                     // The signed-in user info.
                     const user = result.user;
                     // IdP data available using getAdditionalUserInfo(result)
                     console.log(user);
-                    setTimeout(navigate("/account"), 3000);
+                    setTimeout(()=>navigate("/account"), 3000);
                     // ...
                 }).catch((error) => {
-                    // Handle Errors here.
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    // The email of the user's account used.
-                    const email = error.customData.email;
-                    // The AuthCredential type that was used.
-                    const credential = GoogleAuthProvider.credentialFromError(error);
-                    console.log(errorMessage);
                     // ...
                 });
             } 
 
 
-                const signinEmail = (e) => {
+                const signinEmail = (e: React.FormEvent<HTMLFormElement>) => {
                     e.preventDefault();
                     signInWithEmailAndPassword(auth, email, password)
                     .then((userCredential) => {
                         // Signed in 
                         const user = userCredential.user;
-                        setTimeout(navigate("/account"), 3000);
+                        setTimeout(()=>navigate("/account"), 3000);
                         // ...
                     })
                     .catch((error) => {
@@ -93,7 +84,7 @@ export default function Login() {
                         <div className="w-full divPart rounded-lg bg-grayText ml-4"></div>
                     </div>
 
-                    <form onSubmit={signinEmail}>
+                    <form onSubmit={(e)=>signinEmail}>
                     <div className="mt-8">
                     <label className="font-medium text-lg text-darkText ">Email address</label>
                     <input onChange={(e)=> setEmail(e.target.value)} value={email} className="rounded-lg border-2 w-full border-darkText py-4 px-4 mt-2" type="text" name="" id=""/>
@@ -101,7 +92,7 @@ export default function Login() {
                     </div>
 
                     <div>
-                    <div className="font-medium text-lg text-darkText flex justify-between items-center mt-8"><label>Password</label> <span onClick={handleToggle} className="flex justify-center items-center text-grayText"><Icon class="absolute mr-8" icon={icon} size={20}/></span></div>
+                    <div className="font-medium text-lg text-darkText flex justify-between items-center mt-8"><label>Password</label> <span onClick={handleToggle} className="flex justify-center items-center text-grayText"><Icon className="absolute mr-8" icon={icon} size={20}/></span></div>
                     <input autoComplete="current-password" onChange={(e)=> setPassword(e.target.value)} value={password} className="rounded-lg border-2 w-full border-darkText py-4 px-4 mt-2 mb-2"  type={type} name="" id=""/>
                     <Link to="/reset-password" className="font-medium text-base text-darkText text-right underline"><h5>Forget your password</h5></Link>
                     </div>

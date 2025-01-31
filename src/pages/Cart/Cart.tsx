@@ -9,16 +9,17 @@ import CartEmpty from "../../components/CartEmpty/CartEmpty";
 import { selectUser } from "../../redux/users/userSlice";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
+import { AppDispatch, RootState } from "src/store";
 
 export default function Cart() {
-    const cartItems = useSelector((state) => state.cart.cart); // Updated to match slice state
+    const cartItems = useSelector((state:RootState) => state.cart.cart); // Updated to match slice state
     const items = cartItems?.items || [];
-    const dispatch = useDispatch();
-    const { uid } = useSelector(selectUser);
-    const loading = useSelector((state) => state.cart.loading);
-    const [coupon, setCoupon] = useState();
-    const [discountCode, setDiscountCode] = useState(10945);
-    const [startCoupon, setStartCoupon] = useState(0);
+    const dispatch = useDispatch<AppDispatch>();
+    const { uid } = useSelector((state:RootState) => selectUser(state));
+    const loading = useSelector((state:RootState) => state.cart.loading);
+    const [coupon, setCoupon] = useState<string>();
+    const [discountCode, setDiscountCode] = useState<number>(10945);
+    const [startCoupon, setStartCoupon] = useState<number>(0);
 
     const notifySuccess = () => toast.success('Your coupon applied !', {
               position: 'bottom-right',
@@ -33,9 +34,9 @@ export default function Cart() {
         }
       }, [dispatch,uid]);
 
-    function handleRemove(id) {
+    function handleRemove(id:string) {
         console.log(`Requesting deletion of item with ID: ${id} from cart of user: ${uid}`);
-        const handleRemoveItem = async ({ id }) => {
+        const handleRemoveItem = async ({ id }:{id:string}) => {
             console.log(`second clg: ${id}`);
             try {
                 console.log(`Requesting deletion of item with ID: ${id} from cart`);
@@ -78,7 +79,7 @@ export default function Cart() {
     }
 
 
-    const handleDecreaseQuantity = (id) => {
+    const handleDecreaseQuantity = (id:string) => {
         if (!items || items.length === 0) {
             console.error("Cart is empty or null, cannot decrease quantity");
             return;
@@ -86,7 +87,7 @@ export default function Cart() {
         dispatch(decreaseQuantityAsync({ uid, itemId: id })); // Use the async thunk
     };
     
-    const handleIncreaseQuantity = (id) => {
+    const handleIncreaseQuantity = (id:string) => {
         dispatch(increaseQuantityAsync({ uid, itemId: id })); // Use the async thunk
     };
 
@@ -105,7 +106,7 @@ export default function Cart() {
                     <Link to="/account" className="pl-3 pr-3 text-darkText font-normal ">Add To Cart</Link>
                     </div>
 
-                    <div className="text-grayText text-sm"><h3>Please fill in the fields below and click place order to complete your purchase!</h3><Link>Already registered? <span className="text-primary font-semibold">Please login here</span></Link></div>
+                    <div className="text-grayText text-sm"><h3>Please fill in the fields below and click place order to complete your purchase!</h3><Link to="/login">Already registered? <span className="text-primary font-semibold">Please login here</span></Link></div>
 
                     <div className="header-types relative">
                         <div>
@@ -143,9 +144,25 @@ export default function Cart() {
                                         <td className="px-4 py-2">
                                         <div className="flex  justify-end items-center">
                                         <div className="md:w-24 w-16   h-9 bg-secondary rounded-lg text-darkText text-center flex items-center justify-between md:px-5 px-2">
-                                                <button onClick={() => handleDecreaseQuantity(item._id)}>-</button>
+                                                <button 
+                                                onClick={() => {
+                                                    if (item._id) {
+                                                        handleDecreaseQuantity(item._id);
+                                                    } else {
+                                                      console.error("Cannot remove item: _id is undefined");
+                                                    }
+                                                  }}
+                                                >-</button>
                                                 {item.quantity}
-                                                <button onClick={() => handleIncreaseQuantity(item._id)}>+</button>
+                                                <button 
+                                                onClick={() => {
+                                                    if (item._id) {
+                                                        handleIncreaseQuantity(item._id);
+                                                    } else {
+                                                      console.error("Cannot remove item: _id is undefined");
+                                                    }
+                                                  }}
+                                                >+</button>
                                             </div>
                                         </div>
                                             </td>
@@ -153,7 +170,15 @@ export default function Cart() {
                                             ${(item.price * item.quantity).toFixed(2)}
                                         </td>
                                         <td className="px-10 py-2 text-end">
-                                            <button onClick={() => handleRemove(item._id)} className="  py-2 rounded "><FaRegTrashAlt className="text-primary"/></button>
+                                            <button 
+                                             onClick={() => {
+                                                if (item._id) {
+                                                    handleRemove(item._id);
+                                                } else {
+                                                  console.error("Cannot remove item: _id is undefined");
+                                                }
+                                              }}
+                                            className="  py-2 rounded "><FaRegTrashAlt className="text-primary"/></button>
                                         </td>
                                         </tr>
                                     ))}

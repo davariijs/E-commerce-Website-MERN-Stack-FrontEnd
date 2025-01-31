@@ -5,6 +5,7 @@ import searchIcon from "../../assets/icons/search-icon.svg";
 import './Navbar.css';
 import { Link } from "react-router-dom";
 import { RootState } from "src/store";
+import { TProduct } from "src/redux/types/types";
 
 interface Product {
   webID: string;
@@ -54,8 +55,8 @@ const SearchBar: React.FC = () => {
             zIndex: 10,
           }}
         >
-          {filteredProducts.map((product:Product) => (
-            <Link to={product.webID} key={product.webID}>
+          {filteredProducts.map((product:TProduct) => (
+            <Link to={String(product.webID)} key={product.webID}>
               <div
                 style={{
                   padding: "10px",

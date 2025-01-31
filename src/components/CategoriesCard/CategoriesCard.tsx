@@ -9,7 +9,7 @@ type TCategoriesCard ={
     price?:string | number,
     categoriesFashionCard?:boolean,
     brand?:string,
-    linkCard:number,
+    linkCard:number | string,
     onClick?:()=>void,
 }
 

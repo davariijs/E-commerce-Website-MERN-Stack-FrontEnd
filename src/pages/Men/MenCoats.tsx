@@ -12,15 +12,16 @@ import likeIconGif from "../../assets/icons/icons8-like.gif";
 import { useLocation } from 'react-router';
 import { AppDispatch, RootState } from 'src/store';
 import { TProduct } from 'src/redux/types/types';
+import { selectUser } from 'src/redux/users/userSlice';
 
-export default function MenCoats({uid}:{uid:string}) {
+export default function MenCoats() {
 
     const dispatch = useDispatch<AppDispatch>();
     const menCoats = useSelector((state: RootState) => selectMenCoats(state));
     const loading = useSelector((state: RootState) => selectLoadingState(state));
     const error = useSelector((state: RootState) => selectErrorState(state));
     const values = useSelector((state: RootState) => selectFilterPrices(state));
-
+    const { uid } = useSelector((state:RootState) => selectUser(state));
     const location = useLocation();
 
     const notify = () => toast.success('Product added to you wishlist !', {
@@ -40,15 +41,14 @@ export default function MenCoats({uid}:{uid:string}) {
       pathname: string,
       uid: string
     ) {
-      // Fix the expected argument issue here
-      handleAddWishlist({
-        title,
-        image,
-        price,
-        pathname,
-        uid,
-      }); // Pass as an object
-      notify();
+      if (uid) {
+        handleAddWishlist({title, image, price,pathname, uid});
+        notify();
+      } else {
+        toast.error('User is not logged in', {
+          position: 'bottom-right',
+        });
+      }
     }
 
     let contentToDisplay:ReactNode = '';
@@ -65,7 +65,7 @@ export default function MenCoats({uid}:{uid:string}) {
               itemCategory.image.url,
               itemCategory.prices[0].regularPrice.minPrice,
               `${location.pathname}/${itemCategory.webID}`,
-              uid
+              uid ?? ''
             )
           }
           key={itemCategory.webID}

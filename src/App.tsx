@@ -37,22 +37,23 @@ import MyInfo from './pages/Account/MyInfo';
 import OrderDetails from './pages/Account/OrderDetails';
 import CheckOut from './pages/CheckOut/CheckOut';
 import { auth } from './firebase/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, User } from 'firebase/auth';
 import { clearUser, setUser } from './redux/users/userSlice';
 import { useDispatch } from 'react-redux';
+import { AppDispatch } from './store';
 
 export default function App() {
 
-  const [email,setEmail] = useState(null);
-  const [name,setName] = useState(null);
-  const [uid,setUid] = useState(null);
+  const [email,setEmail] = useState<string | null>(null);
+  const [name,setName] = useState<string | null>(null);
+  const [uid,setUid] = useState<string | null>(null);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   
   
   useEffect(() => {
     function userState () {
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, (user: User | null) => {
             if (user) {
             const uid = user.uid;
             setUid(uid);
@@ -73,16 +74,16 @@ export default function App() {
 
   return (
     <BrowserRouter>
-    <Navbar uid={uid}/>
+    <Navbar/>
       <Routes>
           <Route path="/"  element={<Home />}/>
           <Route path="/login"  element={<Login />}/>
           <Route path="/check-out"  element={<CheckOut />}/>
-          <Route path="account" element={<Account email={email} uid={uid} name={name}/>}>
+          <Route path="account" element={<Account/>}>
             <Route index  element={<Orders />} />
             <Route path='orders'  element={<Orders />} />
-            <Route path='my-info' element={<MyInfo email={email} uid={uid} name={name}/>}/>
-            <Route path='wishlist'  element={<Wishlist uid={uid}/>} />
+            <Route path='my-info' element={<MyInfo/>}/>
+            <Route path='wishlist'  element={<Wishlist/>} />
             <Route path=':id'  element={<OrderDetails />} />
           </Route>
           <Route path="/sign-up"  element={<Signup />}/>
@@ -94,37 +95,37 @@ export default function App() {
           <Route path="/cart-empty"  element={<CartEmpty />}/>
           <Route path="/cart"  element={<Cart />}/>
           <Route path=':id' element={<ProductDetails />} />
-          <Route path="women" element={<Women uid={uid}/>}>
-            <Route index  element={<WomenTops uid={uid}/>} />
+          <Route path="women" element={<Women/>}>
+            <Route index  element={<WomenTops/>} />
             <Route path=':id' element={<ProductDetails />} />
-            <Route path='tops'  element={<WomenTops uid={uid}/>} />
+            <Route path='tops'  element={<WomenTops/>} />
             <Route path='tops/:id' element={<ProductDetails />} />
-            <Route path='t-shirts' element={<WomenTShirts uid={uid}/>} />
+            <Route path='t-shirts' element={<WomenTShirts/>} />
             <Route path='t-shirts/:id' element={<ProductDetails />} />
-            <Route path='shoes' element={<WomenShoes uid={uid}/>} />
+            <Route path='shoes' element={<WomenShoes/>} />
             <Route path='shoes/:id' element={<ProductDetails />} />
-            <Route path='coats' element={<WomenCoats uid={uid}/>}/>
+            <Route path='coats' element={<WomenCoats/>}/>
             <Route path='coats/:id' element={<ProductDetails />} />
-            <Route path='dresses' element={<WomenDresses uid={uid}/>}/>
+            <Route path='dresses' element={<WomenDresses/>}/>
             <Route path='dresses/:id' element={<ProductDetails />} />
-            <Route path='hoodies' element={<WomenHoodies uid={uid}/>}/>
+            <Route path='hoodies' element={<WomenHoodies/>}/>
             <Route path='hoodies/:id' element={<ProductDetails />} />
           </Route>
           
           <Route path="men" element={<Men/>}>
-            <Route index  element={<MenTops uid={uid}/>} />
+            <Route index  element={<MenTops/>} />
             <Route path=':id' element={<ProductDetails />} />
-            <Route path='tops'  element={<MenTops uid={uid}/>} />
+            <Route path='tops'  element={<MenTops/>} />
             <Route path='tops/:id' element={<ProductDetails />} />
-            <Route path='t-shirts' element={<MenTShirts uid={uid}/>} />
+            <Route path='t-shirts' element={<MenTShirts/>} />
             <Route path='t-shirts/:id' element={<ProductDetails />} />
-            <Route path='shoes' element={<MenShoes uid={uid}/>} />
+            <Route path='shoes' element={<MenShoes/>} />
             <Route path='shoes/:id' element={<ProductDetails />} />
-            <Route path='coats' element={<MenCoats uid={uid}/>}/>
+            <Route path='coats' element={<MenCoats/>}/>
             <Route path='coats/:id' element={<ProductDetails />} />
-            <Route path='jeans' element={<MenJeans uid={uid}/>}/>
+            <Route path='jeans' element={<MenJeans/>}/>
             <Route path='jeans/:id' element={<ProductDetails />} />
-            <Route path='hoodies' element={<MenHoodies uid={uid}/>}/>
+            <Route path='hoodies' element={<MenHoodies/>}/>
             <Route path='hoodies/:id' element={<ProductDetails />} />
           </Route>
 

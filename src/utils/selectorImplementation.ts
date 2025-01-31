@@ -9,7 +9,7 @@ const selectMenJeans = (state:RootState) => state.MenJeansList?.MenJeans?.payloa
 const selectMenShoes = (state:RootState) => state.MenShoesList?.MenShoes?.payload?.products || [];
 const selectMenTops = (state:RootState) => state.MenTopsList?.menTops?.payload?.products || [];
 const selectMenTShirts= (state:RootState) => state.MenTShirtsList?.MenTShirts?.payload?.products || [];
-const selectWomenHoodies= (state:RootState) => state.WomenHoodiesList?.payload?.products || [];
+const selectWomenHoodies= (state:RootState) => state.WomenHoodiesList?.WomenHoodies?.payload?.products || [];
 const selectWomenCoats = (state:RootState) => state.WomenCoatsList?.WomenCoats?.payload?.products || [];
 const selectWomenDresses = (state:RootState) => state.WomenDressesList?.WomenDresses?.payload?.products || [];
 const selectWomenShoes = (state:RootState) => state.WomenShoesList?.WomenShoes?.payload?.products || [];

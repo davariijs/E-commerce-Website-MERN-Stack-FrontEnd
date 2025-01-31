@@ -13,14 +13,15 @@ export default function NewPassword() {
     const navigate = useNavigate();
     const user = auth.currentUser; 
 
-    const newPasswordFunc = (e) => {
+    const newPasswordFunc = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (newPassword === confirmPassword){
+            if (user) { 
         updatePassword(user, newPassword).then(() => {
             // Update successful.
             console.log("Update successful.");
             setErrorMessage("")
-            setTimeout(navigate("/login"), 3000);
+            setTimeout(()=>navigate("/login"), 3000);
           }).catch((error) => {
             // An error ocurred
             // ...
@@ -28,6 +29,10 @@ export default function NewPassword() {
             const errorMessagePassword = error.message;
             setErrorMessage(errorMessagePassword)
           });
+        } else {
+            setErrorMessage("User is not authenticated.");
+          }
+    
         } else {
             setErrorMessage("New password and confirm new password do not match")
         }

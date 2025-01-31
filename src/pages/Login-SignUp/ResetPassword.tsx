@@ -7,11 +7,11 @@ import { sendPasswordResetEmail } from "firebase/auth";
 
 export default function ResetPassword() {
 
-    const [email, setEmail] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
+    const [email, setEmail] = useState<string>("");
+    const [errorMessage, setErrorMessage] = useState<string>("");
     const navigate = useNavigate(); 
 
-    const resetPassword = (e) => {
+    const resetPassword = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         sendPasswordResetEmail(auth, email)
         .then(() => {
@@ -19,7 +19,7 @@ export default function ResetPassword() {
             // ..
             setEmail("");
             setErrorMessage("")
-            setTimeout(navigate("/check-email"), 3000);
+            setTimeout(() => navigate("/check-email"), 3000);
         })
         .catch((error) => {
             const errorCode = error.code;

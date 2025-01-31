@@ -14,7 +14,7 @@ import { fetchProductDetails, selectErrorState,selectLoadingState,selectProducts
 import { addToCart } from "../../redux/cart/cartSlice";
 import { selectUser } from "../../redux/users/userSlice";
 import { ToastContainer, toast } from 'react-toastify';
-import { AppDispatch } from "src/store";
+import { AppDispatch, RootState } from "src/store";
 
 
 export default function ProductDetails() {
@@ -26,7 +26,7 @@ export default function ProductDetails() {
   const loading = useSelector(selectLoadingState);
   const error = useSelector(selectErrorState);
   const [colorProduct, setColorProduct] = useState("");
-  const { uid } = useSelector(selectUser);
+  const { uid } = useSelector((state:RootState) => selectUser(state));
   const product = productsDetails?.payload?.products[0];
   const videoUrl = productsDetails?.payload?.products[0].videos?.[0]?.url ?? '';
   const sizeChartURL = productsDetails?.payload?.products[0].styleGuide?.sizeChartURL ?? '#';
@@ -94,7 +94,7 @@ export default function ProductDetails() {
         item: {
           id: product.webID,
           title: product.productTitle,
-          price: product?.price?.regularPrice?.minPrice.toString(),
+          price: product?.price?.regularPrice?.minPrice,
           image: product.images[0]?.url,
           color: colorProduct,
           quantity: 1, // Default quantity to 1

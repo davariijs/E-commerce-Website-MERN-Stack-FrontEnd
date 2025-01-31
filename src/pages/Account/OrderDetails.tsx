@@ -6,13 +6,15 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/users/userSlice";
 import { OrderFunc } from "../../utils/wishlistFunc";
 import { formatDate } from "../../utils/usefulFunc";
+import { RootState } from "src/store";
+import { TOrder } from "src/redux/types/types";
 
 
 export default function OrderDetails () {
 const id = useParams();
   const productSingleId = id.id;
   const [orders, setOrders] = useState([]);
-  const { uid } = useSelector(selectUser);
+  const { uid } = useSelector((state:RootState) => selectUser(state));
   console.log(productSingleId);
 
   const fetchData = async () => {
@@ -22,7 +24,7 @@ const id = useParams();
 
         // Assuming the array is in result.orders
         const ordersArray = result.orders || []; // Use the correct property containing the array
-        const data = ordersArray.filter(order => order._id === productSingleId);
+        const data = ordersArray.filter((order:TOrder) => order._id === productSingleId);
         setOrders(data); // Update state with fetched data
     } catch (err) {
         console.log(err);
@@ -43,12 +45,12 @@ const id = useParams();
         <Fragment>
             <div>
 
-                {orders?.map(order => (
+                {orders?.map((order:TOrder) => (
                     <div key={order._id}>
                         <div className="bg-secondary md:py-7 md:px-12 py-3 px-5 flex justify-between items-center rounded-lg">
                         <div>
                             <h3 className="text-darkText font-semibold md:text-base text-sm">Order no: #{order._id}</h3>
-                            <h4 className="font-light text-base text-borderGrey pt-2">Placed On  {formatDate(order.orderDate)} </h4>
+                            <h4 className="font-light text-base text-borderGrey pt-2">Placed On  {formatDate(order.orderDate ?? new Date().toISOString())} </h4>
                         </div>
                         <h4 className="font-semibold md:text-base text-sm text-grayText">Total : <span className="text-darkText">${order.totalPrice}</span></h4>
                     </div>

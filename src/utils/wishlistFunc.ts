@@ -1,5 +1,5 @@
 interface TWishlist {
-  uid: string;
+  uid: string | null;
   title: string,
   image: string,
   price: string | number,
@@ -7,9 +7,9 @@ interface TWishlist {
 }
 
 interface TUserToMongo {
-  uid: string;
-  email: string,
-  name: string,
+  uid: string | null;
+  email: string| null,
+  name: string| null,
 }
 
 export const handleAddWishlist = async ({title, image, price, pathname, uid}:TWishlist) => {
@@ -56,7 +56,7 @@ export const handleAddWishlist = async ({title, image, price, pathname, uid}:TWi
   };
 
 
-  export const InfoAccountFunc = async (uid:string) => {
+  export const InfoAccountFunc = async (uid:string | null) => {
     try {
       const result = await fetch(`http://localhost:5000/info-account/${uid}`, {
         method: 'GET',
@@ -81,7 +81,7 @@ export const handleAddWishlist = async ({title, image, price, pathname, uid}:TWi
     }
   };
 
-  export const OrderFunc = async (uid:string) => {
+  export const OrderFunc = async (uid:string | null) => {
     try {
       const result = await fetch(`http://localhost:5000/check-out/${uid}`, {
         method: 'GET',

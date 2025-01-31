@@ -10,12 +10,12 @@ type TCard = {
     seeMore:string,
     srcCard:string,
     alt:string,
-    showFirstType?:string,
-    cardFashionTextZone:string,
+    showFirstType?:boolean,
+    cardFashionTextZone?:string,
     rowReverse?:string,
     titleLimited?:boolean,
-    textColor:string,
-    borderColor:string,
+    textColor?:string,
+    borderColor?:string,
 }
 
 export default function Card ({priceTitle,mainTitle,discount,seeMore,srcCard,alt,showFirstType,cardFashionTextZone,rowReverse, titleLimited, textColor,borderColor}:TCard) {

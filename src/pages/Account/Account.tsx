@@ -4,12 +4,15 @@ import { Outlet, useLocation, useParams } from "react-router-dom";
 import leftArrowIcon from "../../assets/icons/left-arrow.svg";
 import SidebarAccount from "./SidebarAccount";
 import "./Account.css";
+import { RootState } from 'src/store';
+import { useSelector } from 'react-redux';
+import { selectUser } from 'src/redux/users/userSlice';
 
-export default function Account ({email,uid,name}) {
-      
+export default function Account () {
+    const { uid} = useSelector((state:RootState) => selectUser(state));
+    
 
-
-    const [path, setPath] = useState();
+    const [path, setPath] = useState<string>();
   const location = useLocation();
 
   const {id} = useParams();
@@ -39,14 +42,14 @@ export default function Account ({email,uid,name}) {
             <div className="container mx-auto w-full h-full accountPage">
                 <div className="pb-12 pt-3 flex lg:text-lg"><Link to="/" className="text-grayText font-normal  pr-3">Home</Link><img src={leftArrowIcon} width="5px" height="10.14px" alt="arrow"/>
                 <Link to="/account" className="pl-3 pr-3 text-grayText font-normal ">My Account</Link><img src={leftArrowIcon} width="5px" height="10.14px" alt="arrow"/>
-                <Link className="text-darkText font-normal  pl-3">{path}</Link>
+                <div className="text-darkText font-normal  pl-3">{path}</div>
                 </div>
             
 
             {uid? 
                 <div className="lg:flex pb-8 ">
                 <div className="lg:pr-14 pr-0 lg:w-1/4 w-full">
-                <SidebarAccount email={email} name={name} path={path}/>
+                <SidebarAccount/>
                 </div>
 
                 <div className="pb-8 lg:pt-0 pt-8 lg:w-3/4 w-full">

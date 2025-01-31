@@ -7,17 +7,20 @@ import "./Account.css"
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/firebase";
 import { signOut } from "firebase/auth";
+import { useSelector } from "react-redux";
+import { RootState } from "src/store";
+import { selectUser } from "src/redux/users/userSlice";
 
-export default function SidebarAccount ({email,name}) {
-
-    const [displayAccount, setDisplayAccount] = useState();
-        const navigate = useNavigate(); 
+export default function SidebarAccount () {
+    const { name,email } = useSelector((state:RootState) => selectUser(state));
+    const [displayAccount, setDisplayAccount] = useState<string | null>();
+    const navigate = useNavigate(); 
 
     const signOutUser = () => {
         signOut(auth).then(() => {
             // Sign-out successful.
             console.log('Signed Out');
-            setTimeout(navigate("/"), 5000);
+            setTimeout(() => navigate("/"), 2000);
           }).catch((error) => {
             // An error happened.
             console.log(error);

@@ -13,30 +13,31 @@ import InfoAccount from "../Account/InfoAccount";
 import { nextFiveDays } from "../../utils/usefulFunc";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
-import { fetchCart } from "../../redux/cart/cartSlice";
+import { fetchCart, TCartItem } from "../../redux/cart/cartSlice";
+import { AppDispatch, RootState } from "src/store";
+import { IAddressInfo } from "../Account/MyInfo";
 
 export default function CheckOut () {
 
-    const cartItems = useSelector((state) => state.cart.cart); // Updated to match slice state
+    const cartItems = useSelector((state:RootState) => state.cart.cart); // Updated to match slice state
     const items = cartItems?.items || [];
-    const cartId = cartItems?._id || [];
-    const totalQuantity = useSelector((state) => state.cart.totalQuantity); // Get total quantity
-    const dispatch = useDispatch();
-    const [showNewAddress,setShowNewAddress] = useState(false);
+    const cartId = cartItems?._id || null;
+    const totalQuantity = useSelector((state:RootState) => state.cart.totalQuantity); // Get total quantity
+    const dispatch = useDispatch<AppDispatch>();
     const [editingAddress, setEditingAddress] = useState(null);
-    const [ cardNumber, SetCardNumber] = useState();
-    const [ nameCard, setNameCard] = useState();
-    const [ expirationDate, setExpirationDate] = useState();
-    const [ securityCode, setSecurityCode] = useState();
-    const [creditCard, setCreditCard] = useState(false);
-    const [cash, setCash] = useState(false);
-    const [paypal, setPaypal] = useState(false);
-    const { uid } = useSelector(selectUser);
-    const [address, setAddress] = useState(null);
+    const [ cardNumber, SetCardNumber] = useState<string>("");
+    const [ nameCard, setNameCard] = useState<string>("");
+    const [ expirationDate, setExpirationDate] = useState<string>("");
+    const [ securityCode, setSecurityCode] = useState<string>("");
+    const [creditCard, setCreditCard] = useState<boolean>(false);
+    const [cash, setCash] = useState<boolean>(false);
+    const [paypal, setPaypal] = useState<boolean>(false);
+    const { uid } = useSelector((state:RootState) => selectUser(state));
+    const [address, setAddress] = useState<IAddressInfo | null>(null);
     const navigate = useNavigate(); 
 
-    const notifySuccess = (message) => toast.success(message, { position: "bottom-right" });
-    const notifyError = (message) => toast.error(message, { position: "bottom-right" });
+    const notifySuccess = (message:string) => toast.success(message, { position: "bottom-right" });
+    const notifyError = (message:string) => toast.error(message, { position: "bottom-right" });
 
       const calculateTotalPrice = () => {
         return items.reduce((total, item) => total + item.price * item.quantity , 0);
@@ -46,7 +47,7 @@ export default function CheckOut () {
         return items.reduce((total, item) => total + item.price * item.quantity + 5 , 0);
       };
 
-      const handleSaveAndClose = (savedAddress) => {
+      const handleSaveAndClose = (savedAddress:IAddressInfo) => {
         setAddress(savedAddress);
       };
 
@@ -57,7 +58,7 @@ export default function CheckOut () {
         }, [dispatch,uid]);
 
 
-        const handleDeleteCart = async (cartId,uid) => {
+        const handleDeleteCart = async (cartId:string | null,uid:string| null) => {
             console.log('Frontend cartId:', cartId);  // Check if cartId is an object or string
 
             try {
@@ -72,7 +73,7 @@ export default function CheckOut () {
         
 
         // Handle "Pay Now" button click
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Validate Payment Method
@@ -138,7 +139,7 @@ export default function CheckOut () {
         notifyError("Something went wrong!");
       }
       console.log("Response from backend:", response.data);
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error during checkout:", error);
       notifyError(error)
     }
@@ -149,7 +150,7 @@ export default function CheckOut () {
             <div className="container mx-auto w-full h-full accountPage">
                 <div className="pb-12 pt-3 flex lg:text-lg"><Link to="/" className="text-grayText font-normal  pr-3">Home</Link><img src={leftArrowIcon} width="5px" height="10.14px" alt="arrow"/>
                 <Link to="/account" className="pl-3 pr-3 text-grayText font-normal ">My Account</Link><img src={leftArrowIcon} width="5px" height="10.14px" alt="arrow"/>
-                <Link className="text-darkText font-normal  pl-3">Check Out</Link>
+                <div className="text-darkText font-normal  pl-3">Check Out</div>
                 </div>
 
                 <div className='text-darkText flex md:text-2xl text-lg font-bold '><div className='title-part '></div><h3 className='pl-3 pt-1'>Check Out</h3></div>
@@ -158,7 +159,7 @@ export default function CheckOut () {
 
                     <div className="pb-8 lg:pt-0 pt-4 lg:w-3/4 w-full md:mr-10">
                     <h3 className="text-darkText md:text-xl text-md font-bold pb-8">Billing Details</h3>
-                    <InfoAccount uid={uid} onSave={handleSaveAndClose} existingData={editingAddress}/>
+                    <InfoAccount onSave={handleSaveAndClose} existingData={editingAddress}/>
                     <form onSubmit={handleSubmit}>
 
                         <div className="pt-6 pb-6 border-b-2 border-secondary">
@@ -198,7 +199,7 @@ export default function CheckOut () {
                                 className=" rounded-lg  w-4 h-4 md:mt-3 mt-1 font-normal text-grayText" type="radio" id="creditCard" name="creditCard" placeholder="Delivery Instruction"/>
                                 </div>
                                 <div>
-                                    <label for="billingAddress" className="pl-4 md:-mt-4  font-bold md:text-lg text-base text-darkText">Credit Card</label>
+                                    <label htmlFor="billingAddress" className="pl-4 md:-mt-4  font-bold md:text-lg text-base text-darkText">Credit Card</label>
                                     <p className="text-darkText font-medium text-sm pl-4">We accept all major credit cards.</p>
                                 </div>
                                 </div>
@@ -255,7 +256,7 @@ export default function CheckOut () {
                                  className=" rounded-lg  w-4 h-4 md:mt-3 mt-1 font-normal text-grayText" type="radio" id="cash" name="cash" placeholder="Delivery Instruction"/>
                                 </div>
                                     <div>
-                                    <label for="billingAddress" className="pl-4 md:-mt-1  font-bold md:text-lg text-base text-darkText">Cash on delivery</label>
+                                    <label htmlFor="billingAddress" className="pl-4 md:-mt-1  font-bold md:text-lg text-base text-darkText">Cash on delivery</label>
                                     <p className="text-darkText font-medium text-sm pl-4">Pay with cash upon delivery.</p>
                                     </div>
                                 </div>
@@ -272,7 +273,7 @@ export default function CheckOut () {
                                 
                                 className=" rounded-lg  w-4 h-4 md:mt-0 mt-1 font-normal text-grayText" type="radio" id="paypal" name="paypal" placeholder="Delivery Instruction"/>
                                 </div>
-                                    <label for="diffAddress" className="pl-4 md:-mt-1  font-bold md:text-lg text-base text-darkText">Paypal</label>
+                                    <label htmlFor="diffAddress" className="pl-4 md:-mt-1  font-bold md:text-lg text-base text-darkText">Paypal</label>
                                     
                                 </div>
                             </div>
@@ -288,7 +289,7 @@ export default function CheckOut () {
                     <div className="pb-8 py-6 px-6 lg:w-1/4 w-full h-fit border-2 rounded-lg border-secondary md:my-0 my-6">
                         <h3 className="font-bold md:text-2xl text-base pb-3 border-b-2 border-borderGrey">Order Summary</h3>
 
-                        {items.map((item) => (
+                        {items.map((item:TCartItem) => (
                         <div key={item._id} className="flex justify-between items-center font-bold text-sm  py-5 border-b-2 border-borderGrey">
                         <div className="flex">
                         <img className="rounded-md w-16 h-16 md:mr-4 mr-3" src={item.image} alt={item.title}/>

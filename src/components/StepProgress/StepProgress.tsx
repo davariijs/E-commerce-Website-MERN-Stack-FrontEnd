@@ -5,14 +5,14 @@ import './StepProgress.css';
 import { formatDate } from "../../utils/usefulFunc";
 
 type TOrder = {
-  order:string,
+  order?:string,
 }
 
 export default function StepProgress ({order}:TOrder) {
-    const step1Content = <div className="card-Progress font-semibold md:text-base text-xs flex"><div className="triangle "></div><h3 className="text-grayText pr-10">{formatDate(order)}</h3> <h4 className="text-darkText">Your order has been successfully verified 1.</h4></div>;
-    const step2Content = <div className="card-Progress font-semibold md:text-base text-xs flex" ><div className="triangle "></div><h3 className="text-grayText pr-10">{formatDate(order)}</h3> <h4 className="text-darkText">Your order is in progress</h4></div>;
-    const step3Content = <div className="card-Progress font-semibold md:text-base text-xs flex"><div className="triangle "></div><h3 className="text-grayText pr-10">{formatDate(order)}</h3> <h4 className="text-darkText">Your order has been successfully shipped</h4></div>;
-    const step4Content = <div className="card-Progress font-semibold md:text-base text-xs flex"><div className="triangle "></div><h3 className="text-grayText pr-10">{formatDate(order)}</h3> <h4 className="text-darkText">Your order has been successfully delivered</h4></div>;
+    const step1Content = <div className="card-Progress font-semibold md:text-base text-xs flex"><div className="triangle "></div><h3 className="text-grayText pr-10">{formatDate(order ?? new Date().toISOString())}</h3> <h4 className="text-darkText">Your order has been successfully verified 1.</h4></div>;
+    const step2Content = <div className="card-Progress font-semibold md:text-base text-xs flex" ><div className="triangle "></div><h3 className="text-grayText pr-10">{formatDate(order ?? new Date().toISOString())}</h3> <h4 className="text-darkText">Your order is in progress</h4></div>;
+    const step3Content = <div className="card-Progress font-semibold md:text-base text-xs flex"><div className="triangle "></div><h3 className="text-grayText pr-10">{formatDate(order ?? new Date().toISOString())}</h3> <h4 className="text-darkText">Your order has been successfully shipped</h4></div>;
+    const step4Content = <div className="card-Progress font-semibold md:text-base text-xs flex"><div className="triangle "></div><h3 className="text-grayText pr-10">{formatDate(order ?? new Date().toISOString())}</h3> <h4 className="text-darkText">Your order has been successfully delivered</h4></div>;
      
     // setup step validators, will be called before proceeding to the next step
     function step2Validator(): boolean {
