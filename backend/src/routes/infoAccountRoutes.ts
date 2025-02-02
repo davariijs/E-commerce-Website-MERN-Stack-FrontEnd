@@ -1,11 +1,12 @@
-const express = require('express');
+import express, { Request, Response } from 'express';
+import mongoose, { Model } from 'mongoose';
+import { IAddressInfo } from '../types';
 const router = express.Router();
-const mongoose = require('mongoose');
 const { InfoAccountSchema } = require('../models/Schema');
 
-const InfoAccountList = mongoose.model('infoAccountLists', InfoAccountSchema);
+const InfoAccountList: Model<IAddressInfo> = mongoose.model<IAddressInfo>('infoAccountLists', InfoAccountSchema);
 
-    router.post("/", async (req, res) => {
+    router.post("/", async (req: Request, res: Response): Promise<void> => {
     const { firstName, lastName, country,company,street,apt,city,state,number,postalCode,instruction,shipping,billing, uid } = req.body;
     console.log("Request body:", req.body);
 
@@ -19,7 +20,7 @@ const InfoAccountList = mongoose.model('infoAccountLists', InfoAccountSchema);
     }
     });
 
-    router.get("/:uid", async (req, res) => {
+    router.get("/:uid", async (req: Request, res: Response): Promise<void> => {
     const { uid } = req.params;
 
     try {
@@ -31,13 +32,14 @@ const InfoAccountList = mongoose.model('infoAccountLists', InfoAccountSchema);
     }
     });
 
-    router.delete("/:id", async (req, res) => {
+    router.delete("/:id", async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params; // Get the item ID from the request parameters
 
     try {
         const deletedItem = await InfoAccountList.findByIdAndDelete(id); // This removes the item by its ID
         if (!deletedItem) {
-            return res.status(404).json({ message: 'Item not found' });
+            res.status(404).json({ message: 'Item not found' });
+            return;
         }
         res.status(200).json({ message: 'Item removed from InfoAccountList' });
     } catch (error) {
@@ -46,7 +48,7 @@ const InfoAccountList = mongoose.model('infoAccountLists', InfoAccountSchema);
     }
     });
 
-    router.put("/:id", async (req, res) => {
+    router.put("/:id", async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params; // Get the `id` from the request parameters
     const updateData = req.body; // Get the data to update
 
@@ -57,7 +59,8 @@ const InfoAccountList = mongoose.model('infoAccountLists', InfoAccountSchema);
 
         // Validate the id format before querying
         if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ error: "Invalid ID format" });
+        res.status(400).json({ error: "Invalid ID format" });
+        return;
         }
 
         // No need to manually convert `id` to ObjectId
@@ -78,4 +81,4 @@ const InfoAccountList = mongoose.model('infoAccountLists', InfoAccountSchema);
     }
     });
 
-module.exports = router;
+    export default router;

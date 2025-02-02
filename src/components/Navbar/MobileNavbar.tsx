@@ -78,7 +78,7 @@ export default function MobileNavbar() {
 
                 <div className='flex justify-between'>
                 <div></div>
-                    {/* <SearchBar/> */}
+                    <SearchBar/>
                     <button className=' ' onClick={showNavbarClose}>
                     <IoClose className='w-6 h-6 text-darkText'/>
                     </button>

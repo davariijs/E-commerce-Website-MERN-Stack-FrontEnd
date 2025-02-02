@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export interface TCartItem {
-    _id?: string;
-    quantity: number;
+    _id?: string,
+    quantity: number,
     title: string,
     image: string,
     price: number,
@@ -14,13 +14,13 @@ export interface TCartItem {
 // Define CartState type
 interface CartState {
     cart: {
-        uid: string | null;
-        items: TCartItem[];
+        uid: string | null,
+        items: TCartItem[],
         _id:string | null,
-    };
-    totalQuantity: number;
-    loading: boolean;
-    error: string | null;
+    },
+    totalQuantity: number,
+    loading: boolean,
+    error: string | null,
 }
 
 // Define initial state

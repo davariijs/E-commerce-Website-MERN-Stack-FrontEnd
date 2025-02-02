@@ -1,11 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const mongoose = require('mongoose');
+import express, { Request, Response } from 'express';
+import mongoose, { Model } from 'mongoose';
+import { ICartList } from '../types';
 const { CartSchema } = require('../models/Schema');
+const router = express.Router();
 
-const CartCheckList = mongoose.model('cartCheckLists', CartSchema);
+const CartCheckList: Model<ICartList> = mongoose.model<ICartList>('cartCheckLists', CartSchema);
 
-router.post("/", async (req, res) => {
+router.post("/", async (req: Request, res: Response): Promise<void> => {
     const { uid, item } = req.body;
   
     try {
@@ -41,10 +42,7 @@ router.post("/", async (req, res) => {
       // Save the cart to the database
       await cart.save();
   
-      res.status(200).json({
-        message: "Product added to cart successfully",
-        cart: cart, // Return the entire updated cart
-      });
+      res.status(200).json(cart);
     } catch (error) {
       console.error("Error adding product to cart:", error);
       res.status(500).json({ message: "Failed to add product to cart", error });
@@ -52,56 +50,61 @@ router.post("/", async (req, res) => {
   });
   
   // GET: Retrieve cart
-  router.get('/:uid', async (req, res) => { // Change from userId to uid
+  router.get('/:uid', async (req: Request, res: Response): Promise<void> => { // Change from userId to uid
     const cart = await CartCheckList.findOne({ uid: req.params.uid });
     res.status(200).json(cart);
   });
   
   // PUT: Increase item quantity in cart
-  router.put('/increase/:uid/:itemId', async (req, res) => {
+  router.put('/increase/:uid/:itemId', async (req: Request, res: Response): Promise<void> => {
     const { uid, itemId } = req.params;
   
     try {
         const cart = await CartCheckList.findOne({ uid });
   
         if (!cart) {
-            return res.status(404).json({ message: 'Cart not found' });
-        }
+            res.status(404).json({ message: 'Cart not found' });
+            return;
+          }
   
         const id = new mongoose.Types.ObjectId(itemId); // Convert to ObjectId
-  
         const item = cart.items.find((item) => item._id.equals(id));
         if (!item) {
-            return res.status(404).json({ message: 'Item not found in cart' });
-        }
+            res.status(404).json({ message: 'Item not found in cart' });
+            return;
+          }
   
         item.quantity += 1; // Increment quantity
         await cart.save();
   
-        return res.status(200).json({ cart });
+        res.status(200).json(cart);
+        return;
     } catch (error) {
         console.error("Error increasing item quantity:", error);
-        return res.status(500).json({ message: 'Failed to increase item quantity' });
-    }
+        res.status(500).json({ message: 'Failed to increase item quantity' });
+        return;
+      }
   });
   
   // PUT: Decrease item quantity in cart
-  router.put('/decrease/:uid/:itemId', async (req, res) => {
+  router.put('/decrease/:uid/:itemId', async (req: Request, res: Response): Promise<void> => {
     const { uid, itemId } = req.params;
   
     try {
         const cart = await CartCheckList.findOne({ uid });
   
         if (!cart) {
-            return res.status(404).json({ message: 'Cart not found' });
-        }
+            res.status(404).json({ message: 'Cart not found' });
+            return;
+          }
   
         const id = new mongoose.Types.ObjectId(itemId); // Convert to ObjectId
   
         const item = cart.items.find((item) => item._id.equals(id));
         if (!item) {
-            return res.status(404).json({ message: 'Item not found in cart' });
-        }
+            res.status(404).json({ message: 'Item not found in cart' });
+            return;
+          }
   
         // Decrease quantity or remove item if quantity is 1
         if (item.quantity > 1) {
@@ -112,16 +115,18 @@ router.post("/", async (req, res) => {
   
         await cart.save();
   
-        return res.status(200).json({ cart });
+        res.status(200).json(cart);
+        return;
     } catch (error) {
         console.error("Error decreasing item quantity:", error);
-        return res.status(500).json({ message: 'Failed to decrease item quantity' });
+        res.status(500).json({ message: 'Failed to decrease item quantity' });
+        return;
     }
   });
   
   
   // DELETE: Remove item from cart
-  router.delete('/:uid/:id', async (req, res) => {
+  router.delete('/:uid/:id', async (req: Request, res: Response): Promise<void> => {
     const { uid, id } = req.params;
   
     try {
@@ -132,7 +137,8 @@ router.post("/", async (req, res) => {
   
       if (!cart) {
         console.log(`No cart found for user: ${uid}`);
-        return res.status(404).json({ message: 'Cart not found' });
+        res.status(404).json({ message: 'Cart not found' });
+        return;
       }
   
       // Log current items for debugging
@@ -140,7 +146,8 @@ router.post("/", async (req, res) => {
       
       if (!mongoose.Types.ObjectId.isValid(id)) {
         console.log(`Invalid ObjectId: ${id}`);
-        return res.status(400).json({ message: 'Invalid item ID' });
+        res.status(400).json({ message: 'Invalid item ID' });
+        return;
       }
       // Convert id from string to ObjectId
       const itemId = new mongoose.Types.ObjectId(id); // Use 'new' here
@@ -149,7 +156,9 @@ router.post("/", async (req, res) => {
       const itemExists = cart.items.some((item) => item._id.equals(itemId)); // Use equals() for comparison
       if (!itemExists) {
         console.log(`Item with id: ${itemId} not found in cart items.`);
-        return res.status(404).json({ message: 'Item not found in cart' });
+        res.status(404).json({ message: 'Item not found in cart' });
+        return;
+
       }
   
       // Filter out the item by its ObjectId
@@ -159,20 +168,25 @@ router.post("/", async (req, res) => {
       await cart.save();
   
       console.log(`Successfully removed item with id: ${itemId} from user: ${uid}'s cart`);
-      return res.status(200).json({ message: 'Item removed successfully' });
-    } catch (error) {
+      res.status(200).json({ message: 'Item removed successfully' });
+      return;
+    }
+     catch (error) {
       console.error('Error removing item from cart:', error);
-      return res.status(500).json({ message: 'Failed to remove item from cart' });
+      res.status(500).json({ message: 'Failed to remove item from cart' });
+      return;
+
     }
   });
 
 
-  router.delete('/:id', async (req, res) => {
+  router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     console.log('Backend id:', id);
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ error: "Invalid cart ID" });
+        res.status(400).json({ error: "Invalid cart ID" });
+        return;
     }
 
     try {
@@ -184,7 +198,8 @@ router.post("/", async (req, res) => {
         );
 
         if (!updatedCart) {
-            return res.status(404).json({ message: 'Cart not found' });
+            res.status(404).json({ message: 'Cart not found' });
+            return;
         }
 
         res.status(200).json({ message: 'Cart items cleared', cart: updatedCart });
@@ -194,4 +209,4 @@ router.post("/", async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

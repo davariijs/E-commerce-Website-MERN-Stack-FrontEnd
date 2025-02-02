@@ -1,19 +1,21 @@
-const express = require('express');
+import express, { Request, Response } from 'express';
+import mongoose, { Model } from 'mongoose';
+import { IUserState } from '../types';
 const router = express.Router();
-const mongoose = require('mongoose');
 const { UserSchema } = require('../models/Schema');
 
-const UserList = mongoose.model('userLists', UserSchema);
+const UserList: Model<IUserState> = mongoose.model<IUserState>('userLists', UserSchema);
 
 // POST /user - Add user
-    router.post("/", async (req, res) => {
+    router.post("/", async (req:Request, res:Response): Promise<void> => {
         console.log("Incoming request body:", req.body);
     
         const { email, name, uid } = req.body;
     
         // Validate the request body
         if (!email || !uid) {
-        return res.status(400).json({ error: "Email and UID are required" });
+        res.status(400).json({ error: "Email and UID are required" });
+        return;
         }
     
         try {
@@ -26,7 +28,7 @@ const UserList = mongoose.model('userLists', UserSchema);
         }
     });
     
-    router.get("/", async (req, res) => {
+    router.get("/", async (req:Request, res:Response): Promise<void> => {
         try {
         const userListItems = await UserList.find();
         res.status(200).json(userListItems);
@@ -35,4 +37,4 @@ const UserList = mongoose.model('userLists', UserSchema);
         }
     });
 
-    module.exports = router;
+    export default router;

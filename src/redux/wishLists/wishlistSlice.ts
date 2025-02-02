@@ -3,10 +3,10 @@ import axios from "axios";
 
 
 export interface WishListItem {
-  _id?: string;
+  _id?: string,
   title: string,
   image: string,
-  price: string | number,
+  price: string,
   pathname:string,
   uid: string,
 }

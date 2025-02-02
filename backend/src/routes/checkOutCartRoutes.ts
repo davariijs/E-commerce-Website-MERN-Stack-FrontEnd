@@ -1,16 +1,18 @@
-const express = require('express');
+import express, { Request, Response } from 'express';
+import mongoose, { Model } from 'mongoose';
+import { ICheckOut } from '../types';
 const router = express.Router();
-const mongoose = require('mongoose');
 const { CheckOutSchema } = require('../models/Schema');
 
-const CheckOutList= mongoose.model('check-out', CheckOutSchema);
+const CheckOutList: Model<ICheckOut>= mongoose.model<ICheckOut>('check-out', CheckOutSchema);
 
-    router.post("/", async (req, res) => {
+    router.post("/", async (req: Request, res: Response): Promise<void> => {
         const { uid, orders } = req.body;
 
         // Validate request body
         if (!uid || !orders || !Array.isArray(orders)) {
-            return res.status(400).json({ message: "Invalid request body. 'uid' and 'orders' are required." });
+            res.status(400).json({ message: "Invalid request body. 'uid' and 'orders' are required." });
+            return;
         }
 
         try {
@@ -40,7 +42,7 @@ const CheckOutList= mongoose.model('check-out', CheckOutSchema);
 
 
 
-    router.get('/:uid', async (req, res) => { 
+    router.get('/:uid', async (req: Request, res: Response): Promise<void> => { 
         try {
             const checkOutOrder = await CheckOutList.findOne({ uid: req.params.uid });
             res.status(200).json(checkOutOrder);
@@ -49,4 +51,4 @@ const CheckOutList= mongoose.model('check-out', CheckOutSchema);
             }
     });
 
-module.exports = router;
+    export default router;

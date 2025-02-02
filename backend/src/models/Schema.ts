@@ -1,10 +1,8 @@
-const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://narjesdavari0:sEV1fFf6QwEgH04k@shoply-cluster.kmukf.mongodb.net/?retryWrites=true&w=majority&appName=shoply-cluster', {
-    dbName: 'shoply',
-})
-.catch (error => console.log(error));
+import mongoose, { Schema} from 'mongoose';
+import { IAddressInfo, ICartList, ICheckOut, IUserState, IWishlist } from '../types';
 
-const WishlistSchema = new mongoose.Schema({
+
+const WishlistSchema: Schema<IWishlist> = new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -27,13 +25,13 @@ const WishlistSchema = new mongoose.Schema({
     }
 });
 
-const CartSchema = new mongoose.Schema({
+const CartSchema: Schema<ICartList>  = new mongoose.Schema({
     uid: String,
     items: [
         {
         title: String,
         image: String,
-        price: String,
+        price: Number,
         color: String,
         quantity: { type: Number, default: 1 },
         webID: Number,
@@ -41,7 +39,7 @@ const CartSchema = new mongoose.Schema({
     ]
 });
 
-const UserSchema = new mongoose.Schema({
+const UserSchema: Schema<IUserState> = new mongoose.Schema({
     email: {
         type: String,
         required: true,
@@ -58,7 +56,7 @@ const UserSchema = new mongoose.Schema({
     }
 });
 
-const InfoAccountSchema = new mongoose.Schema({
+const InfoAccountSchema: Schema<IAddressInfo> = new mongoose.Schema({
     firstName: {
         type: String,
         required: true,
@@ -118,7 +116,7 @@ const InfoAccountSchema = new mongoose.Schema({
 });
 
 
-const CheckOutSchema = new mongoose.Schema({
+const CheckOutSchema: Schema<ICheckOut> = new mongoose.Schema({
     uid: { type: String, required: true },
     orders: [
         {

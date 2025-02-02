@@ -1,11 +1,12 @@
-const express = require('express');
+import express, { Request, Response } from 'express';
+import mongoose, { Model } from 'mongoose';
+import { IWishlist } from '../types';
 const router = express.Router();
-const mongoose = require('mongoose');
 const { WishlistSchema } = require('../models/Schema');
 
-const Wishlist = mongoose.model('wishlists', WishlistSchema);
+const Wishlist: Model<IWishlist> = mongoose.model<IWishlist>('wishlists', WishlistSchema);
 
-    router.post("/", async (req, res) => {
+    router.post("/", async (req: Request, res: Response): Promise<void> => {
         const { title, image, price,pathname, uid } = req.body;
         console.log("Request body:", req.body);
     
@@ -19,7 +20,7 @@ const Wishlist = mongoose.model('wishlists', WishlistSchema);
         }
     });
 
-    router.get("/:uid", async (req, res) => {
+    router.get("/:uid", async (req: Request, res: Response): Promise<void> => {
         const { uid } = req.params;
     
         try {
@@ -31,13 +32,14 @@ const Wishlist = mongoose.model('wishlists', WishlistSchema);
         }
     });
 
-    router.delete("/:id", async (req, res) => {
+    router.delete("/:id", async (req: Request, res: Response): Promise<void> => {
         const { id } = req.params; // Get the item ID from the request parameters
 
         try {
             const deletedItem = await Wishlist.findByIdAndDelete(id); // This removes the item by its ID
             if (!deletedItem) {
-                return res.status(404).json({ message: 'Item not found' });
+                res.status(404).json({ message: 'Item not found' });
+                return;
             }
             res.status(200).json({ message: 'Item removed from wishlist' });
         } catch (error) {
@@ -46,4 +48,4 @@ const Wishlist = mongoose.model('wishlists', WishlistSchema);
         }
     });
 
-module.exports = router;
+    export default router;

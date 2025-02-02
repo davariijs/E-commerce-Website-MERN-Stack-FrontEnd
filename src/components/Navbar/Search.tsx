@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectAllProducts } from "../../utils/selectorImplementation"; // Import the combined selector
 import searchIcon from "../../assets/icons/search-icon.svg";
 import './Navbar.css';
 import { Link } from "react-router-dom";
-import { RootState } from "src/store";
+import { AppDispatch, RootState } from "src/store";
 import { TProduct } from "src/redux/types/types";
+import { getMenCoats, selectMenCoats } from "src/redux/menProducts/menCoatsSlice/menCoatsSlice";
+import useEffectAfterMount from "src/utils/useEffectAfterMount";
+import { getMenHoodies } from "src/redux/menProducts/menHoodiesSlice/menHoodiesSlice";
+import { getMenJeans } from "src/redux/menProducts/menJeansSlice/menJeansSlice";
 
 interface Product {
   webID: string;
@@ -15,12 +19,18 @@ interface Product {
 }
 
 const SearchBar: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  useEffectAfterMount(() => {
+    dispatch(getMenCoats());
+    dispatch(getMenHoodies());
+    dispatch(getMenJeans())
+}, [dispatch]);
   // Local state for the search query
   const [searchQuery, setSearchQuery] = useState<string | undefined>();
 
   // Get all products from the combined selector
   const allProducts = useSelector((state: RootState) => selectAllProducts(state));
-
+  console.log(allProducts);
   // Filter products based on the search query
   const filteredProducts = allProducts.filter((product) =>
     product.productTitle?.toLowerCase().includes(searchQuery?.toLowerCase() || '')
