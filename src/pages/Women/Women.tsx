@@ -5,58 +5,30 @@ import ProductDetails from '../ProductDetailsPage/SingleProductDetails';
 
 
 export default function Women() {
-
   const [path, setPath] = useState<string>();
   const location = useLocation();
-
   const {id} = useParams();
-  
+
   useEffect(() => {
-    function locationPath () {
-    switch(location.pathname) {
-      case "/women/t-shirts":
-        setPath("T-Shirts");
-        break;
-        case "/women/shoes":
-        setPath("Shoes");
-        break;
-        case `/women/${id}`:
-        setPath("Product Details");
-        break;
-        // eslint-disable-next-line no-duplicate-case
-        case `/women/${id}`:
-        setPath("Product Details");
-        break;
-        case `/women/tops/${id}`:
-        setPath("Product Details");
-        break;
-        case `/women/shoes/${id}`:
-        setPath("Product Details");
-        break;
-        case "/women/coats":
-        setPath("Coats");
-        break;
-        case `/women/coats/${id}`:
-        setPath("Product Details");
-        break;
-        case "/women/dresses":
-        setPath("Dresses");
-        break;
-        case "/women/hoodies":
-        setPath("Hoodies");
-        break;
-        case `/women/dresses/${id}`:
-        setPath("Product Details");
-        break;
-        case `/women/hoodies/${id}`:
-        setPath("Product Details");
-        break;
-      default:
-        setPath("Tops");
+    if (location.pathname.includes("/women/t-shirts")) {
+      setPath("T-Shirts");
+    } else if (location.pathname.includes("/women/shoes")) {
+      setPath("Shoes");
+    } else if (location.pathname.includes("/women/coats")) {
+      setPath("Coats");
+    } else if (location.pathname.includes("/women/dresses")) {
+      setPath("Dresses");
+    } else if (location.pathname.includes("/women/hoodies")) {
+      setPath("Hoodies");
+    } else if (location.pathname.includes("/women/tops")) {
+      setPath("Tops");
+    } else if (id) {
+      setPath("Product Details");
+    } else {
+      setPath("Tops");
     }
-  }
-  locationPath();
   }, [location.pathname, id]);
+  
 
   return (
     <Fragment>
