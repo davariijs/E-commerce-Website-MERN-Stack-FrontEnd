@@ -43,7 +43,7 @@ export default function DesktopNavbar() {
                 
                 <div className='flex justify-between'>
                 <div className='pr-4 lg:pr-20'>
-                    {/* <SearchBar/> */}
+                    <SearchBar/>
                 </div>
                 <div className=''>
                     <div className='flex icons'>

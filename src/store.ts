@@ -19,6 +19,7 @@ import ProductsDetailsList from './redux/productDetails/productDetails';
 import wishlistReducer from "./redux/wishLists/wishlistSlice";
 import cartReducer from './redux/cart/cartSlice';
 import userReducer from './redux/users/userSlice'; 
+import search from './redux/searchProducts/searchSlice';
 
 const reducersToPersist = [
   'womenTopsList',
@@ -60,6 +61,7 @@ const reducers = combineReducers({
   wishlist: wishlistReducer,
   cart: cartReducer,
   user: userReducer,
+  SearchList:search,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
