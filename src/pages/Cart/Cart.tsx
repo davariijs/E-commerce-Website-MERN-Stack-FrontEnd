@@ -10,6 +10,7 @@ import { selectUser } from "../../redux/users/userSlice";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import { AppDispatch, RootState } from "src/store";
+import Loading from "../../components/Loading/loading";
 
 export default function Cart() {
     const cartItems = useSelector((state:RootState) => state.cart.cart); // Updated to match slice state
@@ -92,7 +93,7 @@ export default function Cart() {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loading/>;
     }
 
     return(
