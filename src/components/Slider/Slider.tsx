@@ -12,6 +12,7 @@ import imgCardSlider6 from "../../assets/images/style-slider.png";
 import { GoArrowLeft } from "react-icons/go";
 import { GoArrowRight } from "react-icons/go";
 import { Link } from "react-router-dom";
+import { Img } from "react-image";
 
 type TProps = {
   className?:string,
@@ -85,27 +86,57 @@ export default function SliderPart() {
         <div className="lg:px-6 md:px-6  text-darkText">
         <Slider {...settings}>
         <Link to="">
-          <img className="rounded-xl w-full" alt="new style" src={imgCardSlider1} />
+        <Img
+        src={imgCardSlider1}
+        loader={<span>Loading...</span>}
+        unloader={<span>Failed to load image</span>}
+        className="rounded-xl w-full" alt="new style"
+        />
           <h3 className="font-bold lg:text-xl text-base lg:pt-10 md:pt-7 pt-4">Knitted Joggers</h3>
         </Link>
         <Link to="">
-        <img className="rounded-xl w-full" alt="new style" src={imgCardSlider2}/>
+        <Img
+        src={imgCardSlider2}
+        loader={<span>Loading...</span>}
+        unloader={<span>Failed to load image</span>}
+        className="rounded-xl w-full" alt="new style"
+        />
           <h3 className="font-bold lg:text-xl text-base lg:pt-10 md:pt-7 pt-4">Full Sleeve</h3>
         </Link>
         <Link to="">
-        <img className="rounded-xl w-full" alt="new style" src={imgCardSlider3}/>
+        <Img
+        src={imgCardSlider3}
+        loader={<span>Loading...</span>}
+        unloader={<span>Failed to load image</span>}
+        className="rounded-xl w-full" alt="new style"
+        />
           <h3 className="font-bold lg:text-xl text-base lg:pt-10 md:pt-7 pt-4">Active T-Shirts</h3>
         </Link>
         <Link to="">
-        <img className="rounded-xl w-full" alt="new style" src={imgCardSlider4}/>
+        <Img
+        src={imgCardSlider4}
+        loader={<span>Loading...</span>}
+        unloader={<span>Failed to load image</span>}
+        className="rounded-xl w-full" alt="new style"
+        />
           <h3 className="font-bold lg:text-xl text-base lg:pt-10 md:pt-7 pt-4">Urban Shirts</h3>
         </Link>
         <Link to="">
-        <img className="rounded-xl w-full" alt="new style" src={imgCardSlider5}/>
+        <Img
+        src={imgCardSlider5}
+        loader={<span>Loading...</span>}
+        unloader={<span>Failed to load image</span>}
+        className="rounded-xl w-full" alt="new style"
+        />
           <h3 className="font-bold lg:text-xl text-base lg:pt-10 md:pt-7 pt-4">New Fashion</h3>
         </Link>
         <Link to="">
-        <img className="rounded-xl w-full" alt="new style" src={imgCardSlider6}/>
+        <Img
+        src={imgCardSlider6}
+        loader={<span>Loading...</span>}
+        unloader={<span>Failed to load image</span>}
+        className="rounded-xl w-full" alt="new style"
+        />
           <h3 className="font-bold lg:text-xl text-base lg:pt-10 md:pt-7 pt-4">Green!</h3>
         </Link>
       </Slider>

@@ -4,6 +4,7 @@ import newPasswordImg from "../../assets/images/new-password.png";
 import "./login-signup.css";
 import { auth} from "../../firebase/firebase"; 
 import { updatePassword  } from "firebase/auth";
+import { Img } from "react-image";
 
 export default function NewPassword() {
 
@@ -42,7 +43,13 @@ export default function NewPassword() {
         <Fragment>
             <div className="md:grid md:grid-cols-2 flex flex-col-reverse ">
                 <div className="">
-                    <img src={newPasswordImg} className="h-screen w-full   md:relative  absolute top-0 -z-10" alt="clothes"/>
+                    <Img
+                    src={newPasswordImg}
+                    loader={<span>Loading...</span>}
+                    unloader={<span>Failed to load image</span>}
+                    className="h-screen w-full   md:relative  absolute top-0 -z-10" 
+                    alt="clothes"
+                    />
                 </div>
 
                 <div className="mx-0 pt-10 md:pb-0 pb-10 md:mx-auto md:px-4 px-6 bg-white bg-opacity-75">

@@ -5,6 +5,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from 'react-responsive-carousel';
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import "./Hero.css";
+import { Link } from "react-router-dom";
 
 const Hero: React.FC = () => {
 
@@ -46,7 +47,7 @@ const Hero: React.FC = () => {
                             <h1 className="lg:text-7xl md:text-lg text-base font-extrabold">Summer 
                             Value Pack</h1>
                             <h4 className="lg:text-3xl md:text-base text-sm">cool / colorful / comfy</h4> 
-                            <button className="lg:text-3xl md:text-base text-sm text-darkText font-semibold bg-white rounded-lg lg:py-4  lg:px-16 py-2 px-8">Shop Now</button>
+                            <Link to="/women"><button className="lg:text-3xl md:text-base text-sm text-darkText font-semibold bg-white rounded-lg lg:py-4  lg:px-16 py-2 px-8">Shop Now</button></Link>
                         </div>
                     </div>
                 </div>
@@ -56,7 +57,7 @@ const Hero: React.FC = () => {
                         <div>
                             <h5 className="lg:text-3xl md:text-base text-sm">Bags</h5>
                             <h1 className="lg:text-7xl md:text-lg text-base font-extrabold">New Collection</h1>
-                            <button className="lg:text-3xl md:text-base text-sm text-darkText font-semibold bg-white rounded-lg lg:py-4  lg:px-16 py-2 px-8">Shop Now</button>
+                            <Link to="/women"><button className="lg:text-3xl md:text-base text-sm text-darkText font-semibold bg-white rounded-lg lg:py-4  lg:px-16 py-2 px-8">Shop Now</button></Link>
                         </div>
                     </div>
                 </div>

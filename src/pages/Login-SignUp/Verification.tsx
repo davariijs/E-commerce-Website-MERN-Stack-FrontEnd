@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import verificationImage from "../../assets/images/verification.png";
 import "./login-signup.css";
+import { Img } from "react-image";
 
 export default function Verification() {
 
@@ -8,7 +9,13 @@ export default function Verification() {
         <Fragment>
             <div className="md:grid md:grid-cols-2 ">
                 <div className="">
-                    <img src={verificationImage} className="h-screen w-full" alt="clothes"/>
+                <Img
+                    src={verificationImage}
+                    loader={<span>Loading...</span>}
+                    unloader={<span>Failed to load image</span>}
+                    className="h-screen w-full" 
+                    alt="clothes"
+                />
                 </div>
 
                 <div className="mx-14 pt-10 md:mx-auto md:px-4">

@@ -3,6 +3,7 @@ import FashionCard1 from "../../assets/images/fashion1.png";
 import FashionCard2 from "../../assets/images/fashion2.png";
 import "./FashionPart.css";
 import { Link } from "react-router-dom";
+import { Img } from "react-image";
 
 export default function FashionPart() {
 
@@ -11,7 +12,12 @@ export default function FashionPart() {
             <div>
                 <div className="lg:flex md:flex">
                     <div className="w-full h-full  relative m-auto">
-                    <img src={FashionCard2} className="fashionCard1" width="100%" height="100%" alt="fashion"/>
+                    <Img
+                    src={FashionCard2}
+                    loader={<span>Loading...</span>}
+                    unloader={<span>Failed to load image</span>}
+                    className="fashionCard1" width="100%" height="100%" alt="fashion"
+                    />
                     <div className="fashionPartText ">
                         <h2 className="font-extrabold lg:text-4xl md:text-3x1 text-lg text-white">WE MADE YOUR EVERYDAY FASHION BETTER!</h2>
                         <p className="font-light lg:text-xl md:text-lg text-xs lg:pt-7 md:pt-3 md:pb-5 pt-1 pb-3 lg:pb-14 text-white">In our journey to improve everyday fashion, euphoria presents EVERYDAY wear range - Comfortable & Affordable fashion 24/7</p>
@@ -20,7 +26,12 @@ export default function FashionPart() {
                     </div>
 
                     <div className="w-full h-full">
-                    <img src={FashionCard1} className="fashionCard2" width="100%" height="100%" alt="fashion"/>
+                    <Img
+                    src={FashionCard1}
+                    loader={<span>Loading...</span>}
+                    unloader={<span>Failed to load image</span>}
+                    className="fashionCard2" width="100%" height="100%" alt="fashion"
+                    />
                     </div>
                 </div>
             </div>

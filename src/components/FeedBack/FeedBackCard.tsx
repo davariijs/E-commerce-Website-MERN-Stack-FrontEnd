@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { FaStar } from "react-icons/fa6";
 import { FaStarHalfAlt } from "react-icons/fa";
+import { Img } from "react-image";
 
 type TFeedBackCard = {
     srcFeedBackCard:string,
@@ -16,7 +17,12 @@ export default function FeedBackCard ({srcFeedBackCard,userName,feedBackText,fee
             <div className="border-2 border-borderGrey w-fit lg:h-64 md:h-80 h-64 p-4 rounded-lg">
                 <div className="flex justify-between">
                     <div>
-                    <img src={srcFeedBackCard} width="59px" height="59px" alt="user"/>
+                    <Img
+                    src={srcFeedBackCard}
+                    loader={<span>Loading...</span>}
+                    unloader={<span>Failed to load image</span>}
+                    width="59px" height="59px" alt="user"
+                    />
                     </div>
                     <div className="grid grid-cols-5 gap-1 text-yellow">
                     {feedbackstars ? <><FaStar />

@@ -4,6 +4,7 @@ import resetImage from "../../assets/images/reset-password.webp"
 import "./login-signup.css";
 import { auth} from "../../firebase/firebase"; 
 import { sendPasswordResetEmail } from "firebase/auth";
+import { Img } from "react-image";
 
 export default function ResetPassword() {
 
@@ -33,7 +34,13 @@ export default function ResetPassword() {
         <Fragment>
             <div className="md:grid md:grid-cols-2 flex flex-col-reverse ">
                 <div className="">
-                    <img src={resetImage} className="h-screen w-full  md:relative  absolute top-0 -z-10" alt="clothes"/>
+                    <Img
+                    src={resetImage}
+                    loader={<span>Loading...</span>}
+                    unloader={<span>Failed to load image</span>}
+                    className="h-screen w-full  md:relative  absolute top-0 -z-10" 
+                    alt="clothes"
+                    />
                 </div>
 
                 <div className="mx-0 pt-10 md:pb-0 pb-10 md:mx-auto md:px-6 px-6 bg-white bg-opacity-75">

@@ -10,6 +10,7 @@ import { fetchCart } from '../../redux/cart/cartSlice';
 import SearchBar from './Search';
 import { AppDispatch, RootState } from 'src/store';
 import { selectUser } from 'src/redux/users/userSlice';
+import { Img } from 'react-image';
 
 export default function DesktopNavbar() {
     const totalQuantity = useSelector((state:RootState) => state.cart.totalQuantity);
@@ -30,7 +31,9 @@ export default function DesktopNavbar() {
             <nav className='flex justify-between desktopDisplay container mx-auto'>
                 <div className='flex justify-between'>
                 <div className='logoNavbar'>
-                    <Link to="/"><img src={logo} alt='logo' height="45px" width="91px"/></Link>
+                    <Link to="/">
+                    <img src={logo} alt='logo' height="45px" width="91px"/>
+                    </Link>
                 </div>
                 <div className="nav-items active"  >
                 <ul className='flex '>

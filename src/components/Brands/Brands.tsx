@@ -4,6 +4,7 @@ import Puma from "../../assets/images/puma.png";
 import Polo from "../../assets/images/polo.png";
 import hM from "../../assets/images/h&m.png";
 import Levis from "../../assets/images/levis.png";
+import { Img } from "react-image";
 
 export default function Brands() {
 
@@ -17,23 +18,53 @@ export default function Brands() {
                 <div className="flex justify-center text-center pb-10">
                 <div className=" flex flex-wrap justify-center lg:gap-5 gap-4">
                 <div className="flex justify-center rounded-xl w-48 h-24 bg-white p-3">
-                    <img  width="100%" height="100%" src={Nike} alt=""/>
+                <Img
+                src={Nike}
+                width="100%" height="100%"
+                loader={<span>Loading...</span>}
+                unloader={<span>Failed to load image</span>}
+                alt="brand"
+                />
                 </div>
 
                 <div className="flex justify-center rounded-xl w-48 h-24 bg-white p-3">
-                    <img  width="100%" height="100%" src={hM} alt=""/>
+                <Img
+                src={hM}
+                width="100%" height="100%"
+                loader={<span>Loading...</span>}
+                unloader={<span>Failed to load image</span>}
+                alt="brand"
+                />
                 </div>
 
                 <div className="flex justify-center rounded-xl w-48 h-24 bg-white p-3">
-                    <img  width="100%" height="100%" src={Levis} alt=""/>
+                    <Img
+                    src={Levis}
+                    width="100%" height="100%"
+                    loader={<span>Loading...</span>}
+                    unloader={<span>Failed to load image</span>}
+                    alt="brand"
+                    />
                 </div>
 
                 <div className="flex justify-center rounded-xl w-48 h-24 bg-white p-3">
-                    <img  width="100%" height="100%" src={Polo} alt=""/>
+                    <Img
+                    src={Polo}
+                    width="100%" height="100%"
+                    loader={<span>Loading...</span>}
+                    unloader={<span>Failed to load image</span>}
+                    alt="brand"
+                    />
                 </div>
 
                 <div className="flex justify-center rounded-xl w-48 h-24 bg-white p-3">
-                    <img  width="100%" height="100%" src={Puma} alt=""/>
+                    <Img
+                    src={Puma}
+                    width="100%" height="100%"
+                    loader={<span>Loading...</span>}
+                    unloader={<span>Failed to load image</span>}
+                    alt="brand"
+                    />
                 </div>
                 </div>
                 </div>

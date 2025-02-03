@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import notFoundImg from "../../assets/images/NotFound.png";
 import { Link } from "react-router-dom";
+import { Img } from "react-image";
 
 
 export default function NotFound () {
@@ -9,7 +10,12 @@ export default function NotFound () {
         <Fragment>
             <div className="container mx-auto px-6">
             <div className="flex flex-col justify-center items-center my-20">
-                <img src={notFoundImg} alt="order" />
+                <Img
+                    src={notFoundImg}
+                    loader={<span>Loading...</span>}
+                    unloader={<span>Failed to load image</span>}
+                    alt="order" 
+                />
                 <h4 className="mt-8 text-black font-bold md:text-3xl text-center text-lg">Oops! Page not found</h4>
                 <h5 className="mt-2 font-normal text-base text-grayText text-center">The page you are looking for might have been removed or <br/>
                 temporarily unavailable.</h5>

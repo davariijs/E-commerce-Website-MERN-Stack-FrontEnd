@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import checkEmailImg from "../../assets/images/check-email-image.webp"
 import "./login-signup.css";
 import { IoIosArrowBack } from "react-icons/io";
+import { Img } from "react-image";
 
 export default function CheckEmail() {
 
@@ -10,7 +11,12 @@ export default function CheckEmail() {
         <Fragment>
             <div className="md:grid md:grid-cols-2 ">
                 <div className="">
-                    <img src={checkEmailImg} className="h-screen w-full" alt="clothes"/>
+                    <Img
+                    src={checkEmailImg}
+                    loader={<span>Loading...</span>}
+                    unloader={<span>Failed to load image</span>}
+                    className="h-screen w-full" alt="clothes"
+                    />
                 </div>
 
                 <div className="mx-14 pt-10 md:mx-auto md:px-4">

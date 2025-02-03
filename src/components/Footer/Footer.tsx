@@ -71,8 +71,8 @@ export default function Footer () {
                     }
                     >
                     <div className="py-4 flex flex-col">
-                    <Link className="text-white font-light lg:text-lg md:text-base text-sm pb-3" to="/">Women Dress</Link>
-                    <Link className="text-white font-light lg:text-lg md:text-base text-sm pb-3" to="/">Men Shoes</Link>
+                    <Link className="text-white font-light lg:text-lg md:text-base text-sm pb-3" to="/women/dresses">Women Dress</Link>
+                    <Link className="text-white font-light lg:text-lg md:text-base text-sm pb-3" to="/men/shoes">Men Shoes</Link>
                     </div>
                     </Collapsible>
                 </div>

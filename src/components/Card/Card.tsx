@@ -2,6 +2,7 @@ import React, { Fragment} from "react";
 import { Link } from "react-router-dom";
 import "./Card.css";
 import { GoArrowDown } from "react-icons/go";
+import { Img } from "react-image";
 
 type TCard = {
     priceTitle:string,
@@ -32,7 +33,14 @@ export default function Card ({priceTitle,mainTitle,discount,seeMore,srcCard,alt
                     <Link to="" className="font-extrabold lg:text-xl text-lg hover:underline">{seeMore}</Link>
                 </div>
                 <div className="h-full w-full relative">
-                    <img className="rounded-xl" width="100%" height="100%" src={srcCard} alt={alt}/>
+                <Img
+                src={srcCard} 
+                alt={alt}
+                width="100%" height="100%"
+                loader={<span>Loading...</span>}
+                unloader={<span>Failed to load image</span>}
+                className="rounded-xl"
+                />
                 </div>
             </div>
             : <>
@@ -46,7 +54,14 @@ export default function Card ({priceTitle,mainTitle,discount,seeMore,srcCard,alt
                     <Link to="" className={`font-semibold text-xs border-2 px-6 py-1 ${borderColor} rounded`}>{seeMore}</Link>
                 </div>
                 <div className="h-full w-full relative">
-                    <img className="rounded-xl" width="100%" height="100%" src={srcCard} alt={alt}/>
+                    <Img
+                    src={srcCard} 
+                    alt={alt}
+                    width="100%" height="100%"
+                    loader={<span>Loading...</span>}
+                    unloader={<span>Failed to load image</span>}
+                    className="rounded-xl"
+                    />
                 </div>
             </div>
             </> }
