@@ -13,12 +13,14 @@ import { useLocation } from 'react-router';
 import { AppDispatch, RootState } from 'src/store';
 import { TProduct } from 'src/redux/types/types';
 import { selectUser } from 'src/redux/users/userSlice';
+import { selectFilterPrices } from 'src/redux/filterProducts/filterProductsSlice';
 export default function WomenTops() {
     const dispatch = useDispatch<AppDispatch>();
     const womenDresses = useSelector (selectwomenDresses);
     const loading = useSelector((state: RootState) => selectLoadingState(state));
     const error = useSelector((state: RootState) => selectErrorState(state));
     const { uid } = useSelector((state:RootState) => selectUser(state));
+    const values = useSelector((state: RootState) => selectFilterPrices(state));
     const location = useLocation();
     const notify = () => toast.success('Product added to you wishlist !', {
       position: 'bottom-right',
@@ -55,7 +57,7 @@ export default function WomenTops() {
       
       contentToDisplay = <>
       <div className="lg:grid md:grid sm:grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 flex  justify-center flex-wrap  lg:gap-10 gap-5 h-fit w-full">
-        {womenDresses?.payload?.products.filter((itemCategory: TProduct) => itemCategory.productTitle !== null  ).map((itemCategory: TProduct) => (
+        {womenDresses?.payload?.products.filter((itemCategory: TProduct) => itemCategory.productTitle !== null && itemCategory.prices[0].regularPrice.minPrice > values[0] && itemCategory.prices[0].regularPrice.minPrice < values[1]  ).map((itemCategory: TProduct) => (
           <CategoriesCard
           onClick={() =>
             handleButtonWishlist(

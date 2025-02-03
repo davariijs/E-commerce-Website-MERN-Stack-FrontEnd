@@ -57,7 +57,7 @@ export default function WomenShoes() {
     } else if (loading === 'succeeded') {
       contentToDisplay = <>
       <div className="lg:grid md:grid sm:grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 flex  justify-center flex-wrap  lg:gap-10 gap-5 h-fit w-full">
-        {womenShoes?.payload?.products.filter((itemCategory: TProduct) => itemCategory.productTitle !== null  ).map((itemCategory: TProduct) => (
+        {womenShoes?.payload?.products.filter((itemCategory: TProduct) => itemCategory.productTitle !== null && itemCategory.prices[0].regularPrice.minPrice > values[0] && itemCategory.prices[0].regularPrice.minPrice < values[1]  ).map((itemCategory: TProduct) => (
           <CategoriesCard
           onClick={() =>
             handleButtonWishlist(
@@ -98,4 +98,4 @@ export default function WomenShoes() {
   )
 }
 
-// && itemCategory.offer?.price > `$${values[0].toFixed(2).toString()}` && itemCategory.offer?.price < `$${values[1].toFixed(2).toString()}`
+// && itemCategory.offer?.price > `$${values[0].toFixed(2)}` && itemCategory.offer?.price < `$${values[1].toFixed(2)}`

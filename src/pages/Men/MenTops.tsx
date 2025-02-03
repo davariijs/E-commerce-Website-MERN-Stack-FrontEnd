@@ -60,7 +60,7 @@ export default function MenTops() {
     } else if (loading === 'succeeded') {
       contentToDisplay = <>
       <div className="lg:grid md:grid sm:grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 flex  justify-center flex-wrap  lg:gap-10 gap-5 h-fit w-full">
-        {menTops?.payload?.products.filter((itemCategory: TProduct) => itemCategory.productTitle !== null).map((itemCategory: TProduct) => (
+        {menTops?.payload?.products.filter((itemCategory: TProduct) => itemCategory.productTitle !== null && itemCategory.prices[0].regularPrice.minPrice > values[0] && itemCategory.prices[0].regularPrice.minPrice < values[1]  ).map((itemCategory: TProduct) => (
           <CategoriesCard
           onClick={() =>
             handleButtonWishlist(
