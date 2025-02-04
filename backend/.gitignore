@@ -11,6 +11,16 @@
 # production
 /build
 
+# Ignore node_modules
+node_modules/
+
+# Ignore build or distribution folders
+dist/
+
+# Ignore environment files
+.env
+
+
 # misc
 .DS_Store
 .env.local
