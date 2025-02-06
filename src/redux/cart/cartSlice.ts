@@ -124,7 +124,7 @@ const cartSlice = createSlice({
             .addCase(fetchCart.fulfilled, (state, action: PayloadAction<CartState['cart']>) => {
                 // state.cart = action.payload.cart || action.payload; // Ensure cart has uid and items
                 state.cart = action.payload;
-                state.totalQuantity = calculateTotalQuantity(state.cart.items || []); // Fallback to empty array
+                state.totalQuantity = calculateTotalQuantity(state.cart?.items || []); // Fallback to empty array
                 state.loading = false;
             })
             .addCase(fetchCart.rejected, (state, action) => {
@@ -135,7 +135,7 @@ const cartSlice = createSlice({
             // Add to cart
             .addCase(addToCart.fulfilled, (state,  action: PayloadAction<CartState['cart']>) => {
                 state.cart = action.payload; // Save the updated cart object
-                state.totalQuantity = calculateTotalQuantity(state.cart.items || []); // Recalculate total quantity
+                state.totalQuantity = calculateTotalQuantity(state.cart?.items || []); // Recalculate total quantity
             })
             .addCase(addToCart.rejected, (state, action) => {
                 // state.error = action.payload || action.error.message;
@@ -145,7 +145,7 @@ const cartSlice = createSlice({
             // Remove from cart
             .addCase(removeFromCart.fulfilled, (state,  action: PayloadAction<CartState['cart']>) => {
                 state.cart = action.payload; // Save the updated cart object
-                state.totalQuantity = calculateTotalQuantity(state.cart.items || []); // Recalculate total quantity
+                state.totalQuantity = calculateTotalQuantity(state.cart?.items || []); // Recalculate total quantity
             })
             .addCase(removeFromCart.rejected, (state, action) => {
                 state.error = action.payload as string;
@@ -154,7 +154,7 @@ const cartSlice = createSlice({
             // Increase item quantity
             .addCase(increaseQuantityAsync.fulfilled, (state,  action: PayloadAction<CartState['cart']>) => {
                 state.cart = action.payload; // Save the updated cart object
-                state.totalQuantity = calculateTotalQuantity(state.cart.items || []); // Recalculate total quantity
+                state.totalQuantity = calculateTotalQuantity(state.cart?.items || []); // Recalculate total quantity
             })
             .addCase(increaseQuantityAsync.rejected, (state, action) => {
                 state.error = action.payload as string;
@@ -163,7 +163,7 @@ const cartSlice = createSlice({
             // Decrease item quantity
             .addCase(decreaseQuantityAsync.fulfilled, (state,  action: PayloadAction<CartState['cart']>) => {
                 state.cart = action.payload; // Save the updated cart object
-                state.totalQuantity = calculateTotalQuantity(state.cart.items || []); // Recalculate total quantity
+                state.totalQuantity = calculateTotalQuantity(state.cart?.items || []); // Recalculate total quantity
             })
             .addCase(decreaseQuantityAsync.rejected, (state, action) => {
                 state.error = action.payload as string;
