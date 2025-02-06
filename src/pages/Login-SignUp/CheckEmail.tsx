@@ -13,8 +13,8 @@ export default function CheckEmail() {
                 <div className="">
                     <Img
                     src={checkEmailImg}
-                    loader={<span>Loading...</span>}
-                    unloader={<span>Failed to load image</span>}
+                    loader={<span></span>}
+                    unloader={<span>...</span>}
                     className="h-screen w-full" alt="clothes"
                     />
                 </div>
