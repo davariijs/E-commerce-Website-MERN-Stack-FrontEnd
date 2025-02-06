@@ -7,10 +7,9 @@ import { FcGoogle } from "react-icons/fc";
 import loginImage from "../../assets/images/signup-image.webp"
 import "./login-signup.css";
 import { auth,googleProvider } from "../../firebase/firebase"; 
-import { signInWithPopup, GoogleAuthProvider,createUserWithEmailAndPassword } from "firebase/auth";
-import { handleAddUserToMongo } from "../../utils/wishlistFunc";
+import { signInWithPopup,createUserWithEmailAndPassword } from "firebase/auth";
 import { Img } from "react-image";
-
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Signup() {
 
@@ -24,24 +23,16 @@ export default function Signup() {
     const [icon, setIcon] = useState(eyeOff);
     const navigate = useNavigate();  
 
+    const notifySuccess = (message:string) => toast.success(message, { position: "bottom-right" });
+    const notifyError = (message:string) => toast.error(message, { position: "bottom-right" });
+
     const handleRegisterGoogle = async (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         signInWithPopup(auth, googleProvider)
         .then((result) => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const user = result.user;
-            // IdP data available using getAdditionalUserInfo(result)
-            // ...
+            notifySuccess("You have successfully signed up!")
             setTimeout(()=>navigate("/account"), 3000);
         }).catch((error) => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // The email of the user's account used.
-            const email = error.customData.email;
-            // The AuthCredential type that was used.
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            // ...
+            notifyError(error.message);
         });
     }
      
@@ -60,16 +51,6 @@ export default function Signup() {
           const userCredential = await createUserWithEmailAndPassword(auth, email, password);
           const user = userCredential.user;
       
-          console.log("Firebase User UID:", user.uid);
-          console.log("Firebase User Info:", user);
-      
-          // Send the correct data to MongoDB
-          await handleAddUserToMongo({
-            email: email,
-            name: user.displayName,
-            uid: user.uid,
-        }); // Replace "John Doe" with the user's name if available
-      
           // Reset form states after successful signup
           setErrorMessage(""); // Clear error messages
           setEmail(""); // Clear email input
@@ -77,7 +58,7 @@ export default function Signup() {
           setSubscribe(false); // Reset subscription state
           setPrivacy(false); // Reset privacy agreement
           setErrorPrivacy(""); // Clear privacy error message
-      
+          notifySuccess("You have successfully signed up!")
           // Navigate to the account page
           setTimeout(() => navigate("/account"), 3000);
         } catch (error:any) {
@@ -87,6 +68,7 @@ export default function Signup() {
           // Extract and show an appropriate error message
           const errorMessagePassword = error.message;
           setErrorMessage(errorMessagePassword);
+          notifyError(error.message);
       
           // Double-check privacy policy agreement
           if (!privacy) {
@@ -114,8 +96,8 @@ export default function Signup() {
                 <div className="">
                     <Img
                     src={loginImage}
-                    loader={<span>Loading...</span>}
-                    unloader={<span>Failed to load image</span>}
+                    loader={<span></span>}
+                    unloader={<span>...</span>}
                     className="h-screen w-full  md:relative  absolute top-0 -z-10" 
                     alt="clothes"
                     />
@@ -167,6 +149,7 @@ export default function Signup() {
                 </div>
             </div>
             </div>
+            <ToastContainer/> 
         </Fragment>
     )
 }

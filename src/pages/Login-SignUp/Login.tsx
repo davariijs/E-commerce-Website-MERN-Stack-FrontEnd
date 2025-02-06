@@ -6,6 +6,7 @@ import {Icon} from 'react-icons-kit';
 import {eyeOff} from 'react-icons-kit/feather/eyeOff';
 import {eye} from 'react-icons-kit/feather/eye';
 import { auth,googleProvider } from "../../firebase/firebase"; 
+import { ToastContainer, toast } from 'react-toastify';
 import { signInWithPopup, signInWithEmailAndPassword, GoogleAuthProvider } from "firebase/auth";
 import "./login-signup.css";
 import { Img } from "react-image";
@@ -28,7 +29,12 @@ export default function Login() {
            setIcon(eyeOff)
            setType('password')
         }
+
+        
      }
+
+         const notifySuccess = (message:string) => toast.success(message, { position: "bottom-right" });
+         const notifyError = (message:string) => toast.error(message, { position: "bottom-right" });
 
 
          const handleLoginGoogle = async (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -39,11 +45,12 @@ export default function Login() {
                     // The signed-in user info.
                     const user = result.user;
                     // IdP data available using getAdditionalUserInfo(result)
-                    console.log(user);
+                    notifySuccess("You have successfully logged in!")
                     setTimeout(()=>navigate("/account"), 3000);
                     // ...
                 }).catch((error) => {
                     // ...
+                    notifyError(error.message);
                 });
             } 
 
@@ -53,15 +60,14 @@ export default function Login() {
                     signInWithEmailAndPassword(auth, email, password)
                     .then((userCredential) => {
                         // Signed in 
-                        const user = userCredential.user;
+                        notifySuccess("You have successfully logged in!")
                         setTimeout(()=>navigate("/account"), 3000);
                         // ...
                     })
                     .catch((error) => {
-                        const errorCode = error.code;
                         const errorMessage = error.message;
-                        setErrorMessage(errorMessage)
-                        console.log(errorMessage);
+                        notifyError(error.message);
+                        setErrorMessage(errorMessage);
                     });
                 }
 
@@ -73,8 +79,8 @@ export default function Login() {
                 <div className="">
                     <Img
                     src={loginImage}
-                    loader={<span>Loading...</span>}
-                    unloader={<span>Failed to load image</span>}
+                    loader={<span></span>}
+                    unloader={<span>...</span>}
                     className="h-screen w-full md:relative  absolute top-0 -z-10" 
                     alt="clothes"
                     />
@@ -115,6 +121,7 @@ export default function Login() {
                 </div>
             </div>
             </div>
+            <ToastContainer/> 
         </Fragment>
     )
 }
