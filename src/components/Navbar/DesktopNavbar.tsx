@@ -63,7 +63,7 @@ export default function DesktopNavbar() {
                         <Link to="/cart">
                         <div className='bg-secondary cartIcon relative'>
                             <img src={cartIcon} alt='cart'/>
-                            { uidCart !== uid ? (null):(<span className='absolute text-xs top-1 text-center items-center w-4 h-4 left-6 text-white bg-primary rounded-full '>{totalQuantity}</span>)}
+                            <span className='absolute text-xs top-1 text-center items-center w-4 h-4 left-6 text-white bg-primary rounded-full '>{totalQuantity}</span>
                         </div>
                         </Link>
                     </div>

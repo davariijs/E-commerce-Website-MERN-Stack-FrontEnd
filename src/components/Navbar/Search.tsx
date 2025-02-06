@@ -15,9 +15,7 @@ const SearchBar: React.FC = () => {
   const [debouncedQuery, setDebouncedQuery] = useState<string>("");
   const searchResults = useSelector((state: RootState) => selectSearch(state));
   const isLoading = useSelector((state: RootState) => selectLoadingState(state));
-
   const products: TProduct[] = searchResults?.payload?.products || [];
-
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -75,7 +73,7 @@ const SearchBar: React.FC = () => {
           ) : products.length > 0 ? (
             // Map over search results
             products.map((product) => (
-              <Link to={String(product.webID)} key={product.webID}>
+              <Link to={`/search/${String(product.webID)}`} key={product.webID}>
                 <div
                   style={{
                     padding: "10px",

@@ -17,17 +17,14 @@ import { selectUser } from 'src/redux/users/userSlice';
 export default function MobileNavbar() {
     const [showNavbar, setShowNavbar] = useState<boolean>(false);
     const totalQuantity = useSelector((state: RootState) => state.cart.totalQuantity);
-    const cartItems = useSelector((state: RootState) => state.cart.cart);
-    // const uidCart = cartItems?.uid || cartItems?.cart?.uid;
-    const uidCart = cartItems?.uid || null;
     const dispatch = useDispatch<AppDispatch>();
     const { uid } = useSelector((state:RootState) => selectUser(state));
 
-    useEffect(() => {
-            if (uid){
-                dispatch(fetchCart(uid))
-            }
-          }, [dispatch,uid]);
+    // useEffect(() => {
+    //         if (uid){
+    //             dispatch(fetchCart(uid))
+    //         }
+    //       }, [dispatch,uid]);
 
     function showNavbarClose ():void {
         setShowNavbar(!showNavbar)
@@ -63,7 +60,7 @@ export default function MobileNavbar() {
                         <Link to="/cart">
                         <div className='bg-secondary cartIcon relative'>
                             <img src={cartIcon} alt='cart'/>
-                            {uidCart === uid  ? (<span className='absolute text-xs top-1 text-center items-center w-4 h-4 left-6 text-white bg-primary rounded-full '>{totalQuantity}</span>):(null)}
+                            <span className='absolute text-xs top-1 text-center items-center w-4 h-4 left-6 text-white bg-primary rounded-full '>{totalQuantity}</span>
                         </div>
                         </Link>
                     </div>
@@ -72,7 +69,7 @@ export default function MobileNavbar() {
 
                 <div className={showNavbar? "block" : "hidden" }>
                 <div className='fixed inset-0 bg-black/20 backdrop-blur-sm dark:bg-slate-900/80'></div>
-                <div className='w-11/12 mobileDisplay bg-white z-30 h-full absolute left-0 top-0 py-6 px-8 shadow-lg'>
+                <div className='w-11/12 mobileDisplay bg-white z-30 h-screen absolute left-0 top-0 py-6 px-8 shadow-lg'>
 
                 <div className=''>
 
