@@ -37,8 +37,8 @@ export default function Card ({priceTitle,mainTitle,discount,seeMore,srcCard,alt
                 src={srcCard} 
                 alt={alt}
                 width="100%" height="100%"
-                loader={<span>Loading...</span>}
-                unloader={<span>Failed to load image</span>}
+                loader={<span></span>}
+                unloader={<span>...</span>}
                 className="rounded-xl"
                 />
                 </div>
@@ -58,8 +58,8 @@ export default function Card ({priceTitle,mainTitle,discount,seeMore,srcCard,alt
                     src={srcCard} 
                     alt={alt}
                     width="100%" height="100%"
-                    loader={<span>Loading...</span>}
-                    unloader={<span>Failed to load image</span>}
+                    loader={<span></span>}
+                    unloader={<span>...</span>}
                     className="rounded-xl"
                     />
                 </div>

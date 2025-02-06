@@ -12,8 +12,8 @@ export default function CartEmpty () {
                 <div className="flex flex-col justify-center items-center my-20">
                 <Img
                 src={cartImg}
-                loader={<span>Loading...</span>}
-                unloader={<span>Failed to load image</span>}
+                loader={<span></span>}
+                unloader={<span>...</span>}
                 className="w-80" 
                 alt="order"
                 />

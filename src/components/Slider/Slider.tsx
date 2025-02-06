@@ -88,8 +88,8 @@ export default function SliderPart() {
         <Link to="">
         <Img
         src={imgCardSlider1}
-        loader={<span>Loading...</span>}
-        unloader={<span>Failed to load image</span>}
+        loader={<span></span>}
+        unloader={<span>...</span>}
         className="rounded-xl w-full" alt="new style"
         />
           <h3 className="font-bold lg:text-xl text-base lg:pt-10 md:pt-7 pt-4">Knitted Joggers</h3>
@@ -97,8 +97,8 @@ export default function SliderPart() {
         <Link to="">
         <Img
         src={imgCardSlider2}
-        loader={<span>Loading...</span>}
-        unloader={<span>Failed to load image</span>}
+        loader={<span></span>}
+        unloader={<span>...</span>}
         className="rounded-xl w-full" alt="new style"
         />
           <h3 className="font-bold lg:text-xl text-base lg:pt-10 md:pt-7 pt-4">Full Sleeve</h3>
@@ -106,8 +106,8 @@ export default function SliderPart() {
         <Link to="">
         <Img
         src={imgCardSlider3}
-        loader={<span>Loading...</span>}
-        unloader={<span>Failed to load image</span>}
+        loader={<span></span>}
+        unloader={<span>...</span>}
         className="rounded-xl w-full" alt="new style"
         />
           <h3 className="font-bold lg:text-xl text-base lg:pt-10 md:pt-7 pt-4">Active T-Shirts</h3>
@@ -115,8 +115,8 @@ export default function SliderPart() {
         <Link to="">
         <Img
         src={imgCardSlider4}
-        loader={<span>Loading...</span>}
-        unloader={<span>Failed to load image</span>}
+        loader={<span></span>}
+        unloader={<span>...</span>}
         className="rounded-xl w-full" alt="new style"
         />
           <h3 className="font-bold lg:text-xl text-base lg:pt-10 md:pt-7 pt-4">Urban Shirts</h3>
@@ -124,8 +124,8 @@ export default function SliderPart() {
         <Link to="">
         <Img
         src={imgCardSlider5}
-        loader={<span>Loading...</span>}
-        unloader={<span>Failed to load image</span>}
+        loader={<span></span>}
+        unloader={<span>...</span>}
         className="rounded-xl w-full" alt="new style"
         />
           <h3 className="font-bold lg:text-xl text-base lg:pt-10 md:pt-7 pt-4">New Fashion</h3>
@@ -133,8 +133,8 @@ export default function SliderPart() {
         <Link to="">
         <Img
         src={imgCardSlider6}
-        loader={<span>Loading...</span>}
-        unloader={<span>Failed to load image</span>}
+        loader={<span></span>}
+        unloader={<span>...</span>}
         className="rounded-xl w-full" alt="new style"
         />
           <h3 className="font-bold lg:text-xl text-base lg:pt-10 md:pt-7 pt-4">Green!</h3>

@@ -21,8 +21,8 @@ export default function Brands() {
                 <Img
                 src={Nike}
                 width="100%" height="100%"
-                loader={<span>Loading...</span>}
-                unloader={<span>Failed to load image</span>}
+                loader={<span></span>}
+                unloader={<span>...</span>}
                 alt="brand"
                 />
                 </div>
@@ -31,8 +31,8 @@ export default function Brands() {
                 <Img
                 src={hM}
                 width="100%" height="100%"
-                loader={<span>Loading...</span>}
-                unloader={<span>Failed to load image</span>}
+                loader={<span></span>}
+                unloader={<span>...</span>}
                 alt="brand"
                 />
                 </div>
@@ -41,8 +41,8 @@ export default function Brands() {
                     <Img
                     src={Levis}
                     width="100%" height="100%"
-                    loader={<span>Loading...</span>}
-                    unloader={<span>Failed to load image</span>}
+                    loader={<span></span>}
+                    unloader={<span>...</span>}
                     alt="brand"
                     />
                 </div>
@@ -51,8 +51,8 @@ export default function Brands() {
                     <Img
                     src={Polo}
                     width="100%" height="100%"
-                    loader={<span>Loading...</span>}
-                    unloader={<span>Failed to load image</span>}
+                    loader={<span></span>}
+                    unloader={<span>...</span>}
                     alt="brand"
                     />
                 </div>
@@ -61,8 +61,8 @@ export default function Brands() {
                     <Img
                     src={Puma}
                     width="100%" height="100%"
-                    loader={<span>Loading...</span>}
-                    unloader={<span>Failed to load image</span>}
+                    loader={<span></span>}
+                    unloader={<span>...</span>}
                     alt="brand"
                     />
                 </div>

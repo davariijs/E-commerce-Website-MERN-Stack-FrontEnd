@@ -45,8 +45,8 @@ export default function NewPassword() {
                 <div className="">
                     <Img
                     src={newPasswordImg}
-                    loader={<span>Loading...</span>}
-                    unloader={<span>Failed to load image</span>}
+                    loader={<span></span>}
+                    unloader={<span>...</span>}
                     className="h-screen w-full   md:relative  absolute top-0 -z-10" 
                     alt="clothes"
                     />

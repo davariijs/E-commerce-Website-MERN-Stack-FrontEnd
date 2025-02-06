@@ -14,8 +14,8 @@ export default function FashionPart() {
                     <div className="w-full h-full  relative m-auto">
                     <Img
                     src={FashionCard2}
-                    loader={<span>Loading...</span>}
-                    unloader={<span>Failed to load image</span>}
+                    loader={<span></span>}
+                    unloader={<span>...</span>}
                     className="fashionCard1" width="100%" height="100%" alt="fashion"
                     />
                     <div className="fashionPartText ">
@@ -28,8 +28,8 @@ export default function FashionPart() {
                     <div className="w-full h-full">
                     <Img
                     src={FashionCard1}
-                    loader={<span>Loading...</span>}
-                    unloader={<span>Failed to load image</span>}
+                    loader={<span></span>}
+                    unloader={<span>...</span>}
                     className="fashionCard2" width="100%" height="100%" alt="fashion"
                     />
                     </div>

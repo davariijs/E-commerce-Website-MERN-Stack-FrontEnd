@@ -19,8 +19,8 @@ export default function FeedBackCard ({srcFeedBackCard,userName,feedBackText,fee
                     <div>
                     <Img
                     src={srcFeedBackCard}
-                    loader={<span>Loading...</span>}
-                    unloader={<span>Failed to load image</span>}
+                    loader={<span></span>}
+                    unloader={<span>...</span>}
                     width="59px" height="59px" alt="user"
                     />
                     </div>

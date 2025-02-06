@@ -12,8 +12,8 @@ export default function NotFound () {
             <div className="flex flex-col justify-center items-center my-20">
                 <Img
                     src={notFoundImg}
-                    loader={<span>Loading...</span>}
-                    unloader={<span>Failed to load image</span>}
+                    loader={<span></span>}
+                    unloader={<span>...</span>}
                     alt="order" 
                 />
                 <h4 className="mt-8 text-black font-bold md:text-3xl text-center text-lg">Oops! Page not found</h4>
