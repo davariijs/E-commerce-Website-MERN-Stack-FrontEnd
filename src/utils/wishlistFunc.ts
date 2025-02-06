@@ -6,12 +6,6 @@ interface TWishlist {
   pathname: string,
 }
 
-interface TUserToMongo {
-  uid: string | null;
-  email: string| null,
-  name: string| null,
-}
-
 export const handleAddWishlist = async ({title, image, price, pathname, uid}:TWishlist) => {
     
     try {
@@ -32,28 +26,6 @@ export const handleAddWishlist = async ({title, image, price, pathname, uid}:TWi
     }
 };
 
-  export const handleAddUserToMongo = async ({email, name, uid}:TUserToMongo) => {
-    try {
-      const result = await fetch('http://localhost:5000/user', {
-        method: 'POST',
-        body: JSON.stringify({ email, name, uid }), // Correct payload structure
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      const response = await result.json();
-      console.warn(response);
-  
-      if (result.ok) {
-        console.log('Data saved successfully');
-      } else {
-        console.error('Error saving data:', response.error);
-      }
-    } catch (error:any) {
-      console.error('Error saving data:', error);
-    }
-  };
 
 
   export const InfoAccountFunc = async (uid:string | null) => {
