@@ -24,6 +24,7 @@ const MenRoutes = () => {
           <Route path="coats" element={<MenCoats />} />
           <Route path="jeans" element={<MenJeans />} />
           <Route path="hoodies" element={<MenHoodies />} />
+          <Route path=":id" element={<ProductDetails />} />
           <Route path="tops/:id" element={<ProductDetails />} />
           <Route path="t-shirts/:id" element={<ProductDetails />} />
           <Route path="shoes/:id" element={<ProductDetails />} />

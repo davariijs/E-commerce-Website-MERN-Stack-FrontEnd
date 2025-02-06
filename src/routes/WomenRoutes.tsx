@@ -19,6 +19,7 @@ const WomenRoutes = () => {
         <Route path="/" element={<Women />} >
           <Route index element={<WomenTops />} />
           <Route path="tops" element={<WomenTops />} />
+          <Route path=":id" element={<ProductDetails />} />
           <Route path="tops/:id" element={<ProductDetails />} />
           <Route path="t-shirts" element={<WomenTShirts />} />
           <Route path="t-shirts/:id" element={<ProductDetails />} />
