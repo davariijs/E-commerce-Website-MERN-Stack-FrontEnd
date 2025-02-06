@@ -24,11 +24,6 @@ export interface ICartList extends Document {
     _id:string,
 }
 
-export interface IUserState {
-    uid: string,
-    email: string,
-    name: string | null,
-}
 
 export interface IAddressInfo {
     _id?:string,

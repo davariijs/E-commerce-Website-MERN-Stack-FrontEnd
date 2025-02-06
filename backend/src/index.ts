@@ -4,7 +4,6 @@ import cors from 'cors';
 // Import route handlers
 import wishlistRoutes from  './routes/wishlistRoutes';
 import cartRoutes from  './routes/cartRoutes';
-import userRoutes from  './routes/userRoutes';
 import infoAccountRoutes from  './routes/infoAccountRoutes';
 import checkOutRoutes from  './routes/checkOutCartRoutes';
 
@@ -28,7 +27,6 @@ mongoose.connect(mongoURI, {
 // Routes
 app.use('/add-wishlist', wishlistRoutes);
 app.use('/cart', cartRoutes);
-app.use('/user', userRoutes);
 app.use('/info-account', infoAccountRoutes);
 app.use('/check-out', checkOutRoutes);
 

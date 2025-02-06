@@ -1,5 +1,5 @@
 import mongoose, { Schema} from 'mongoose';
-import { IAddressInfo, ICartList, ICheckOut, IUserState, IWishlist } from '../types';
+import { IAddressInfo, ICartList, ICheckOut, IWishlist } from '../types';
 
 
 const WishlistSchema: Schema<IWishlist> = new mongoose.Schema({
@@ -39,22 +39,6 @@ const CartSchema: Schema<ICartList>  = new mongoose.Schema({
     ]
 });
 
-const UserSchema: Schema<IUserState> = new mongoose.Schema({
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    name: {
-        type: String,
-        required: false,
-        default: "Anonymous",
-    },
-    uid: {
-        type: String,
-        required: true,
-    }
-});
 
 const InfoAccountSchema: Schema<IAddressInfo> = new mongoose.Schema({
     firstName: {
@@ -164,4 +148,4 @@ const CheckOutSchema: Schema<ICheckOut> = new mongoose.Schema({
     ]
 });
 
-module.exports = { CartSchema, UserSchema, WishlistSchema, InfoAccountSchema, CheckOutSchema}
+module.exports = { CartSchema, WishlistSchema, InfoAccountSchema, CheckOutSchema}
