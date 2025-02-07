@@ -26,7 +26,7 @@ export default function Wishlist () {
     const handleRemoveWishlist = async (id:string) => {
         try {
           // Make DELETE request to the backend to remove the item
-          await axios.delete(`http://localhost:5000/add-wishlist/${id}`);
+          await axios.delete(`${process.env.REACT_APP_URL_API}/add-wishlist/${id}`);
           
           // After removing the item, fetch the updated wishlist
           dispatch(fetchWishlist(uid));
