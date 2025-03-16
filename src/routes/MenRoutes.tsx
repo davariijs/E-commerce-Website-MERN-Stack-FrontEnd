@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Loading from '../components/Loading/loading';
 
-// Lazy-loaded components
+
 const Men = React.lazy(() => import('../pages/Men/Men'));
 const MenTops = React.lazy(() => import('../pages/Men/MenTops'));
 const MenTShirts = React.lazy(() => import('../pages/Men/MenTShirt'));

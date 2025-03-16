@@ -1,8 +1,7 @@
-import { Fragment, ReactNode } from 'react';
+import { Fragment, ReactNode, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { selectErrorState, selectLoadingState, selectMenShoes, getMenShoes } from '../../redux/menProducts/menShoesSlice/menShoesSlice';
 import loadingBar from "../../assets/images/loader.svg";
-import useEffectAfterMount from '../../utils/useEffectAfterMount';
 import CategoriesCard from '../../components/CategoriesCard/CategoriesCard';
 import "./productCard.css"
 import { selectFilterPrices } from '../../redux/filterProducts/filterProductsSlice';
@@ -27,7 +26,7 @@ export default function MenShoes() {
           position: 'bottom-right',
         });
 
-    useEffectAfterMount(() => {
+     useEffect(() => {
       if (loading === 'idle') {
         dispatch(getMenShoes())
       }

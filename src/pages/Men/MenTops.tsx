@@ -1,9 +1,8 @@
-import { Fragment, ReactNode } from 'react';
+import { Fragment, ReactNode, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { selectErrorState, selectLoadingState, selectMenTops } from '../../redux/menProducts/menTopsSlice/menTopsSlice';
 import { getMenTops } from '../../redux/menProducts/menTopsSlice/menTopsSlice';
 import loadingBar from "../../assets/images/loader.svg";
-import useEffectAfterMount from '../../utils/useEffectAfterMount';
 import CategoriesCard from '../../components/CategoriesCard/CategoriesCard';
 import "./productCard.css";
 import { selectFilterPrices } from '../../redux/filterProducts/filterProductsSlice';
@@ -30,7 +29,7 @@ export default function MenTops() {
       position: 'bottom-right',
     });
 
-    useEffectAfterMount(() => {
+     useEffect(() => {
       if (loading === 'idle') {
         dispatch(getMenTops())
       }

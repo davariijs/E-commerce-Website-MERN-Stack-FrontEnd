@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectErrorState, selectLoadingState, selectwomenDresses } from '../../redux/womenProducts/womenProductSlice/womenTopsSlice';
 import { getWomenDresses } from '../../redux/womenProducts/womenProductSlice/womenTopsSlice';
 import loadingBar from "../../assets/images/loader.svg";
-import useEffectAfterMount from '../../utils/useEffectAfterMount';
 import CategoriesCard from '../../components/CategoriesCard/CategoriesCard';
 import "./productCard.css";
 import { handleAddWishlist } from '../../utils/wishlistFunc';

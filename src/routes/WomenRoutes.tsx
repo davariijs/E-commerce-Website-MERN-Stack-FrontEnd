@@ -2,7 +2,6 @@ import React, { Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Loading from '../components/Loading/loading';
 
-// Lazy-loaded components
 const Women = React.lazy(() => import('../pages/Women/Women'));
 const WomenTops = React.lazy(() => import('../pages/Women/WomenTops'));
 const WomenTShirts = React.lazy(() => import('../pages/Women/WomenTShirt'));

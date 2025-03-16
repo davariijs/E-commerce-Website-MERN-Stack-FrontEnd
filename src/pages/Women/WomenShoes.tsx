@@ -1,9 +1,8 @@
-import { Fragment, ReactNode } from 'react';
+import { Fragment, ReactNode, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { selectErrorState, selectLoadingState, selectWomenShoes } from '../../redux/womenProducts/womenShoesSlice/womenShoesSlice';
 import { getWomenShoes } from '../../redux/womenProducts/womenShoesSlice/womenShoesSlice'; 
 import loadingBar from "../../assets/images/loader.svg";
-import useEffectAfterMount from '../../utils/useEffectAfterMount';
 import CategoriesCard from '../../components/CategoriesCard/CategoriesCard';
 import "./productCard.css"
 import { selectFilterPrices } from '../../redux/filterProducts/filterProductsSlice';
@@ -28,7 +27,7 @@ export default function WomenShoes() {
       position: 'bottom-right',
     });
 
-    useEffectAfterMount(() => {
+     useEffect(() => {
       if (loading === 'idle') {
         dispatch(getWomenShoes())
       }
@@ -97,5 +96,3 @@ export default function WomenShoes() {
     </Fragment>
   )
 }
-
-// && itemCategory.offer?.price > `$${values[0].toFixed(2)}` && itemCategory.offer?.price < `$${values[1].toFixed(2)}`

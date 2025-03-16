@@ -1,7 +1,6 @@
-import { Fragment, ReactNode, useState } from "react";
+import { Fragment, ReactNode, useEffect, useState } from "react";
 import React from "react";
 import { useParams } from "react-router-dom";
-import useEffectAfterMount from "../../utils/useEffectAfterMount";
 import loadingBar from "../../assets/images/loader.svg";
 import creditCardIcon from "../../assets/icons/credit-card.svg";
 import fitIcon from "../../assets/icons/fit.svg";
@@ -51,8 +50,8 @@ export default function ProductDetails() {
         width="20"
         height="20"
         viewBox="0 0 20 20"
-        className="stroke-current text-white" // Use text-white to set color
-        stroke="currentColor" // This makes the stroke inherit the text color
+        className="stroke-current text-white"
+        stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
         fill="none"
@@ -67,7 +66,7 @@ export default function ProductDetails() {
       dispatch(fetchProductDetails(productId));
     };
   
-    useEffectAfterMount(() => {
+     useEffect(() => {
       handleFetchProduct();
     }, []);
   
@@ -103,12 +102,12 @@ export default function ProductDetails() {
           price: product?.price?.regularPrice?.minPrice,
           image: product.images[0]?.url,
           color: colorProduct,
-          quantity: 1, // Default quantity to 1
+          quantity: 1,
         },
       };
     
       console.log("Adding product to cart:", item);
-      dispatch(addToCart(item)); // Dispatch the item to the Redux action
+      dispatch(addToCart(item));
       notify();
     };
 
