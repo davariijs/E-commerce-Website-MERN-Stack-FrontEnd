@@ -9,7 +9,7 @@ interface TWishlist {
 export const handleAddWishlist = async ({title, image, price, pathname, uid}:TWishlist) => {
     
     try {
-      let result = await fetch(`${process.env.REACT_APP_URL_API}/add-wishlist`, {
+      let result = await fetch(`${process.env.REACT_APP_URL_API}/api/add-wishlist`, {
         method: 'post',
         body: JSON.stringify({ title, image, price, pathname, uid }),
         headers: {
@@ -30,7 +30,7 @@ export const handleAddWishlist = async ({title, image, price, pathname, uid}:TWi
 
   export const InfoAccountFunc = async (uid:string | null) => {
     try {
-      const result = await fetch(`${process.env.REACT_APP_URL_API}/info-account/${uid}`, {
+      const result = await fetch(`${process.env.REACT_APP_URL_API}/api/info-account/${uid}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ export const handleAddWishlist = async ({title, image, price, pathname, uid}:TWi
 
   export const OrderFunc = async (uid:string | null) => {
     try {
-      const result = await fetch(`${process.env.REACT_APP_URL_API}/check-out/${uid}`, {
+      const result = await fetch(`${process.env.REACT_APP_URL_API}/api/check-out/${uid}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

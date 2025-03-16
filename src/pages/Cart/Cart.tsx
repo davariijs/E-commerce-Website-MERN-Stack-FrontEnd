@@ -41,7 +41,7 @@ export default function Cart() {
             console.log(`second clg: ${id}`);
             try {
                 console.log(`Requesting deletion of item with ID: ${id} from cart`);
-                const response = await axios.delete(`${process.env.REACT_APP_URL_API}/cart/${uid}/${id}`);
+                const response = await axios.delete(`${process.env.REACT_APP_URL_API}/api/cart/${uid}/${id}`);
                 
                 if (response.status === 200) {
                     // Convert id to a number for state update

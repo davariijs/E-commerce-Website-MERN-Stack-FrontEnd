@@ -65,7 +65,7 @@ export default function MyInfo () {
       const handleRemove = async (id:string) => {
         try {
           // Make DELETE request to the backend to remove the item
-          await axios.delete(`${process.env.REACT_APP_URL_API}/info-account/${id}`);
+          await axios.delete(`${process.env.REACT_APP_URL_API}/api/info-account/${id}`);
           fetchData();
           notify();
         } catch (error) {

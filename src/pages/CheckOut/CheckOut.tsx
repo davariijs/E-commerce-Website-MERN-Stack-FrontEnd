@@ -63,7 +63,7 @@ export default function CheckOut () {
 
             try {
                 // Make DELETE request to the backend to remove the cart
-                await axios.delete(`${process.env.REACT_APP_URL_API}/cart/${cartId}`);
+                await axios.delete(`${process.env.REACT_APP_URL_API}/api/cart/${cartId}`);
                 await dispatch(fetchCart(uid)); // Refresh the cart after deletion
             } catch (error) {
                 console.error('Failed to remove cart:', error);
@@ -127,7 +127,7 @@ export default function CheckOut () {
 
     // Send POST request to backend
     try {
-      const response = await axios.post(`${process.env.REACT_APP_URL_API}/check-out`, payload);
+      const response = await axios.post(`${process.env.REACT_APP_URL_API}/api/check-out`, payload);
       notifySuccess(response.data.message);
       console.log(response.data);
       if (response.status === 200) {

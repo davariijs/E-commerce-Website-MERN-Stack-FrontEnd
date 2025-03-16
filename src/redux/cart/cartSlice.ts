@@ -38,7 +38,7 @@ const initialState: CartState = {
 // Async thunk for fetching the cart
 export const fetchCart = createAsyncThunk('cart/fetchCart', async (uid: string | null, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`${process.env.REACT_APP_URL_API}/cart/${uid}`);
+        const response = await axios.get(`${process.env.REACT_APP_URL_API}/api/cart/${uid}`);
         return response.data; // Full cart object is returned
         
     } catch (error: any) {
@@ -50,7 +50,7 @@ export const fetchCart = createAsyncThunk('cart/fetchCart', async (uid: string |
 // Async thunk for adding an item to the cart
 export const addToCart = createAsyncThunk('cart/addToCart', async ({ uid, item }: { uid: string | null; item: TCartItem }, { rejectWithValue }) => {
     try {
-        const response = await axios.post(`${process.env.REACT_APP_URL_API}/cart`, { uid, item });
+        const response = await axios.post(`${process.env.REACT_APP_URL_API}/api/cart`, { uid, item });
         console.log('Backend response for addToCart:', response.data); // Debugging the response
         return response.data; // Full updated cart object
     } catch (error: any) {
@@ -62,7 +62,7 @@ export const addToCart = createAsyncThunk('cart/addToCart', async ({ uid, item }
 // Async thunk for removing an item from the cart
 export const removeFromCart = createAsyncThunk('cart/removeFromCart', async ({ uid, itemId }: { uid: string | null; itemId: string }, { rejectWithValue }) => {
     try {
-        const response = await axios.delete(`${process.env.REACT_APP_URL_API}/cart/${uid}/${itemId}`);
+        const response = await axios.delete(`${process.env.REACT_APP_URL_API}/api/cart/${uid}/${itemId}`);
         console.log('Item removed, backend response:', response.data); // Debugging the response
         return response.data; // Full updated cart object
     } catch (error:any) {
@@ -76,7 +76,7 @@ export const increaseQuantityAsync = createAsyncThunk(
     'cart/increaseQuantityAsync',
     async ({ uid, itemId }: { uid: string | null ; itemId: string }, { rejectWithValue }) => {
         try {
-            const response = await axios.put(`${process.env.REACT_APP_URL_API}/cart/increase/${uid}/${itemId}`);
+            const response = await axios.put(`${process.env.REACT_APP_URL_API}/api/cart/increase/${uid}/${itemId}`);
             return response.data; // Full updated cart object
         } catch (error:any) {
             console.error('Error increasing quantity:', error);
@@ -90,7 +90,7 @@ export const decreaseQuantityAsync = createAsyncThunk(
     'cart/decreaseQuantityAsync',
     async ({ uid, itemId }: { uid: string | null; itemId: string }, { rejectWithValue }) => {
         try {
-            const response = await axios.put(`${process.env.REACT_APP_URL_API}/cart/decrease/${uid}/${itemId}`);
+            const response = await axios.put(`${process.env.REACT_APP_URL_API}/api/cart/decrease/${uid}/${itemId}`);
             return response.data; // Full updated cart object
         } catch (error:any) {
             console.error('Error decreasing quantity:', error);

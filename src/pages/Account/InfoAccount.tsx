@@ -102,8 +102,8 @@ export default function InfoAccount ({ existingData, onSave}:IInfoAccount) {
       
           // Ensure we only try to update if the `id` is available
           const url = method === "PUT" && id
-            ? `${process.env.REACT_APP_URL_API}/info-account/${id}`  // Update endpoint
-            : `${process.env.REACT_APP_URL_API}/info-account`;       // Create endpoint
+            ? `${process.env.REACT_APP_URL_API}/api/info-account/${id}`  // Update endpoint
+            : `${process.env.REACT_APP_URL_API}/api/info-account`;       // Create endpoint
       
           if (method === "PUT" && !id) {
             notifyError("Cannot update without a valid ID.");

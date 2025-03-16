@@ -28,7 +28,7 @@ const initialState: WishListState =  {
 // Async thunk to fetch wishlist from MongoDB
 export const fetchWishlist = createAsyncThunk("wishlist/fetchWishlist", async (uid: string | null , { rejectWithValue }) => {
   try {
-  const response = await axios.get(`${process.env.REACT_APP_URL_API}/add-wishlist/${uid}`);
+  const response = await axios.get(`${process.env.REACT_APP_URL_API}/api/add-wishlist/${uid}`);
   return response.data;
   } catch (error: any) {
     console.error('Error fetching wishlist:', error);
