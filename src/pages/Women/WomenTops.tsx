@@ -1,4 +1,4 @@
-import { Fragment, ReactNode} from 'react';
+import { Fragment, ReactNode, useEffect} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { selectErrorState, selectLoadingState, selectwomenDresses } from '../../redux/womenProducts/womenProductSlice/womenTopsSlice';
 import { getWomenDresses } from '../../redux/womenProducts/womenProductSlice/womenTopsSlice';
@@ -26,7 +26,7 @@ export default function WomenTops() {
       position: 'bottom-right',
     });
 
-    useEffectAfterMount(() => {
+    useEffect(() => {
       if (loading === 'idle') {
         dispatch(getWomenDresses())
       }
