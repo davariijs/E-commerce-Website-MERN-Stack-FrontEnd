@@ -1,55 +1,98 @@
+
 .cardFashionText {
-    margin-top: 30%;
-    position: absolute;
-    top: 0;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-  }
-
-
-  .cardFashionText a {
-    transition: color 0.3s ease-in-out;
-  }
-  
-  .cardFashionText a:hover {
-    color: #ff6600; /* Change color on hover */
-    text-decoration: underline;
-  }
-  
-  .cardFashionText h2,
-  .cardFashionText h3 {
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .cardFashionText:hover h2,
-  .cardFashionText:hover h3 {
-    transform: translateY(-5px);
-  }
-  
-  .cardFashionText:hover {
-    cursor: pointer;
-  }
-  
-  .cardFashionText:hover + .h-full img {
-    transform: scale(1.05);
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .h-full img {
-    transition: transform 0.3s ease-in-out;
-  }
-
-
-@media screen and (max-width: 1028px){
-    .cardFashionText {
-        margin: 0;
-        top: 50%;
-        margin-top: -10% !important;
-      }
+  margin-top: 30%;
+  position: absolute;
+  top: 0;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  transition: transform 0.3s ease-in-out;
 }
 
-@media screen and (max-width: 767px){
-    .cardFashionText {
-        margin-top: 0% !important;
-      }
+
+.cardFashionText a {
+  transition: color 0.3s ease-in-out;
+}
+
+.cardFashionText a:hover {
+  color: #ff6600;
+  text-decoration: underline;
+}
+
+
+.cardFashionText h2,
+.cardFashionText h3 {
+  transition: transform 0.3s ease-in-out;
+}
+
+.cardFashionText:hover h2,
+.cardFashionText:hover h3 {
+  transform: translateY(-5px);
+}
+
+
+.w-full.h-full.rounded-xl {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.w-full.h-full.rounded-xl:hover {
+  transform: scale(1.03);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.h-full img {
+  transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.cardFashionText:hover + .h-full img {
+  transform: scale(1.05);
+}
+
+.h-full img:hover {
+  transform: scale(1.08);
+  opacity: 0.9;
+}
+
+
+.font-semibold.text-xs.border-2 {
+  transition: all 0.3s ease-in-out;
+}
+
+.font-semibold.text-xs.border-2:hover {
+  background-color: #8A33FD; 
+  color: white;
+  transform: scale(1.05);
+}
+
+.GoArrowDown {
+  transition: transform 0.3s ease-in-out;
+}
+
+.GoArrowDown:hover {
+  transform: translateY(5px);
+}
+
+[data-aos] {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+[data-aos].aos-animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+@media screen and (max-width: 1028px) {
+  .cardFashionText {
+      margin: 0;
+      top: 50%;
+      margin-top: -10% !important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .cardFashionText {
+      margin-top: 0% !important;
+  }
 }
