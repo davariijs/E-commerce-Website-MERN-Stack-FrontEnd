@@ -9,7 +9,7 @@ import { auth } from './firebase/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { clearUser, setUser } from './redux/users/userSlice';
 
-// Import MainRoutes
+
 import { MainRoutes } from './routes';
 
 export default function App() {

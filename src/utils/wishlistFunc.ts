@@ -37,19 +37,19 @@ export const handleAddWishlist = async ({title, image, price, pathname, uid}:TWi
         },
       });
   
-      // Parse the response JSON
+
       const response = await result.json();
   
       if (result.ok) {
-        console.log('Data fetched successfully:', response); // Log the fetched data
-        return response; // Return the fetched data if needed
+        console.log('Data fetched successfully:', response); 
+        return response;
       } else {
-        console.error('Error fetching data:', response); // Log the error response from the server
-        throw new Error(response.message || 'Failed to fetch data'); // Throw a meaningful error
+        console.error('Error fetching data:', response);
+        throw new Error(response.message || 'Failed to fetch data'); 
       }
     } catch (error:any) {
-      console.error('Error fetching data:', error.message); // Log the error message
-      throw error; // Rethrow the error so the caller can handle it
+      console.error('Error fetching data:', error.message); 
+      throw error;
     }
   };
 
@@ -62,19 +62,19 @@ export const handleAddWishlist = async ({title, image, price, pathname, uid}:TWi
         },
       });
   
-      // Parse the response JSON
+
       const response = await result.json();
   
       if (result.ok) {
-        console.log('Data fetched successfully:', response); // Log the fetched data
-        return response; // Return the fetched data if needed
+        console.log('Data fetched successfully:', response); 
+        return response;
       } else {
-        console.error('Error fetching data:', response); // Log the error response from the server
-        throw new Error(response.message || 'Failed to fetch data'); // Throw a meaningful error
+        console.error('Error fetching data:', response); 
+        throw new Error(response.message || 'Failed to fetch data'); 
       }
     } catch (error:any) {
-      console.error('Error fetching data:', error.message); // Log the error message
-      throw error; // Rethrow the error so the caller can handle it
+      console.error('Error fetching data:', error.message); 
+      throw error;
     }
   };
 
