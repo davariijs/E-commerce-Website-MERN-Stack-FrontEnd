@@ -35,7 +35,7 @@ export default function Home() {
     <Fragment>
       <Hero />
       <div className="container mx-auto lg:px-6 px-4">
-        <div data-aos="fade-up" className="lg:flex md:flex justify-center lg:mx-0 md:mx-0 mx-6 lg:mt-16 mt-8 grid lg:grid-cols-2 lg:gap-12 gap-6">
+        <div className="lg:flex md:flex justify-center lg:mx-0 md:mx-0 mx-6 lg:mt-16 mt-8 grid lg:grid-cols-2 lg:gap-12 gap-6">
           <Card
             showFirstType={true}
             priceTitle={"Low Price"}
