@@ -12,83 +12,96 @@ import CategoriesForWomen from '../../components/CategoriesForWomen/CategoriesFo
 import Brands from '../../components/Brands/Brands';
 import Limelight from '../../components/Limelight/Limelight';
 import FeedBackPart from '../../components/FeedBack/FeedBackPart';
-
+import { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 export default function Home() {
+  useEffect(() => {
+    AOS.init({ duration: 1000, once: true });
+  }, []);
+
   return (
     <Fragment>
-      <Hero/>
-      <div className='container mx-auto lg:px-6 px-4'>
-
-      <div  className="lg:flex md:flex justify-center lg:mx-0 md:mx-0 mx-6 lg:mt-16 mt-8 grid lg:grid-cols-2 lg:gap-12 gap-6 "> 
-      <Card 
-      showFirstType={true}
-      priceTitle={"Low Price"} 
-      srcCard={imgCardFashion1}
-      alt="fashion"
-      mainTitle="High Coziness"
-      discount="UPTO 50% OFF"
-      seeMore="Explore Items"
-      />
-      <Card
-      showFirstType={true}
-      priceTitle={"Low Price"} 
-      srcCard={imgCardFashion2}
-      alt="fashion"
-      mainTitle="High Coziness"
-      discount="UPTO 50% OFF"
-      seeMore="Explore Items"
-      />
-      </div>
-
-      <div className='lg:my-20 my-14 lg:mx-4 md:mx-0 mx-6'>
-        <div className='text-darkText flex lg:text-4xl text-2xl font-bold  lg:pb-16 pb-8'><div className='title-part'></div><h3 className='pl-11'>New Arrival</h3></div>
-        <SliderPart/>
-      </div>
-
-      <div className='savingZone lg:my-20 my-14 lg:mx-4 md:mx-0 mx-6'>
-        <div className='text-darkText flex lg:text-4xl text-2xl font-bold  lg:pb-16 pb-8'><div className='title-part'></div><h3 className='pl-11'>Big Saving Zone</h3></div>
-        <div className=''>
-          <SavingZoneCards/>
+      <Hero />
+      <div className="container mx-auto lg:px-6 px-4">
+        <div data-aos="fade-up" className="lg:flex md:flex justify-center lg:mx-0 md:mx-0 mx-6 lg:mt-16 mt-8 grid lg:grid-cols-2 lg:gap-12 gap-6">
+          <Card
+            showFirstType={true}
+            priceTitle={"Low Price"}
+            srcCard={imgCardFashion1}
+            alt="fashion"
+            mainTitle="High Coziness"
+            discount="UPTO 50% OFF"
+            seeMore="Explore Items"
+          />
+          <Card
+            showFirstType={true}
+            priceTitle={"Low Price"}
+            srcCard={imgCardFashion2}
+            alt="fashion"
+            mainTitle="High Coziness"
+            discount="UPTO 50% OFF"
+            seeMore="Explore Items"
+          />
         </div>
-      </div>
 
-      <div className='lg:mx-4 md:mx-0 mx-6'>
-        <FashionPart/>
-      </div>
-
-      <div className=' lg:my-20 my-14 lg:mx-4 md:mx-0 mx-6'>
-        <div className='text-darkText flex lg:text-4xl text-2xl font-bold  lg:pb-16 pb-8'><div className='title-part'></div><h3 className='pl-11'>Categories For Men</h3></div>
-        <div className=''>
-          <CategoriesForMen/>
+        <div data-aos="fade-up" className="lg:my-20 my-14 lg:mx-4 md:mx-0 mx-6">
+          <h3 className="text-darkText flex lg:text-4xl text-2xl font-bold lg:pb-16 pb-8">
+            <div className="title-part"></div>
+            <span className="pl-11">New Arrival</span>
+          </h3>
+          <SliderPart />
         </div>
-      </div>
 
-      <div className=' lg:my-20 my-14 lg:mx-4 md:mx-0 mx-6'>
-        <div className='text-darkText flex lg:text-4xl text-2xl font-bold  lg:pb-16 pb-8'><div className='title-part'></div><h3 className='pl-11'>Categories For Women</h3></div>
-        <div className=''>
-          <CategoriesForWomen/>
+        <div data-aos="fade-left" className="savingZone lg:my-20 my-14 lg:mx-4 md:mx-0 mx-6">
+          <h3 className="text-darkText flex lg:text-4xl text-2xl font-bold lg:pb-16 pb-8">
+            <div className="title-part"></div>
+            <span className="pl-11">Big Saving Zone</span>
+          </h3>
+          <SavingZoneCards />
         </div>
-      </div>
 
-      <div className=' lg:my-20 my-14 lg:mx-4 md:mx-0 mx-6'>
-        <Brands/>
-      </div>
-
-      <div className=' lg:my-20 my-14 lg:mx-4 md:mx-0 mx-6'>
-        <div className='text-darkText flex lg:text-4xl text-2xl font-bold  lg:pb-16 pb-8'><div className='title-part'></div><h3 className='pl-11'>In The Limelight</h3></div>
-        <div className=''>
-          <Limelight/>
+        <div data-aos="fade-right" className="lg:mx-4 md:mx-0 mx-6">
+          <FashionPart />
         </div>
-      </div>
 
-      <div className=' lg:my-20 my-14 lg:mx-4 md:mx-0 mx-6'>
-        <div className='text-darkText flex lg:text-4xl text-2xl font-bold  lg:pb-16 pb-8'><div className='title-part'></div><h3 className='pl-11'>Feedback</h3></div>
-        <div className=''>
-        <FeedBackPart/>
+        <div data-aos="zoom-in" className="lg:my-20 my-14 lg:mx-4 md:mx-0 mx-6">
+          <h3 className="text-darkText flex lg:text-4xl text-2xl font-bold lg:pb-16 pb-8">
+            <div className="title-part"></div>
+            <span className="pl-11">Categories For Men</span>
+          </h3>
+          <CategoriesForMen />
         </div>
-      </div>
+
+        <div data-aos="zoom-in-up" className="lg:my-20 my-14 lg:mx-4 md:mx-0 mx-6">
+          <h3 className="text-darkText flex lg:text-4xl text-2xl font-bold lg:pb-16 pb-8">
+            <div className="title-part"></div>
+            <span className="pl-11">Categories For Women</span>
+          </h3>
+          <CategoriesForWomen />
+        </div>
+
+        <div data-aos="flip-up" className="lg:my-20 my-14 lg:mx-4 md:mx-0 mx-6">
+          <Brands />
+        </div>
+
+        <div data-aos="fade-up" className="lg:my-20 my-14 lg:mx-4 md:mx-0 mx-6">
+          <h3 className="text-darkText flex lg:text-4xl text-2xl font-bold lg:pb-16 pb-8">
+            <div className="title-part"></div>
+            <span className="pl-11">In The Limelight</span>
+          </h3>
+          <Limelight />
+        </div>
+
+        <div data-aos="fade-up" className="lg:my-20 my-14 lg:mx-4 md:mx-0 mx-6">
+          <h3 className="text-darkText flex lg:text-4xl text-2xl font-bold lg:pb-16 pb-8">
+            <div className="title-part"></div>
+            <span className="pl-11">Feedback</span>
+          </h3>
+          <FeedBackPart />
+        </div>
       </div>
     </Fragment>
-  )
+  );
 }

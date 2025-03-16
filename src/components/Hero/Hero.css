@@ -34,6 +34,16 @@
     padding: 40px 0px;
 }
 
+.carousel .slide .legend button {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .carousel .slide .legend button:hover {
+    background-color: #8A33FD;
+    color: white;
+    transform: scale(1.1);
+  }
+
 
 @media screen and (max-width: 1530px){
     .carousel .slide .legend {

@@ -7,6 +7,39 @@
   }
 
 
+  .cardFashionText a {
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .cardFashionText a:hover {
+    color: #ff6600; /* Change color on hover */
+    text-decoration: underline;
+  }
+  
+  .cardFashionText h2,
+  .cardFashionText h3 {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .cardFashionText:hover h2,
+  .cardFashionText:hover h3 {
+    transform: translateY(-5px);
+  }
+  
+  .cardFashionText:hover {
+    cursor: pointer;
+  }
+  
+  .cardFashionText:hover + .h-full img {
+    transform: scale(1.05);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .h-full img {
+    transition: transform 0.3s ease-in-out;
+  }
+
+
 @media screen and (max-width: 1028px){
     .cardFashionText {
         margin: 0;
