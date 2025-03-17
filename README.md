@@ -100,7 +100,6 @@ frontend/
 - **Express**: Web framework for Node.js.
 - **TypeScript**: Static typing for JavaScript.
 - **Dotenv**: Environment variable management.
-- **JsonWebToken**: Authentication and authorization.
 
 ### 🌐 **Frontend**
 - **React**: Library for building user interfaces.
@@ -139,11 +138,5 @@ frontend/
 
 ---
 
-## 📧 **Contact**
-For any inquiries or issues, reach out to:
-- **Email**: narjesdavari0@gmail.com
-- **GitHub**: [davariijs](https://github.com/davariijs)
-
----
 
 
