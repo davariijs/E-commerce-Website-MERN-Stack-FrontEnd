@@ -1,6 +1,8 @@
 
 # 🌟 **Project Documentation**
 Welcome to the documentation for our shopping website "shoply"! This project is a modern, MERN-stack e-commerce application where users can browse, add items to their cart, and make purchases seamlessly. It's built with the latest web technologies to ensure a fast, secure, and user-friendly shopping experience.
+
+Website: https://shoply-clothes.netlify.app/
 ---
 
 
