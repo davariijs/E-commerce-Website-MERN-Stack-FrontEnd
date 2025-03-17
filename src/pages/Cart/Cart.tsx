@@ -36,17 +36,11 @@ export default function Cart() {
       }, [dispatch,uid]);
 
     function handleRemove(id:string) {
-        console.log(`Requesting deletion of item with ID: ${id} from cart of user: ${uid}`);
         const handleRemoveItem = async ({ id }:{id:string}) => {
-            console.log(`second clg: ${id}`);
             try {
-                console.log(`Requesting deletion of item with ID: ${id} from cart`);
                 const response = await axios.delete(`${process.env.REACT_APP_URL_API}/api/cart/${uid}/${id}`);
                 
                 if (response.status === 200) {
-                    // Convert id to a number for state update
-                    const itemId = parseInt(id, 10);
-                    console.log(`Item with id: ${itemId} removed successfully.`);
                     dispatch(fetchCart(uid))
                 } else {
                     console.error('Failed to remove item:', response.data);

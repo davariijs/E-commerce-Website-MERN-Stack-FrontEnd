@@ -18,12 +18,8 @@ export default function SidebarAccount () {
 
     const signOutUser = () => {
         signOut(auth).then(() => {
-            // Sign-out successful.
-            console.log('Signed Out');
             setTimeout(() => navigate("/"), 2000);
           }).catch((error) => {
-            // An error happened.
-            console.log(error);
           });
         }
 

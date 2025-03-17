@@ -19,13 +19,9 @@ export default function NewPassword() {
         if (newPassword === confirmPassword){
             if (user) { 
         updatePassword(user, newPassword).then(() => {
-            // Update successful.
-            console.log("Update successful.");
             setErrorMessage("")
             setTimeout(()=>navigate("/login"), 3000);
           }).catch((error) => {
-            // An error ocurred
-            // ...
             console.log(error);
             const errorMessagePassword = error.message;
             setErrorMessage(errorMessagePassword)

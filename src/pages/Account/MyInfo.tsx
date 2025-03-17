@@ -45,18 +45,17 @@ export default function MyInfo () {
       const fetchData = async () => {
         try {
           const result = await InfoAccountFunc(uid);
-          setInformation(result); // Update state with fetched data
+          setInformation(result);
         } catch (err: any) {
-          setError(err.message); // Update state with error message
+          setError(err.message);
         }
       };
     
       useEffect(() => {
-        fetchData(); // Fetch data on component mount
+        fetchData();
       }, [uid]);
 
       const handleSaveAndClose = (payload: IAddressInfo) => {
-        console.log('Payload received:', payload);
         setShowNewAddress(false);
         setEditingAddress(null);
         fetchData();
@@ -64,20 +63,18 @@ export default function MyInfo () {
 
       const handleRemove = async (id:string) => {
         try {
-          // Make DELETE request to the backend to remove the item
           await axios.delete(`${process.env.REACT_APP_URL_API}/api/info-account/${id}`);
           fetchData();
           notify();
         } catch (error) {
           console.error('Failed to remove item:', error);
-          console.log(id);
           alert('Failed to remove item from addresses');
         }
     };
         
     const handleEdit = (address:IAddressInfo) => {
-      setEditingAddress(address); // Set the address to be edited
-      setShowNewAddress(true); // Show the form for editing
+      setEditingAddress(address);
+      setShowNewAddress(true);
     };
     
 

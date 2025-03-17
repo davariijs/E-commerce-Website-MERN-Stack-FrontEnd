@@ -105,8 +105,6 @@ export default function ProductDetails() {
           quantity: 1,
         },
       };
-    
-      console.log("Adding product to cart:", item);
       dispatch(addToCart(item));
       notify();
     };

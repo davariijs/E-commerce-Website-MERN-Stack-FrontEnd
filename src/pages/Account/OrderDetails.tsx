@@ -15,27 +15,22 @@ const id = useParams();
   const productSingleId = id.id;
   const [orders, setOrders] = useState([]);
   const { uid } = useSelector((state:RootState) => selectUser(state));
-  console.log(productSingleId);
 
   const fetchData = async () => {
     try {
         const result = await OrderFunc(uid);
-        console.log("Result from OrderFunc:", result); // Debugging the result
-
-        // Assuming the array is in result.orders
-        const ordersArray = result.orders || []; // Use the correct property containing the array
+        const ordersArray = result.orders || [];
         const data = ordersArray.filter((order:TOrder) => order._id === productSingleId);
-        setOrders(data); // Update state with fetched data
+        setOrders(data);
     } catch (err) {
         console.log(err);
     }
 };
 
-  console.log(orders);
 
   useEffect(() => {
     if (uid) {
-      fetchData(); // Fetch data on component mount
+      fetchData();
     }
   }, [uid]);
 

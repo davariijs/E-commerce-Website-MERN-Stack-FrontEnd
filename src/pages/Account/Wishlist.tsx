@@ -21,7 +21,6 @@ export default function Wishlist () {
           dispatch(fetchWishlist(uid)); // Pass `uid` to the fetch function
         }
       }, [dispatch, uid]);
-      console.log(items);
 
     const handleRemoveWishlist = async (id:string) => {
         try {
@@ -32,7 +31,6 @@ export default function Wishlist () {
           dispatch(fetchWishlist(uid));
         } catch (error) {
           console.error('Failed to remove item:', error);
-          console.log(id);
           alert('Failed to remove item from wishlist');
         }
     };

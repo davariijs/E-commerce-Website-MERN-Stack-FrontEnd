@@ -61,17 +61,16 @@ export default function Orders () {
     const fetchData = async () => {
       try {
         const result = await OrderFunc(uid);
-        setOrders(result); // Update state with fetched data
+        setOrders(result);
       } catch (err:any) {
         notifyError(err.message)
       }
     };
 
-    console.log(orders);
   
     useEffect(() => {
       if (uid) {
-        fetchData(); // Fetch data on component mount
+        fetchData();
       }
     }, [uid]);
 

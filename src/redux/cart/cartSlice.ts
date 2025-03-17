@@ -51,7 +51,6 @@ export const fetchCart = createAsyncThunk('cart/fetchCart', async (uid: string |
 export const addToCart = createAsyncThunk('cart/addToCart', async ({ uid, item }: { uid: string | null; item: TCartItem }, { rejectWithValue }) => {
     try {
         const response = await axios.post(`${process.env.REACT_APP_URL_API}/api/cart`, { uid, item });
-        console.log('Backend response for addToCart:', response.data); // Debugging the response
         return response.data; // Full updated cart object
     } catch (error: any) {
         console.error('Error adding to cart:', error);
@@ -63,7 +62,6 @@ export const addToCart = createAsyncThunk('cart/addToCart', async ({ uid, item }
 export const removeFromCart = createAsyncThunk('cart/removeFromCart', async ({ uid, itemId }: { uid: string | null; itemId: string }, { rejectWithValue }) => {
     try {
         const response = await axios.delete(`${process.env.REACT_APP_URL_API}/api/cart/${uid}/${itemId}`);
-        console.log('Item removed, backend response:', response.data); // Debugging the response
         return response.data; // Full updated cart object
     } catch (error:any) {
         console.error('Error removing item from cart:', error);

@@ -19,7 +19,6 @@ export const handleAddWishlist = async ({title, image, price, pathname, uid}:TWi
       result = await result.json();
       console.warn(result);
       if (result) {
-        console.log('Data saved successfully');
       }
     } catch (error) {
       console.error('Error saving data:', error);
@@ -41,7 +40,6 @@ export const handleAddWishlist = async ({title, image, price, pathname, uid}:TWi
       const response = await result.json();
   
       if (result.ok) {
-        console.log('Data fetched successfully:', response); 
         return response;
       } else {
         console.error('Error fetching data:', response);
@@ -66,7 +64,6 @@ export const handleAddWishlist = async ({title, image, price, pathname, uid}:TWi
       const response = await result.json();
   
       if (result.ok) {
-        console.log('Data fetched successfully:', response); 
         return response;
       } else {
         console.error('Error fetching data:', response); 

@@ -59,12 +59,10 @@ export default function CheckOut () {
 
 
         const handleDeleteCart = async (cartId:string | null,uid:string| null) => {
-            console.log('Frontend cartId:', cartId);  // Check if cartId is an object or string
 
             try {
-                // Make DELETE request to the backend to remove the cart
                 await axios.delete(`${process.env.REACT_APP_URL_API}/api/cart/${cartId}`);
-                await dispatch(fetchCart(uid)); // Refresh the cart after deletion
+                await dispatch(fetchCart(uid)); 
             } catch (error) {
                 console.error('Failed to remove cart:', error);
                 alert('Failed to remove cart');
@@ -123,13 +121,11 @@ export default function CheckOut () {
       orders, // Orders array
     };
 
-    console.log("Payload to send:", payload);
 
     // Send POST request to backend
     try {
       const response = await axios.post(`${process.env.REACT_APP_URL_API}/api/check-out`, payload);
       notifySuccess(response.data.message);
-      console.log(response.data);
       if (response.status === 200) {
         setTimeout(() => {
           navigate("/account"); // Navigate after 3 seconds
@@ -138,7 +134,6 @@ export default function CheckOut () {
       } else {
         notifyError("Something went wrong!");
       }
-      console.log("Response from backend:", response.data);
     } catch (error:any) {
       console.error("Error during checkout:", error);
       notifyError(error)
