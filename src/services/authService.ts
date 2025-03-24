@@ -1,4 +1,3 @@
-// src/services/authService.ts
 import { auth } from '../firebase/firebase';
 
 // Get Firebase token and exchange it for your custom JWT
