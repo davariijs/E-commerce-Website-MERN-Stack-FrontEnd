@@ -77,7 +77,11 @@ export const handleAddWishlist = async ({title, image, price, pathname, uid}: TW
 
   export const OrderFunc = async (uid:string | null) => {
     try {
-      const result = await fetch(`${process.env.REACT_APP_URL_API}/api/check-out/${uid}`, {
+      if (!uid) {
+        toast.error('User is not logged in');
+        return;
+      }
+      const result = await authenticatedFetch(`${process.env.REACT_APP_URL_API}/api/check-out/${uid}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
