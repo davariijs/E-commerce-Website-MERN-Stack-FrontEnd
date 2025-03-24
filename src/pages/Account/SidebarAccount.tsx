@@ -17,11 +17,16 @@ export default function SidebarAccount () {
     const navigate = useNavigate(); 
 
     const signOutUser = () => {
-        signOut(auth).then(() => {
-            setTimeout(() => navigate("/"), 2000);
-          }).catch((error) => {
-          });
-        }
+        signOut(auth)
+            .then(() => {
+                localStorage.removeItem('jwtToken');
+                setTimeout(() => navigate("/"), 2000);
+            })
+            .catch((error) => {
+                console.error("Error signing out:", error);
+                localStorage.removeItem('jwtToken');
+            });
+    }
 
           useEffect(() => {
             if (name !== null){
