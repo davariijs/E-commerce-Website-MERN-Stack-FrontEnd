@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { signInWithPopup, signInWithEmailAndPassword, GoogleAuthProvider } from "firebase/auth";
 import "./login-signup.css";
 import { Img } from "react-image";
+import {  verifyJwtToken } from "src/services/authService";
 
 
 export default function Login() {
@@ -33,43 +34,87 @@ export default function Login() {
         
      }
 
-         const notifySuccess = (message:string) => toast.success(message, { position: "bottom-right" });
-         const notifyError = (message:string) => toast.error(message, { position: "bottom-right" });
+        const notifySuccess = (message:string) => toast.success(message, { position: "bottom-right" });
+        const notifyError = (message:string) => toast.error(message, { position: "bottom-right" });
 
 
-         const handleLoginGoogle = async (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        const handleLoginGoogle = async (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             signInWithPopup(auth, googleProvider)
-                .then((result) => {
-                    // This gives you a Google Access Token. You can use it to access the Google API.
-                    const credential = GoogleAuthProvider.credentialFromResult(result);
-                    // The signed-in user info.
-                    const user = result.user;
-                    // IdP data available using getAdditionalUserInfo(result)
-                    notifySuccess("You have successfully logged in!")
-                    setTimeout(()=>navigate("/account"), 3000);
-                    // ...
+                .then(async (result) => {
+                    try {
+                        // Get Firebase token
+                        const firebaseToken = await result.user.getIdToken();
+                        
+                        // Exchange for JWT
+                        const response = await fetch(`${process.env.REACT_APP_URL_API}/api/auth/token`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ firebaseToken }),
+                        });
+                        
+                        if (response.ok) {
+                            const data = await response.json();
+                            localStorage.setItem('jwtToken', data.token);
+                            
+                            // Verify JWT
+                            await verifyJwtToken();
+                            
+                            notifySuccess("You have successfully logged in!")
+                            setTimeout(()=>navigate("/account"), 3000);
+                        } else {
+                            throw new Error('Failed to get JWT token');
+                        }
+                    } catch (error) {
+                        console.error("Error getting JWT token:", error);
+                        notifyError("Authentication error occurred");
+                    }
                 }).catch((error) => {
-                    // ...
                     notifyError(error.message);
                 });
-            } 
+        }
 
-
-                const signinEmail = (e: React.FormEvent<HTMLFormElement>) => {
-                    e.preventDefault();
-                    signInWithEmailAndPassword(auth, email, password)
-                    .then((userCredential) => {
-                        // Signed in 
+        const signinEmail = (e: React.FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
+            signInWithEmailAndPassword(auth, email, password)
+            .then(async (userCredential) => {
+                try {
+                    // Get Firebase token
+                    const firebaseToken = await userCredential.user.getIdToken();
+                    
+                    // Exchange for JWT
+                    const response = await fetch(`${process.env.REACT_APP_URL_API}/api/auth/token`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ firebaseToken }),
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        localStorage.setItem('jwtToken', data.token);
+                        
+                        // Verify JWT
+                        await verifyJwtToken();
+                        
                         notifySuccess("You have successfully logged in!")
                         setTimeout(()=>navigate("/account"), 3000);
-                        // ...
-                    })
-                    .catch((error) => {
-                        const errorMessage = error.message;
-                        notifyError(error.message);
-                        setErrorMessage(errorMessage);
-                    });
+                    } else {
+                        throw new Error('Failed to get JWT token');
+                    }
+                } catch (error) {
+                    console.error("Error getting JWT token:", error);
+                    notifyError("Authentication error occurred");
                 }
+            })
+            .catch((error) => {
+                const errorMessage = error.message;
+                notifyError(error.message);
+                setErrorMessage(errorMessage);
+            });
+        }
 
 
     return(
