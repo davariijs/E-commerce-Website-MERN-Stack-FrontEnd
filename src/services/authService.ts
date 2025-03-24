@@ -9,13 +9,15 @@ export const getJwtToken = async (): Promise<string | null> => {
     
     const firebaseToken = await currentUser.getIdToken();
 
-    const response = await fetch(`${process.env.REACT_APP_URL_API}/api/auth/token`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ firebaseToken }),
+    console.log("Trying to fetch JWT from:", `${process.env.REACT_APP_URL_API}/auth/token`);
+    const response = await fetch(`${process.env.REACT_APP_URL_API}/auth/token`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ firebaseToken }),
     });
+    console.log("Response status:", response.status);
     
     if (!response.ok) throw new Error('Failed to get JWT token');
     
