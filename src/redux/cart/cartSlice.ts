@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { authenticatedFetch } from "src/services/authService";
 
 export interface TCartItem {
     _id?: string,
@@ -38,9 +38,12 @@ const initialState: CartState = {
 // Async thunk for fetching the cart
 export const fetchCart = createAsyncThunk('cart/fetchCart', async (uid: string | null, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`${process.env.REACT_APP_URL_API}/api/cart/${uid}`);
-        return response.data; // Full cart object is returned
-        
+        const response = await authenticatedFetch(`${process.env.REACT_APP_URL_API}/api/cart/${uid}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch cart');
+        }
+        const data = await response.json();
+        return data;
     } catch (error: any) {
         console.error('Error fetching cart:', error);
         return rejectWithValue(error.response?.data || error.message);
@@ -50,8 +53,22 @@ export const fetchCart = createAsyncThunk('cart/fetchCart', async (uid: string |
 // Async thunk for adding an item to the cart
 export const addToCart = createAsyncThunk('cart/addToCart', async ({ uid, item }: { uid: string | null; item: TCartItem }, { rejectWithValue }) => {
     try {
-        const response = await axios.post(`${process.env.REACT_APP_URL_API}/api/cart`, { uid, item });
-        return response.data; // Full updated cart object
+        const response = await authenticatedFetch(
+            `${process.env.REACT_APP_URL_API}/api/cart`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ uid, item }),
+            }
+          );
+        if (!response.ok) {
+            throw new Error('Failed to add item to cart');
+          }
+          
+          const data = await response.json();
+          return data;
     } catch (error: any) {
         console.error('Error adding to cart:', error);
         return rejectWithValue(error.response?.data || error.message);
@@ -61,8 +78,18 @@ export const addToCart = createAsyncThunk('cart/addToCart', async ({ uid, item }
 // Async thunk for removing an item from the cart
 export const removeFromCart = createAsyncThunk('cart/removeFromCart', async ({ uid, itemId }: { uid: string | null; itemId: string }, { rejectWithValue }) => {
     try {
-        const response = await axios.delete(`${process.env.REACT_APP_URL_API}/api/cart/${uid}/${itemId}`);
-        return response.data; // Full updated cart object
+        const response = await authenticatedFetch(
+            `${process.env.REACT_APP_URL_API}/api/cart/${uid}/${itemId}`,
+            {
+                method: 'DELETE',
+            }
+        );
+        if (!response.ok) {
+            throw new Error('Failed to remove item from cart');
+        }
+        
+        const data = await response.json();
+        return data;
     } catch (error:any) {
         console.error('Error removing item from cart:', error);
         return rejectWithValue(error.response?.data || error.message);
@@ -74,8 +101,21 @@ export const increaseQuantityAsync = createAsyncThunk(
     'cart/increaseQuantityAsync',
     async ({ uid, itemId }: { uid: string | null ; itemId: string }, { rejectWithValue }) => {
         try {
-            const response = await axios.put(`${process.env.REACT_APP_URL_API}/api/cart/increase/${uid}/${itemId}`);
-            return response.data; // Full updated cart object
+            const response = await authenticatedFetch(
+                `${process.env.REACT_APP_URL_API}/api/cart/increase/${uid}/${itemId}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                      },
+                }
+            );
+            if (!response.ok) {
+                throw new Error('Failed to increase quantity');
+            }
+            
+            const data = await response.json();
+            return data;
         } catch (error:any) {
             console.error('Error increasing quantity:', error);
             return rejectWithValue(error.response?.data || error.message);
@@ -88,8 +128,21 @@ export const decreaseQuantityAsync = createAsyncThunk(
     'cart/decreaseQuantityAsync',
     async ({ uid, itemId }: { uid: string | null; itemId: string }, { rejectWithValue }) => {
         try {
-            const response = await axios.put(`${process.env.REACT_APP_URL_API}/api/cart/decrease/${uid}/${itemId}`);
-            return response.data; // Full updated cart object
+            const response = await authenticatedFetch(
+                `${process.env.REACT_APP_URL_API}/api/cart/decrease/${uid}/${itemId}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                      },
+                }
+            );
+            if (!response.ok) {
+                throw new Error('Failed to decrease quantity');
+            }
+            
+            const data = await response.json();
+            return data;
         } catch (error:any) {
             console.error('Error decreasing quantity:', error);
             return rejectWithValue(error.response?.data || error.message);
