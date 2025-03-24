@@ -77,11 +77,13 @@ export default function Login() {
 
         const signinEmail = (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
+            
             signInWithEmailAndPassword(auth, email, password)
             .then(async (userCredential) => {
                 try {
                     // Get Firebase token
                     const firebaseToken = await userCredential.user.getIdToken();
+                    console.log("Firebase token obtained");
                     
                     // Exchange for JWT
                     const response = await fetch(`${process.env.REACT_APP_URL_API}/api/auth/token`, {
@@ -91,6 +93,7 @@ export default function Login() {
                         },
                         body: JSON.stringify({ firebaseToken }),
                     });
+                    
                     
                     if (response.ok) {
                         const data = await response.json();
@@ -102,17 +105,15 @@ export default function Login() {
                         notifySuccess("You have successfully logged in!")
                         setTimeout(()=>navigate("/account"), 3000);
                     } else {
-                        throw new Error('Failed to get JWT token');
+                        throw new Error(`Failed to get JWT token: ${response.status}`);
                     }
                 } catch (error) {
-                    console.error("Error getting JWT token:", error);
                     notifyError("Authentication error occurred");
                 }
             })
             .catch((error) => {
-                const errorMessage = error.message;
                 notifyError(error.message);
-                setErrorMessage(errorMessage);
+                setErrorMessage(error.message);
             });
         }
 
@@ -142,7 +143,7 @@ export default function Login() {
                         <div className="w-full divPart rounded-lg bg-grayText ml-4"></div>
                     </div>
 
-                    <form onSubmit={(e)=>signinEmail}>
+                    <form onSubmit={(e) => signinEmail(e)}>
                     <div className="mt-8">
                     <label className="font-medium text-lg text-darkText ">Email address</label>
                     <input onChange={(e)=> setEmail(e.target.value)} value={email} className="rounded-lg border-2 w-full border-darkText py-4 px-4 mt-2" type="text" name="" id=""/>
