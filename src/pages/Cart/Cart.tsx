@@ -98,7 +98,7 @@ export default function Cart() {
                     <div className="absolute bg-secondary z-0 w-full bottom-0 checkout-bg"></div>
                 <div className="container mx-auto px-5 md:px-0">
                     
-                    <div className="pt-14 pb-6 flex lg:text-lg"><Link to="/" className="text-grayText font-normal  pr-3">Home</Link><img src={leftArrowIcon} width="5px" height="10.14px" alt="arrow"/>
+                    <div className="pt-14 pb-6 flex lg:text-lg"><Link to="/" onClick={(e) => { e.preventDefault(); window.location.href = "/"; }} className="text-grayText font-normal  pr-3">Home</Link><img src={leftArrowIcon} width="5px" height="10.14px" alt="arrow"/>
                     <Link to="/account" className="pl-3 pr-3 text-darkText font-normal ">Add To Cart</Link>
                     </div>
 
@@ -200,7 +200,7 @@ export default function Cart() {
                                 }}
                                 className="bg-primary font-semibold text-white sm:py-3 py-2 sm:px-5 px-2 sm:text-base rounded-r-xl border-y-2 border-r-2 border-borderGrey">Apply Coupon</button>
                                 </div>
-                                <Link to="/" className="bg-white text-base text-darkText font-semibold py-3 px-5 rounded-lg border-2 border-borderGrey w-fit">Continue Shopping</Link>
+                                <Link to="/" onClick={(e) => { e.preventDefault(); window.location.href = "/"; }} className="bg-white text-base text-darkText font-semibold py-3 px-5 rounded-lg border-2 border-borderGrey w-fit">Continue Shopping</Link>
                             </div>
 
                             <div className="bg-grayCart py-10 lg:mt-0 md:mt-12 -mt-5">

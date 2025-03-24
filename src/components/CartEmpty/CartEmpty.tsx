@@ -19,7 +19,7 @@ export default function CartEmpty () {
                 />
                 <h4 className="mt-8 text-black font-bold md:text-3xl text-lg text-center">Your cart is empty and sad :(</h4>
                 <h5 className="mt-2 font-normal text-base text-grayText text-center">Add something to make it happy!</h5>
-                <Link to="/"><button className="mt-10 bg-primary rounded-lg py-3 md:px-12 px-6 text-white font-semibold">Continue Shopping</button></Link>
+                <Link to="/" onClick={(e) => { e.preventDefault(); window.location.href = "/"; }}><button className="mt-10 bg-primary rounded-lg py-3 md:px-12 px-6 text-white font-semibold">Continue Shopping</button></Link>
             </div>
             </div>
         </Fragment>

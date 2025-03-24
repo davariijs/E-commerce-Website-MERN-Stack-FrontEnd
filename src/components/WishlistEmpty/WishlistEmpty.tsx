@@ -14,7 +14,7 @@ export default function WishlistEmpty () {
             <h4 className="text-darkText font-bold lg:text-3xl text-md  pt-10">Your wishlist is empty.</h4>
             <p className="text-grayText font-medium lg:text-base text-sm   pt-4 pb-10">You don’t have any products in the wishlist yet. You will find a lot
             of interesting products on our Shop page.</p>
-            <Link to="/" ><button className="bg-primary rounded-lg  text-white font-semibold lg:text-lg  text-md py-3 sm:px-12 px-3 text-nowrap">Continue Shopping</button></Link>
+            <Link to="/" onClick={(e) => { e.preventDefault(); window.location.href = "/"; }} ><button className="bg-primary rounded-lg  text-white font-semibold lg:text-lg  text-md py-3 sm:px-12 px-3 text-nowrap">Continue Shopping</button></Link>
             </div>
         </Fragment>
     )

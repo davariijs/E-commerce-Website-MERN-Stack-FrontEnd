@@ -4,7 +4,7 @@ import likeIcon from "../../assets/icons/like.svg";
 import userIcon from "../../assets/icons/user.svg";
 import signOutIcon from "../../assets/icons/sign-out.svg";
 import "./Account.css"
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { auth } from "../../firebase/firebase";
 import { signOut } from "firebase/auth";
 import { useSelector } from "react-redux";
@@ -14,13 +14,13 @@ import { selectUser } from "src/redux/users/userSlice";
 export default function SidebarAccount () {
     const { name,email } = useSelector((state:RootState) => selectUser(state));
     const [displayAccount, setDisplayAccount] = useState<string | null>();
-    const navigate = useNavigate(); 
+
 
     const signOutUser = () => {
         signOut(auth)
             .then(() => {
                 localStorage.removeItem('jwtToken');
-                setTimeout(() => navigate("/"), 2000);
+                window.location.href = "/";
             })
             .catch((error) => {
                 console.error("Error signing out:", error);

@@ -31,13 +31,13 @@ export default function DesktopNavbar() {
             <nav className='flex justify-between desktopDisplay container mx-auto'>
                 <div className='flex justify-between'>
                 <div className='logoNavbar'>
-                    <Link to="/">
+                    <Link to="/" onClick={(e) => { e.preventDefault(); window.location.href = "/"; }}>
                     <img src={logo} alt='logo' height="45px" width="91px"/>
                     </Link>
                 </div>
                 <div className="nav-items active"  >
                 <ul className='flex '>
-                    <li><Link to="/">Shop</Link></li>
+                    <li><Link to="/" onClick={(e) => { e.preventDefault(); window.location.href = "/"; }}>Shop</Link></li>
                     <li><Link to="/men">Men</Link></li>
                     <li><Link to="/women">Women</Link></li>
                 </ul>

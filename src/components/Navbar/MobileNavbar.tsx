@@ -33,7 +33,7 @@ export default function MobileNavbar() {
                 <RxHamburgerMenu className='w-6 h-6 text-darkText' />
                 </button>
                 <div className='logoNavbar'>
-                <Link to="/"><img src={logo} alt='logo' height="45px" width="91px"/></Link>
+                <Link to="/" onClick={(e) => { e.preventDefault(); window.location.href = "/"; }}><img src={logo} alt='logo' height="45px" width="91px"/></Link>
                 </div>
                 <div></div>
                 </div>

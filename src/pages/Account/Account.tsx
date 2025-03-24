@@ -40,7 +40,7 @@ export default function Account () {
     return(
         <Fragment>
             <div className="container mx-auto w-full h-full accountPage">
-                <div className="pb-12 pt-3 flex lg:text-lg"><Link to="/" className="text-grayText font-normal  pr-3">Home</Link><img src={leftArrowIcon} width="5px" height="10.14px" alt="arrow"/>
+                <div className="pb-12 pt-3 flex lg:text-lg"><Link to="/" onClick={(e) => { e.preventDefault(); window.location.href = "/"; }} className="text-grayText font-normal  pr-3">Home</Link><img src={leftArrowIcon} width="5px" height="10.14px" alt="arrow"/>
                 <Link to="/account" className="pl-3 pr-3 text-grayText font-normal ">My Account</Link><img src={leftArrowIcon} width="5px" height="10.14px" alt="arrow"/>
                 <div className="text-darkText font-normal  pl-3">{path}</div>
                 </div>
