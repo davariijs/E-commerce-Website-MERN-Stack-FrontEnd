@@ -1,3 +1,8 @@
+import { toast } from "react-toastify";
+import { addWishlistItem } from "src/redux/wishLists/wishlistSlice";
+import { authenticatedFetch } from "src/services/authService";
+import { store } from "src/store";
+
 interface TWishlist {
   uid: string | null;
   title: string,
@@ -6,23 +11,38 @@ interface TWishlist {
   pathname: string,
 }
 
-export const handleAddWishlist = async ({title, image, price, pathname, uid}:TWishlist) => {
+export const handleAddWishlist = async ({title, image, price, pathname, uid}: TWishlist) => {
+  try {
+    if (!uid) {
+      toast.error('User is not logged in');
+      return;
+    }
     
-    try {
-      let result = await fetch(`${process.env.REACT_APP_URL_API}/api/add-wishlist`, {
-        method: 'post',
-        body: JSON.stringify({ title, image, price, pathname, uid }),
+    const response = await authenticatedFetch(
+      `${process.env.REACT_APP_URL_API}/api/wishlist`, 
+      {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-      });
-      result = await result.json();
-      console.warn(result);
-      if (result) {
+        body: JSON.stringify({ title, image, price, pathname, uid }),
       }
-    } catch (error) {
-      console.error('Error saving data:', error);
+    );
+    
+    if (!response.ok) {
+      throw new Error('Failed to add item to wishlist');
     }
+    
+    const result = await response.json();
+    
+    store.dispatch(addWishlistItem(result));
+    
+    return result;
+  } catch (error) {
+    console.error('Error saving to wishlist:', error);
+    toast.error('Failed to add to wishlist');
+    throw error;
+  }
 };
 
 

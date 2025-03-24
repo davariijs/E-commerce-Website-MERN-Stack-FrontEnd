@@ -3,9 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { IoCloseOutline } from "react-icons/io5";
 import "./Account.css"
 import WishlistEmpty from "../../components/WishlistEmpty/WishlistEmpty";
-import { fetchWishlist, WishListItem } from "../../redux/wishLists/wishlistSlice";
+import { fetchWishlist, removeWishlistItem, WishListItem } from "../../redux/wishLists/wishlistSlice";
 import loadingBar from "../../assets/images/loader.svg";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { AppDispatch, RootState } from "src/store";
 import { selectUser } from "src/redux/users/userSlice";
@@ -18,26 +17,22 @@ export default function Wishlist () {
 
     useEffect(() => {
         if (uid) {
-          dispatch(fetchWishlist(uid)); // Pass `uid` to the fetch function
+          dispatch(fetchWishlist(uid));
         }
       }, [dispatch, uid]);
 
-    const handleRemoveWishlist = async (id:string) => {
+      const handleRemoveWishlist = async (id: string) => {
         try {
-          // Make DELETE request to the backend to remove the item
-          await axios.delete(`${process.env.REACT_APP_URL_API}/api/add-wishlist/${id}`);
-          
-          // After removing the item, fetch the updated wishlist
-          dispatch(fetchWishlist(uid));
+          await dispatch(removeWishlistItem(id)).unwrap();
         } catch (error) {
           console.error('Failed to remove item:', error);
           alert('Failed to remove item from wishlist');
         }
-    };
+      };
 
     
 
-      if (loading) return <div className='flex justify-center items-center h-fit w-full relative'><img className='w-36' src={loadingBar} alt='loading ...'/></div>;;
+    if (loading) return <div className='flex justify-center items-center h-fit w-full relative'><img className='w-36' src={loadingBar} alt='loading ...'/></div>;;
 
     return(
         <Fragment>
@@ -54,11 +49,10 @@ export default function Wishlist () {
                     <div className="flex  justify-between lg:justify-center items-center">
                     <button
                     onClick={() => {
-                      if (item._id) { // Check if _id is defined
+                      if (item._id) { 
                         handleRemoveWishlist(item._id)
                       } else {
                         console.error("Cannot remove item: _id is undefined");
-                        // Optionally handle this case, like showing an error message
                       }
                     }}
                       ><IoCloseOutline className="w-5 h-5 text-darkText"/></button>
