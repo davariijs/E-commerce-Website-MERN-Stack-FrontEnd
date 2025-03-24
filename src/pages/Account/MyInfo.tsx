@@ -3,11 +3,11 @@ import "./Account.css"
 import { Link } from "react-router-dom";
 import InfoAccount from "./InfoAccount";
 import { InfoAccountFunc } from "../../utils/wishlistFunc";
-import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import { useSelector } from "react-redux";
 import { RootState } from "src/store";
 import { selectUser } from "src/redux/users/userSlice";
+import { authenticatedFetch } from "src/services/authService";
 
 
 export interface IAddressInfo {
@@ -61,16 +61,34 @@ export default function MyInfo () {
         fetchData();
       };
 
-      const handleRemove = async (id:string) => {
-        try {
-          await axios.delete(`${process.env.REACT_APP_URL_API}/api/info-account/${id}`);
-          fetchData();
-          notify();
-        } catch (error) {
-          console.error('Failed to remove item:', error);
-          alert('Failed to remove item from addresses');
+    
+    const handleRemove = async (id:string) => {
+      try {
+        if (!uid) {
+          toast.error('User is not logged in');
+          return;
         }
-    };
+        const result = await authenticatedFetch(`${process.env.REACT_APP_URL_API}/api/info-account/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+        },
+        });
+
+        const response = await result.json();
+  
+        if (result.ok) {
+          notify();
+          fetchData();
+          return response;
+        } else {
+          toast.error(response.message || 'Failed to delete address');
+          throw new Error(response.message || 'Failed to delete address');
+        }
+      } catch (error) {
+        console.error('Failed to remove item:', error);
+      }
+  };
         
     const handleEdit = (address:IAddressInfo) => {
       setEditingAddress(address);
