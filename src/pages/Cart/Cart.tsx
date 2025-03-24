@@ -3,17 +3,16 @@ import { Link } from "react-router-dom";
 import leftArrowIcon from "../../assets/icons/left-arrow.svg";
 import "./Cart.css";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { decreaseQuantityAsync, fetchCart, increaseQuantityAsync} from "../../redux/cart/cartSlice";
+import { decreaseQuantityAsync, fetchCart, increaseQuantityAsync, removeFromCart} from "../../redux/cart/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import CartEmpty from "../../components/CartEmpty/CartEmpty";
 import { selectUser } from "../../redux/users/userSlice";
-import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import { AppDispatch, RootState } from "src/store";
 import Loading from "../../components/Loading/loading";
 
 export default function Cart() {
-    const cartItems = useSelector((state:RootState) => state.cart.cart); // Updated to match slice state
+    const cartItems = useSelector((state:RootState) => state.cart.cart);
     const items = cartItems?.items || [];
     const dispatch = useDispatch<AppDispatch>();
     const { uid } = useSelector((state:RootState) => selectUser(state));
@@ -35,28 +34,30 @@ export default function Cart() {
         }
       }, [dispatch,uid]);
 
-    function handleRemove(id:string) {
-        const handleRemoveItem = async ({ id }:{id:string}) => {
-            try {
-                const response = await axios.delete(`${process.env.REACT_APP_URL_API}/api/cart/${uid}/${id}`);
-                
-                if (response.status === 200) {
-                    dispatch(fetchCart(uid))
-                } else {
-                    console.error('Failed to remove item:', response.data);
-                }
-            } catch (error) {
-                console.error('Error while removing item:', error);
-                alert('Failed to remove item');
+      function handleRemove(id: string) {
+        try {
+            if (!uid) {
+                toast.error('User is not logged in');
+                return;
             }
-        };
-        handleRemoveItem({ id }); // Pass an object with the id property
-        ;
+            dispatch(removeFromCart({ uid, itemId: id }))
+                .unwrap()
+                .then(() => {
+                    toast.success('Item removed from cart');
+                })
+                .catch((error:any) => {
+                    console.error('Failed to remove item:', error);
+                    toast.error('Failed to remove item from cart');
+                });
+        } catch (error) {
+            console.error('Error while removing item:', error);
+            toast.error('Failed to remove item from cart');
+        }
     }
 
 
     const calculateTotalPrice = () => {
-        const items = cartItems?.items || []; // Safely access items
+        const items = cartItems?.items || [];
         return items.reduce((total, item) => total + item.price * item.quantity, startCoupon);
     };
     const applyCoupon = () => {
