@@ -4,7 +4,7 @@ import loadingBar from "../../assets/images/loader.svg";
 import CategoriesCard from '../../components/CategoriesCard/CategoriesCard';
 import "./productCard.css"
 import { selectFilterPrices } from '../../redux/filterProducts/filterProductsSlice';
-import { handleAddWishlist } from '../../utils/wishlistFunc';
+import { handleAddWishlist } from '../../utils/apiHandler';
 import { getWomenCoats, selectErrorState, selectLoadingState,selectWomenCoats } from '../../redux/womenProducts/womenCoatsSlice/womenCoatsSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import likeIconGif from "../../assets/icons/icons8-like.gif";

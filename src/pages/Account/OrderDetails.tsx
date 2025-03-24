@@ -4,7 +4,7 @@ import "./Account.css"
 import StepProgress from "../../components/StepProgress/StepProgress";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/users/userSlice";
-import { OrderFunc } from "../../utils/wishlistFunc";
+import { OrderFunc } from "../../utils/apiHandler";
 import { formatDate } from "../../utils/usefulFunc";
 import { RootState } from "src/store";
 import { TOrder } from "src/redux/types/types";

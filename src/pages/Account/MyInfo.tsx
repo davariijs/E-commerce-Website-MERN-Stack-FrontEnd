@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import "./Account.css"
 import { Link } from "react-router-dom";
 import InfoAccount from "./InfoAccount";
-import { InfoAccountFunc } from "../../utils/wishlistFunc";
+import { InfoAccountFunc } from "../../utils/apiHandler";
 import { ToastContainer, toast } from 'react-toastify';
 import { useSelector } from "react-redux";
 import { RootState } from "src/store";

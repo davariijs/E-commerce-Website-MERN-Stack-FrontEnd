@@ -5,7 +5,7 @@ import CategoriesCard from '../../components/CategoriesCard/CategoriesCard';
 import "./productCard.css"
 import { selectFilterPrices } from '../../redux/filterProducts/filterProductsSlice';
 import { getWomenDresses, selectErrorState, selectLoadingState,selectWomenDresses } from '../../redux/womenProducts/womenDressesSlice/womenDressesSlice';
-import { handleAddWishlist } from '../../utils/wishlistFunc';
+import { handleAddWishlist } from '../../utils/apiHandler';
 import { ToastContainer, toast } from 'react-toastify';
 import likeIconGif from "../../assets/icons/icons8-like.gif";
 import { useLocation } from 'react-router';

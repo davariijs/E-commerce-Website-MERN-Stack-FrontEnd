@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/users/userSlice";
 import { ToastContainer, toast } from 'react-toastify';
-import { OrderFunc } from "../../utils/wishlistFunc";
+import { OrderFunc } from "../../utils/apiHandler";
 import { formatDate } from "../../utils/usefulFunc";
 import { Link } from "react-router-dom";
 import { RootState } from "src/store";
