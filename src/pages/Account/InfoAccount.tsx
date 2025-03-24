@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "src/store";
 import { selectUser } from "src/redux/users/userSlice";
 import { IAddressInfo } from "./MyInfo";
+import { authenticatedFetch } from "src/services/authService";
 
 interface IInfoAccount {
     onSave: (payload: IAddressInfo) => void,
@@ -29,7 +30,7 @@ export default function InfoAccount ({ existingData, onSave}:IInfoAccount) {
     const [billing, setBilling] = useState<boolean>(false);
 
     const defaultPayload: IAddressInfo = {
-        _id: '', // or some default value if applicable
+        _id: '',
         firstName: '',
         lastName: '',
         country: '',
@@ -52,7 +53,7 @@ export default function InfoAccount ({ existingData, onSave}:IInfoAccount) {
 
     useEffect(() => {
         if (existingData) {
-            setId(existingData._id || "");  // Set the `_id` for updating
+            setId(existingData._id || "");
             setFirstName(existingData.firstName || "");
             setLastName(existingData.lastName || "");
             setCountry(existingData.country || "");
@@ -97,10 +98,7 @@ export default function InfoAccount ({ existingData, onSave}:IInfoAccount) {
         };
       
         try {
-          // Determine request type (POST for create, PUT for update)
           const method = existingData ? "PUT" : "POST";
-      
-          // Ensure we only try to update if the `id` is available
           const url = method === "PUT" && id
             ? `${process.env.REACT_APP_URL_API}/api/info-account/${id}`  // Update endpoint
             : `${process.env.REACT_APP_URL_API}/api/info-account`;       // Create endpoint
@@ -110,7 +108,7 @@ export default function InfoAccount ({ existingData, onSave}:IInfoAccount) {
             return;
           }
       
-          const response = await fetch(url, {
+          const response = await authenticatedFetch(url, {
             method,
             body: JSON.stringify(payload),
             headers: {
