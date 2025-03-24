@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import './Navbar.css';
 import logo from "../../assets/icons/logo-shoply.png";
 import { Link } from 'react-router-dom';
@@ -7,24 +7,16 @@ import cartIcon from "../../assets/icons/cart.svg";
 import userIcon from "../../assets/icons/user.svg";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoClose } from "react-icons/io5";
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchCart } from '../../redux/cart/cartSlice';
+import { useSelector } from 'react-redux';
 import SearchBar from './Search';
-import { AppDispatch, RootState } from 'src/store';
+import { RootState } from 'src/store';
 import { selectUser } from 'src/redux/users/userSlice';
 
 
 export default function MobileNavbar() {
     const [showNavbar, setShowNavbar] = useState<boolean>(false);
     const totalQuantity = useSelector((state: RootState) => state.cart.totalQuantity);
-    const dispatch = useDispatch<AppDispatch>();
     const { uid } = useSelector((state:RootState) => selectUser(state));
-
-    // useEffect(() => {
-    //         if (uid){
-    //             dispatch(fetchCart(uid))
-    //         }
-    //       }, [dispatch,uid]);
 
     function showNavbarClose ():void {
         setShowNavbar(!showNavbar)
