@@ -10,6 +10,7 @@ import { auth,googleProvider } from "../../firebase/firebase";
 import { signInWithPopup,createUserWithEmailAndPassword } from "firebase/auth";
 import { Img } from "react-image";
 import { ToastContainer, toast } from 'react-toastify';
+import { verifyJwtToken } from "src/services/authService";
 
 export default function Signup() {
 
@@ -26,56 +27,98 @@ export default function Signup() {
     const notifySuccess = (message:string) => toast.success(message, { position: "bottom-right" });
     const notifyError = (message:string) => toast.error(message, { position: "bottom-right" });
 
+
     const handleRegisterGoogle = async (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        signInWithPopup(auth, googleProvider)
-        .then((result) => {
-            notifySuccess("You have successfully signed up!")
-            setTimeout(()=>navigate("/account"), 3000);
-        }).catch((error) => {
-            notifyError(error.message);
-        });
-    }
-     
+    signInWithPopup(auth, googleProvider)
+    .then(async (result) => {
+        try {
+            // Get Firebase token
+            const firebaseToken = await result.user.getIdToken();
+            const response = await fetch(`${process.env.REACT_APP_URL_API}/api/auth/token`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ firebaseToken }),
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('jwtToken', data.token);
+                // Verify JWT immediately
+                await verifyJwtToken();
+                notifySuccess("You have successfully signed up!");
+                setTimeout(() => navigate("/account"), 3000);
+            } else {
+                throw new Error('Failed to get JWT token');
+            }
+        } catch (error) {
+            console.error("Error getting JWT token:", error);
+            notifyError("Authentication error occurred");
+        }
+    }).catch((error) => {
+        notifyError(error.message);
+    });
+}
+
 
     const signupEmail = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-      
-        // Check if the user agrees to the Privacy Policy
+    
         if (!privacy) {
-          setErrorPrivacy("You must agree to the Privacy Policy");
-          return;
+        setErrorPrivacy("You must agree to the Privacy Policy");
+        return;
         }
-      
+    
         try {
-          // Create a new user with Firebase Authentication
-          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-          const user = userCredential.user;
-      
-          // Reset form states after successful signup
-          setErrorMessage(""); // Clear error messages
-          setEmail(""); // Clear email input
-          setPassword(""); // Clear password input
-          setSubscribe(false); // Reset subscription state
-          setPrivacy(false); // Reset privacy agreement
-          setErrorPrivacy(""); // Clear privacy error message
-          notifySuccess("You have successfully signed up!")
-          // Navigate to the account page
-          setTimeout(() => navigate("/account"), 3000);
-        } catch (error:any) {
-          // Handle errors during signup
-          console.error("Error during signup:", error);
-      
-          // Extract and show an appropriate error message
-          const errorMessagePassword = error.message;
-          setErrorMessage(errorMessagePassword);
-          notifyError(error.message);
-      
-          // Double-check privacy policy agreement
-          if (!privacy) {
-            setErrorPrivacy("You must agree to the Privacy Policy");
-          }
+        // Create a new user with Firebase Authentication
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        
+        // Get Firebase token and exchange for JWT
+        try {
+            const firebaseToken = await user.getIdToken();
+            
+            const response = await fetch(`${process.env.REACT_APP_URL_API}/api/auth/token`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ firebaseToken }),
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('jwtToken', data.token);
+                // Verify JWT immediately
+                await verifyJwtToken();
+            } else {
+                console.error("Failed to get JWT token");
+            }
+        } catch (tokenError) {
+            console.error("Error exchanging token:", tokenError);
         }
-      };
+        
+        // Reset form states after successful signup
+        setErrorMessage("");
+        setEmail("");
+        setPassword("");
+        setSubscribe(false);
+        setPrivacy(false);
+        setErrorPrivacy("");
+        
+        notifySuccess("You have successfully signed up!")
+        setTimeout(() => navigate("/account"), 3000);
+        } catch (error:any) {
+        console.error("Error during signup:", error);
+        const errorMessagePassword = error.message;
+        setErrorMessage(errorMessagePassword);
+        notifyError(error.message);
+        if (!privacy) {
+            setErrorPrivacy("You must agree to the Privacy Policy");
+        }
+        }
+    };
 
     
 
