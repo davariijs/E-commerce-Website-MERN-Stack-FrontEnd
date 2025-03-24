@@ -8,11 +8,9 @@ import { AppDispatch } from './store';
 import { auth } from './firebase/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { clearUser, setUser } from './redux/users/userSlice';
-import { getJwtToken } from './services/authService'; // Import this
+import { getJwtToken } from './services/authService';
 
 import { MainRoutes } from './routes';
-import AuthRedirect from './components/AuthRedirect/AuthRedirect';
-import { ToastContainer } from 'react-toastify';
 
 export default function App() {
 
@@ -57,11 +55,9 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <AuthRedirect />
       <Navbar />
       <MainRoutes />
       <Footer />
-      <ToastContainer />
     </BrowserRouter>
   );
 }
