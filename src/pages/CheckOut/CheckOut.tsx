@@ -16,13 +16,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import { fetchCart, TCartItem } from "../../redux/cart/cartSlice";
 import { AppDispatch, RootState } from "src/store";
 import { IAddressInfo } from "../Account/MyInfo";
+import { authenticatedFetch } from "src/services/authService";
 
 export default function CheckOut () {
 
-    const cartItems = useSelector((state:RootState) => state.cart.cart); // Updated to match slice state
+    const cartItems = useSelector((state:RootState) => state.cart.cart); 
     const items = cartItems?.items || [];
     const cartId = cartItems?._id || null;
-    const totalQuantity = useSelector((state:RootState) => state.cart.totalQuantity); // Get total quantity
+    const totalQuantity = useSelector((state:RootState) => state.cart.totalQuantity); 
     const dispatch = useDispatch<AppDispatch>();
     const [editingAddress, setEditingAddress] = useState(null);
     const [ cardNumber, SetCardNumber] = useState<string>("");
@@ -58,39 +59,54 @@ export default function CheckOut () {
         }, [dispatch,uid]);
 
 
-        const handleDeleteCart = async (cartId:string | null,uid:string| null) => {
-
-            try {
-                await axios.delete(`${process.env.REACT_APP_URL_API}/api/cart/${cartId}`);
-                await dispatch(fetchCart(uid)); 
-            } catch (error) {
-                console.error('Failed to remove cart:', error);
-                alert('Failed to remove cart');
+        const handleDeleteCart = async (cartId: string | null, uid: string | null) => {
+          try {
+            if (!uid) {
+              toast.error('User is not logged in');
+              return;
             }
+            
+            const result = await authenticatedFetch(`${process.env.REACT_APP_URL_API}/api/cart/${cartId}`, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
+            
+            const response = await result.json();
+            
+            if (result.ok) {
+              await dispatch(fetchCart(uid)); 
+              return response;
+            } else {
+              toast.error(response.message || 'Failed to delete cart');
+              throw new Error(response.message || 'Failed to delete cart');
+            }
+          } catch (error) {
+            console.error('Failed to remove cart:', error);
+            toast.error('Failed to remove cart');
+          }
         };
         
 
-        // Handle "Pay Now" button click
+
   const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Validate Payment Method
     if (!creditCard && !cash && !paypal) {
       notifyError("Please select a payment method.")
       return;
     }
 
-    // Validate Address
     if (!address) {
       notifyError("Please provide your billing/shipping address.")
       return;
     }
 
-    // Format Orders Data
     const orders = [
       {
-        orderDate: new Date().toISOString(), // Current date
-        deliveryDate: nextFiveDays[5], // Predefined delivery date
+        orderDate: new Date().toISOString(),
+        deliveryDate: nextFiveDays[5],
         orderStatus: "Pending",
         paymentMethod: creditCard ? "Credit Card" : cash ? "Cash on Delivery" : "Paypal",
         totalPrice: calculateTotalPriceShipping(),
@@ -101,7 +117,7 @@ export default function CheckOut () {
           color: item.color,
           quantity: item.quantity,
         })),
-        address: [address], // Use the saved address
+        address: [address], 
         payment: creditCard
           ? [
               {
@@ -111,32 +127,46 @@ export default function CheckOut () {
                 securityCode,
               },
             ]
-          : [], // Empty if not using credit card
+          : [], 
       },
     ];
 
-    // Prepare Payload
     const payload = {
-      uid, // User ID
-      orders, // Orders array
+      uid, 
+      orders, 
     };
 
 
     // Send POST request to backend
     try {
-      const response = await axios.post(`${process.env.REACT_APP_URL_API}/api/check-out`, payload);
-      notifySuccess(response.data.message);
-      if (response.status === 200) {
+      if (!uid) {
+        toast.error('User is not logged in');
+        return;
+      }
+
+      const result = await authenticatedFetch(`${process.env.REACT_APP_URL_API}/api/check-out`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+  
+
+      const response = await result.json();
+      notifySuccess(response.message || "Order placed successfully"); 
+      if (result.ok) {
         setTimeout(() => {
-          navigate("/account"); // Navigate after 3 seconds
+          navigate("/account");
         }, 3000);
         handleDeleteCart(cartId,uid);
+        return response;
       } else {
         notifyError("Something went wrong!");
       }
     } catch (error:any) {
       console.error("Error during checkout:", error);
-      notifyError(error)
+      notifyError(error.message || "Error during checkout");
     }
   };
 
