@@ -23,14 +23,14 @@ type TCard = {
 
 export default function Card ({priceTitle,mainTitle,discount,seeMore,srcCard,alt,showFirstType,cardFashionTextZone,rowReverse, titleLimited, textColor,borderColor}:TCard) {
 
-    useEffect(() => {
-        AOS.init({ duration: 1000, once: false });
-    }, []);
+    // useEffect(() => {
+    //     AOS.init({ duration: 1000, once: false });
+    // }, []);
 
     return (
         <Fragment>
             {showFirstType?
-            <div data-aos="fade-up" className="w-full h-full rounded-xl flex justify-between relative">
+            <div className="w-full h-full rounded-xl flex justify-between relative">
                 <div className="cardFashionText z-10 pl-7 text-white">
                     <h5 className="font-extrabold lg:text-lg md:text-lg text-base">{priceTitle}</h5> 
                     <h2 className="font-extrabold lg:text-4xl md:text-3xl text-xl lg:pt-6 pt-2">{mainTitle}</h2>
@@ -49,7 +49,7 @@ export default function Card ({priceTitle,mainTitle,discount,seeMore,srcCard,alt
                 </div>
             </div>
             : <>
-            <div data-aos="fade-left" className={`w-full h-full rounded-xl flex ${rowReverse} justify-between relative`}>
+            <div  className={`w-full h-full rounded-xl flex ${rowReverse} justify-between relative`}>
                 <div className={`${cardFashionTextZone} z-10 lg:px-7 md:px-2 px-3 ${textColor} relative`}>
                     {titleLimited ? <h2 className=" font-semibold text-xs bg-darkText w-fit lg:p-3 p-1 rounded">Limited Stock</h2> : ""}
                     <h2 className="font-extrabold lg:text-4xl md:text-2xl text-xl xl:pt-6 lg:pt-0 pt-1 lg:pb-6 md:pb-0 pb-4">{mainTitle}</h2>
