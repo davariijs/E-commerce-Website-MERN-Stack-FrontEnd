@@ -17,7 +17,8 @@ node_modules/
 
 # Ignore environment files
 .env
-
+.env.production
+.env.development
 
 # misc
 .DS_Store
