@@ -1,4 +1,5 @@
 import { auth } from '../firebase/firebase';
+import { toast } from 'react-toastify'; 
 
 // Get Firebase token and exchange it for your custom JWT
 export const getJwtToken = async (): Promise<string | null> => {
@@ -27,25 +28,58 @@ export const getJwtToken = async (): Promise<string | null> => {
   }
 };
 
-// Create authenticated API request function
-export const authenticatedFetch = async (url: string, options: RequestInit = {}) => {
-  const token = localStorage.getItem('jwtToken');
+
+// Create authenticated API request function with token refresh
+
+export const authenticatedFetch = async (url: string, options: RequestInit = {}): Promise<Response> => {
+  let token = localStorage.getItem('jwtToken');
   
   if (!token) {
-    // Try to get a new token if not found
-    const newToken = await getJwtToken();
-    if (!newToken) throw new Error('Not authenticated');
+    token = await getJwtToken();
+    if (!token) {
+      toast.error('Authentication required. Please log in.');
+      localStorage.setItem('authRedirect', 'true');
+      throw new Error('Not authenticated');
+    }
   }
   
   const authenticatedOptions = {
     ...options,
     headers: {
       ...options.headers,
-      'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`,
+      'Authorization': `Bearer ${token}`,
     },
   };
   
-  return fetch(url, authenticatedOptions);
+  // First attempt
+  let response = await fetch(url, authenticatedOptions);
+  
+  if (response.status === 401) {
+    try {
+      console.log('Token expired, refreshing...');
+      localStorage.removeItem('jwtToken');
+      const newToken = await getJwtToken();
+      
+      if (!newToken) {
+        throw new Error('Failed to refresh token');
+      }
+      const newAuthenticatedOptions = {
+        ...options,
+        headers: {
+          ...options.headers,
+          'Authorization': `Bearer ${newToken}`,
+        },
+      };
+      
+      return fetch(url, newAuthenticatedOptions);
+    } catch (error) {
+      console.error('Token refresh failed:', error);
+      toast.error('Session expired. Please log in again.');
+      localStorage.setItem('authRedirect', 'true');
+      throw new Error('Authentication failed. Please login again.');
+    }
+  }
+  return response;
 };
 
 
