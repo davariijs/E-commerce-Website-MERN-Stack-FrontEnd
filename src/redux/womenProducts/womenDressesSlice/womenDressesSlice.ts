@@ -1,8 +1,7 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
-import { ProductCategory } from "src/redux/types/types";
-import { RootState } from "src/store";
-
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { ProductCategory } from 'src/redux/types/types';
+import { RootState } from 'src/store';
 
 interface ProductState {
   WomenDresses: ProductCategory | null; // The product details or null if not loaded
@@ -27,12 +26,12 @@ const uriRequest = {
   },
   headers: {
     'x-rapidapi-key': process.env.REACT_APP_X_RAPIDAPI_KEY,
-    'x-rapidapi-host': process.env.REACT_APP_X_RAPIDAPI_HOST
-  }
+    'x-rapidapi-host': process.env.REACT_APP_X_RAPIDAPI_HOST,
+  },
 };
 
 export const getWomenDresses = createAsyncThunk<ProductCategory>(
-  "WomenDressesList/getWomenDresses", 
+  'WomenDressesList/getWomenDresses',
   async () => {
     try {
       const response = await axios.request(uriRequest);
@@ -40,31 +39,35 @@ export const getWomenDresses = createAsyncThunk<ProductCategory>(
     } catch (error) {
       console.error(error);
     }
-});
+  }
+);
 
 const womenDressesSlice = createSlice({
-  name: "WomenDressesList",
+  name: 'WomenDressesList',
   reducers: {},
   initialState,
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(getWomenDresses.pending, (state) => {
-      state.isLoading = 'loading';
-    })
+      .addCase(getWomenDresses.pending, state => {
+        state.isLoading = 'loading';
+      })
       .addCase(getWomenDresses.fulfilled, (state, action: PayloadAction<ProductCategory>) => {
         state.WomenDresses = action.payload;
         state.isLoading = 'succeeded';
       })
       .addCase(getWomenDresses.rejected, (state, action) => {
-        state.hasError = action.error.message || "Failed to fetch products";
+        state.hasError = action.error.message || 'Failed to fetch products';
         state.isLoading = 'failed';
-      })
-  }
+      });
+  },
 });
 
 // Selectors
-export const selectWomenDresses = (state:RootState):ProductCategory | null => state.WomenDressesList.WomenDresses;
-export const selectLoadingState = (state:RootState):'idle' | 'loading' | 'succeeded' | 'failed' => state.WomenDressesList.isLoading;
-export const selectErrorState = (state:RootState):string | null => state.WomenDressesList.hasError;
+export const selectWomenDresses = (state: RootState): ProductCategory | null =>
+  state.WomenDressesList.WomenDresses;
+export const selectLoadingState = (state: RootState): 'idle' | 'loading' | 'succeeded' | 'failed' =>
+  state.WomenDressesList.isLoading;
+export const selectErrorState = (state: RootState): string | null =>
+  state.WomenDressesList.hasError;
 
 export default womenDressesSlice.reducer;

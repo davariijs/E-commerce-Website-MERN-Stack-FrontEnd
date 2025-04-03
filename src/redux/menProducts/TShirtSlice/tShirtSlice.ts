@@ -1,8 +1,7 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
-import { ProductCategory } from "src/redux/types/types";
-import { RootState } from "src/store";
-
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { ProductCategory } from 'src/redux/types/types';
+import { RootState } from 'src/store';
 
 interface ProductState {
   MenTShirts: ProductCategory | null; // The product details or null if not loaded
@@ -27,12 +26,12 @@ const uriRequest = {
   },
   headers: {
     'x-rapidapi-key': process.env.REACT_APP_X_RAPIDAPI_KEY,
-    'x-rapidapi-host': process.env.REACT_APP_X_RAPIDAPI_HOST
-  }
+    'x-rapidapi-host': process.env.REACT_APP_X_RAPIDAPI_HOST,
+  },
 };
 
 export const getMenTShirts = createAsyncThunk<ProductCategory>(
-  "MenTShirtsList/getMenTShirts", 
+  'MenTShirtsList/getMenTShirts',
   async () => {
     try {
       const response = await axios.request(uriRequest);
@@ -40,31 +39,34 @@ export const getMenTShirts = createAsyncThunk<ProductCategory>(
     } catch (error) {
       console.error(error);
     }
-});
+  }
+);
 
 const MenTShirtsSlice = createSlice({
-  name: "MenTShirtsList",
+  name: 'MenTShirtsList',
   reducers: {},
   initialState,
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(getMenTShirts.pending, (state) => {
-      state.isLoading = 'loading';
-    })
+      .addCase(getMenTShirts.pending, state => {
+        state.isLoading = 'loading';
+      })
       .addCase(getMenTShirts.fulfilled, (state, action: PayloadAction<ProductCategory>) => {
         state.MenTShirts = action.payload;
         state.isLoading = 'succeeded';
       })
       .addCase(getMenTShirts.rejected, (state, action) => {
-        state.hasError = action.error.message || "Failed to fetch products";
+        state.hasError = action.error.message || 'Failed to fetch products';
         state.isLoading = 'failed';
-      })
-  }
+      });
+  },
 });
 
 // Selectors
-export const selectMenTShirts = (state:RootState):ProductCategory | null => state.MenTShirtsList.MenTShirts;
-export const selectLoadingState = (state:RootState):'idle' | 'loading' | 'succeeded' | 'failed' => state.MenTShirtsList.isLoading;
-export const selectErrorState = (state:RootState):string | null => state.MenTShirtsList.hasError;
+export const selectMenTShirts = (state: RootState): ProductCategory | null =>
+  state.MenTShirtsList.MenTShirts;
+export const selectLoadingState = (state: RootState): 'idle' | 'loading' | 'succeeded' | 'failed' =>
+  state.MenTShirtsList.isLoading;
+export const selectErrorState = (state: RootState): string | null => state.MenTShirtsList.hasError;
 
 export default MenTShirtsSlice.reducer;

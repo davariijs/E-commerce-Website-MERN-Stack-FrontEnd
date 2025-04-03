@@ -7,21 +7,21 @@ const AuthRedirect = () => {
   useEffect(() => {
     const checkAuthRedirect = () => {
       const needsRedirect = localStorage.getItem('authRedirect');
-      
+
       if (needsRedirect === 'true') {
         localStorage.removeItem('authRedirect');
         navigate('/login');
       }
     };
-    
+
     checkAuthRedirect();
-    
+
     const interval = setInterval(checkAuthRedirect, 2000);
-    
+
     return () => clearInterval(interval);
   }, [navigate]);
 
-  return null; 
+  return null;
 };
 
 export default AuthRedirect;

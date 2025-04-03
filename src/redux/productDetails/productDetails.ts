@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { RootState } from 'src/store';
 
-interface Product  {
+interface Product {
   id?: string;
   webID?: number;
   productTitle: string;
@@ -49,7 +49,7 @@ const initialState: ProductState = {
 // Create the async thunk
 export const fetchProductDetails = createAsyncThunk<ProductDetails, number | string>(
   'ProductsDetailsList/getDetails',
-  async (productId) => {
+  async productId => {
     try {
       const response = await axios({
         method: 'GET',
@@ -63,37 +63,44 @@ export const fetchProductDetails = createAsyncThunk<ProductDetails, number | str
 
       // Return the API response
       return response.data;
-    } catch (error:any) {
-      console.error(error);
-      throw error;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        console.error('Axios error:', error.message);
+        throw error;
+      } else {
+        console.error('Unexpected error:', error);
+        throw new Error('An unexpected error occurred');
+      }
     }
   }
 );
 
-
 const productsDetailsSlice = createSlice({
-  name: "ProductsDetailsList",
+  name: 'ProductsDetailsList',
   initialState,
-  reducers:{},
-  extraReducers: (builder) => {
+  reducers: {},
+  extraReducers: builder => {
     builder
-      .addCase(fetchProductDetails.pending, (state) => {
-      state.isLoading = 'loading';
-    })
-      .addCase(fetchProductDetails.fulfilled, (state, action:PayloadAction<ProductDetails>) => {
+      .addCase(fetchProductDetails.pending, state => {
+        state.isLoading = 'loading';
+      })
+      .addCase(fetchProductDetails.fulfilled, (state, action: PayloadAction<ProductDetails>) => {
         state.ProductsDetails = action.payload;
         state.isLoading = 'succeeded';
       })
       .addCase(fetchProductDetails.rejected, (state, action) => {
         state.hasError = action.error.message || 'Failed to fetch product details';
         state.isLoading = 'failed';
-      })
-  }
+      });
+  },
 });
 
 // Selectors
-export const selectProductsDetails =( state:RootState ): ProductDetails | null=> state.ProductsDetailsList.ProductsDetails;
-export const selectLoadingState =( state:RootState ): 'idle' | 'loading' | 'succeeded' | 'failed'=> state.ProductsDetailsList.isLoading;
-export const selectErrorState =( state:RootState ): string | null=> state.ProductsDetailsList.hasError;
+export const selectProductsDetails = (state: RootState): ProductDetails | null =>
+  state.ProductsDetailsList.ProductsDetails;
+export const selectLoadingState = (state: RootState): 'idle' | 'loading' | 'succeeded' | 'failed' =>
+  state.ProductsDetailsList.isLoading;
+export const selectErrorState = (state: RootState): string | null =>
+  state.ProductsDetailsList.hasError;
 
 export default productsDetailsSlice.reducer;

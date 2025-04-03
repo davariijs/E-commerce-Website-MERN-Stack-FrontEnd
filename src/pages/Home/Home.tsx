@@ -1,9 +1,9 @@
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
 import './Home.css';
 import Hero from '../../components/Hero/Hero';
 import Card from '../../components/Card/Card';
-import imgCardFashion1 from "../../assets/images/card-fashion-style.jpg";
-import imgCardFashion2 from "../../assets/images/card-fashion.jpg";
+import imgCardFashion1 from '../../assets/images/card-fashion-style.jpg';
+import imgCardFashion2 from '../../assets/images/card-fashion.jpg';
 import SliderPart from '../../components/Slider/Slider';
 import SavingZoneCards from '../../components/Big Saving Zone/SavingZoneCards';
 import FashionPart from '../../components/FashionPart/FashionPart';
@@ -12,9 +12,9 @@ import CategoriesForWomen from '../../components/CategoriesForWomen/CategoriesFo
 import Brands from '../../components/Brands/Brands';
 import Limelight from '../../components/Limelight/Limelight';
 import FeedBackPart from '../../components/FeedBack/FeedBackPart';
-import { useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 export default function Home() {
   useEffect(() => {
@@ -24,10 +24,10 @@ export default function Home() {
       AOS.refresh();
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -38,7 +38,7 @@ export default function Home() {
         <div className="lg:flex md:flex justify-center lg:mx-0 md:mx-0 mx-6 lg:mt-16 mt-8 grid lg:grid-cols-2 lg:gap-12 gap-6">
           <Card
             showFirstType={true}
-            priceTitle={"Low Price"}
+            priceTitle={'Low Price'}
             srcCard={imgCardFashion1}
             alt="fashion"
             mainTitle="High Coziness"
@@ -47,7 +47,7 @@ export default function Home() {
           />
           <Card
             showFirstType={true}
-            priceTitle={"Low Price"}
+            priceTitle={'Low Price'}
             srcCard={imgCardFashion2}
             alt="fashion"
             mainTitle="High Coziness"

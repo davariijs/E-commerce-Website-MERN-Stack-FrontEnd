@@ -2,7 +2,6 @@ import React, { Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Loading from '../components/Loading/loading';
 
-
 const Account = React.lazy(() => import('../pages/Account/Account'));
 const Orders = React.lazy(() => import('../pages/Account/Orders'));
 const Wishlist = React.lazy(() => import('../pages/Account/Wishlist'));

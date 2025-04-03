@@ -15,7 +15,7 @@ const WomenRoutes = () => {
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
-        <Route path="/" element={<Women />} >
+        <Route path="/" element={<Women />}>
           <Route index element={<WomenTops />} />
           <Route path="tops" element={<WomenTops />} />
           <Route path=":id" element={<ProductDetails />} />

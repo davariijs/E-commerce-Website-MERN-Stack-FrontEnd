@@ -2,7 +2,6 @@ import React, { Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Loading from '../components/Loading/loading';
 
-
 const Men = React.lazy(() => import('../pages/Men/Men'));
 const MenTops = React.lazy(() => import('../pages/Men/MenTops'));
 const MenTShirts = React.lazy(() => import('../pages/Men/MenTShirt'));
@@ -16,7 +15,7 @@ const MenRoutes = () => {
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
-      <Route path="/" element={<Men />}>
+        <Route path="/" element={<Men />}>
           <Route index element={<MenTops />} />
           <Route path="tops" element={<MenTops />} />
           <Route path="t-shirts" element={<MenTShirts />} />

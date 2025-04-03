@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import searchIcon from "../../assets/icons/search-icon.svg";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import searchIcon from '../../assets/icons/search-icon.svg';
 import './Navbar.css';
-import { Link } from "react-router-dom";
-import { AppDispatch, RootState } from "src/store";
-import { fetchSearchResults, selectLoadingState, selectSearch } from "src/redux/searchProducts/searchSlice";
-import { TProduct } from "src/redux/types/types";
-
-
+import { Link } from 'react-router-dom';
+import { AppDispatch, RootState } from 'src/store';
+import {
+  fetchSearchResults,
+  selectLoadingState,
+  selectSearch,
+} from 'src/redux/searchProducts/searchSlice';
+import { TProduct } from 'src/redux/types/types';
 
 const SearchBar: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [debouncedQuery, setDebouncedQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [debouncedQuery, setDebouncedQuery] = useState<string>('');
   const searchResults = useSelector((state: RootState) => selectSearch(state));
   const isLoading = useSelector((state: RootState) => selectLoadingState(state));
   const products: TProduct[] = searchResults?.payload?.products || [];
@@ -35,14 +37,14 @@ const SearchBar: React.FC = () => {
   }, [debouncedQuery, dispatch]);
 
   return (
-    <div className="searchCom" style={{ position: "relative" }}>
+    <div className="searchCom" style={{ position: 'relative' }}>
       {/* Search Bar */}
       <div className="relative">
         <img className="searchIcon absolute" src={searchIcon} alt="search" />
         <input
           value={searchQuery}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setSearchQuery(e.target.value) // Update the search query state
+          onChange={
+            (e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value) // Update the search query state
           }
           className="searchbar w-full bg-secondary"
           type="text"
@@ -55,45 +57,43 @@ const SearchBar: React.FC = () => {
       {searchQuery && (
         <div
           style={{
-            position: "absolute",
-            top: "40px",
-            width: "100%",
-            maxHeight: "200px",
-            overflowY: "auto",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            backgroundColor: "#fff",
-            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+            position: 'absolute',
+            top: '40px',
+            width: '100%',
+            maxHeight: '200px',
+            overflowY: 'auto',
+            border: '1px solid #ccc',
+            borderRadius: '4px',
+            backgroundColor: '#fff',
+            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
             zIndex: 10,
           }}
         >
           {/* Loading State */}
           {isLoading ? (
-            <div style={{ padding: "10px", textAlign: "center" }}>Loading...</div>
+            <div style={{ padding: '10px', textAlign: 'center' }}>Loading...</div>
           ) : products.length > 0 ? (
             // Map over search results
-            products.map((product) => (
+            products.map(product => (
               <Link to={`/search/${String(product.webID)}`} key={product.webID}>
                 <div
                   style={{
-                    padding: "10px",
-                    borderBottom: "1px solid #eee",
-                    cursor: "pointer",
+                    padding: '10px',
+                    borderBottom: '1px solid #eee',
+                    cursor: 'pointer',
                   }}
                 >
                   <img
                     src={product.image?.url}
                     alt={product.productTitle}
-                    style={{ width: "50px" }}
+                    style={{ width: '50px' }}
                   />
-                  <h4 style={{ margin: 0, fontSize: "14px" }}>
-                    {product.productTitle}
-                  </h4>
+                  <h4 style={{ margin: 0, fontSize: '14px' }}>{product.productTitle}</h4>
                   <p
                     style={{
                       margin: 0,
-                      fontSize: "12px",
-                      color: "#888",
+                      fontSize: '12px',
+                      color: '#888',
                     }}
                   >
                     ${product.prices[0]?.regularPrice?.minPrice}
@@ -103,9 +103,7 @@ const SearchBar: React.FC = () => {
             ))
           ) : (
             // No results found
-            <div style={{ padding: "10px", textAlign: "center" }}>
-              No products found.
-            </div>
+            <div style={{ padding: '10px', textAlign: 'center' }}>No products found.</div>
           )}
         </div>
       )}

@@ -1,7 +1,7 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
-import { ProductCategory } from "src/redux/types/types";
-import { RootState } from "src/store";
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { ProductCategory } from 'src/redux/types/types';
+import { RootState } from 'src/store';
 
 interface ProductState {
   WomenShoes: ProductCategory | null; // The product details or null if not loaded
@@ -26,13 +26,12 @@ const uriRequest = {
   },
   headers: {
     'x-rapidapi-key': process.env.REACT_APP_X_RAPIDAPI_KEY,
-    'x-rapidapi-host': process.env.REACT_APP_X_RAPIDAPI_HOST
-  }
+    'x-rapidapi-host': process.env.REACT_APP_X_RAPIDAPI_HOST,
+  },
 };
 
-
 export const getWomenShoes = createAsyncThunk<ProductCategory>(
-  "WomenShoesList/getWomenShoes", 
+  'WomenShoesList/getWomenShoes',
   async () => {
     try {
       const response = await axios.request(uriRequest);
@@ -40,31 +39,34 @@ export const getWomenShoes = createAsyncThunk<ProductCategory>(
     } catch (error) {
       console.error(error);
     }
-});
+  }
+);
 
 const WomenShoesSlice = createSlice({
-  name: "WomenShoesList",
+  name: 'WomenShoesList',
   reducers: {},
   initialState,
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(getWomenShoes.pending, (state) => {
-      state.isLoading = 'loading';
-    })
+      .addCase(getWomenShoes.pending, state => {
+        state.isLoading = 'loading';
+      })
       .addCase(getWomenShoes.fulfilled, (state, action: PayloadAction<ProductCategory>) => {
         state.WomenShoes = action.payload;
         state.isLoading = 'succeeded';
       })
       .addCase(getWomenShoes.rejected, (state, action) => {
-        state.hasError = action.error.message || "Failed to fetch products";
+        state.hasError = action.error.message || 'Failed to fetch products';
         state.isLoading = 'failed';
-      })
-  }
+      });
+  },
 });
 
 // Selectors
-export const selectWomenShoes = (state:RootState):ProductCategory | null => state.WomenShoesList.WomenShoes;
-export const selectLoadingState = (state:RootState):'idle' | 'loading' | 'succeeded' | 'failed' => state.WomenShoesList.isLoading;
-export const selectErrorState = (state:RootState):string | null => state.WomenShoesList.hasError;
+export const selectWomenShoes = (state: RootState): ProductCategory | null =>
+  state.WomenShoesList.WomenShoes;
+export const selectLoadingState = (state: RootState): 'idle' | 'loading' | 'succeeded' | 'failed' =>
+  state.WomenShoesList.isLoading;
+export const selectErrorState = (state: RootState): string | null => state.WomenShoesList.hasError;
 
 export default WomenShoesSlice.reducer;

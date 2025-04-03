@@ -16,9 +16,9 @@ import menJeansList from './redux/menProducts/menJeansSlice/menJeansSlice';
 import menHoodiesList from './redux/menProducts/menHoodiesSlice/menHoodiesSlice';
 import MenTopsList from './redux/menProducts/menTopsSlice/menTopsSlice';
 import ProductsDetailsList from './redux/productDetails/productDetails';
-import wishlistReducer from "./redux/wishLists/wishlistSlice";
+import wishlistReducer from './redux/wishLists/wishlistSlice';
 import cartReducer from './redux/cart/cartSlice';
-import userReducer from './redux/users/userSlice'; 
+import userReducer from './redux/users/userSlice';
 import search from './redux/searchProducts/searchSlice';
 
 const reducersToPersist = [
@@ -34,7 +34,7 @@ const reducersToPersist = [
   'MenJeansList',
   'MenHoodiesList',
   'MenTopsList',
-  'ProductsDetailsList'
+  'ProductsDetailsList',
 ];
 
 const persistConfig = {
@@ -46,31 +46,31 @@ const persistConfig = {
 const reducers = combineReducers({
   womenTopsList: womenTops,
   filterProducts: filterProducts,
-  womenTShirtsList:womenTShirtsList,
-  WomenShoesList:WomenShoesList,
-  WomenCoatsList:WomenCoatsList,
-  WomenDressesList:WomenDressesList,
+  womenTShirtsList: womenTShirtsList,
+  WomenShoesList: WomenShoesList,
+  WomenCoatsList: WomenCoatsList,
+  WomenDressesList: WomenDressesList,
   WomenHoodiesList: WomenHoodiesList,
-  MenTShirtsList:menTShirtsList,
-  MenShoesList:menShoesList,
-  MenCoatsList:menCoatsList,
-  MenJeansList:menJeansList,
-  MenHoodiesList:menHoodiesList,
-  MenTopsList:MenTopsList,
+  MenTShirtsList: menTShirtsList,
+  MenShoesList: menShoesList,
+  MenCoatsList: menCoatsList,
+  MenJeansList: menJeansList,
+  MenHoodiesList: menHoodiesList,
+  MenTopsList: MenTopsList,
   ProductsDetailsList: ProductsDetailsList,
   wishlist: wishlistReducer,
   cart: cartReducer,
   user: userReducer,
-  SearchList:search,
+  SearchList: search,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
 const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
-      immutableCheck: false, 
+      immutableCheck: false,
       serializableCheck: false,
     }),
 });

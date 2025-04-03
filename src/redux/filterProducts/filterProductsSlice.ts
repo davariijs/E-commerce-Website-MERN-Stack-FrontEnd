@@ -1,27 +1,27 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "src/store";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from 'src/store';
 
 interface FilterState {
-  valuesFilter: number[],
+  valuesFilter: number[];
 }
 
 // Define initial state
 const initialState: FilterState = {
-  valuesFilter: [19,200],
+  valuesFilter: [19, 200],
 };
 
 const filterProductsSlice = createSlice({
-  name: "filterProducts",
+  name: 'filterProducts',
   initialState,
   reducers: {
-    setValuesFilter: (state, action:PayloadAction<FilterState['valuesFilter']>) => {
-        state.valuesFilter = action.payload
-      },
-  }
+    setValuesFilter: (state, action: PayloadAction<FilterState['valuesFilter']>) => {
+      state.valuesFilter = action.payload;
+    },
+  },
 });
 
 // Selectors
-export const selectFilterPrices = (state:RootState) => state.filterProducts.valuesFilter;
+export const selectFilterPrices = (state: RootState) => state.filterProducts.valuesFilter;
 
 //reducers
 export const { setValuesFilter } = filterProductsSlice.actions;

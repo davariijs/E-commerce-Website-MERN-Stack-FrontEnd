@@ -1,8 +1,7 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
-import { ProductCategory } from "src/redux/types/types";
-import { RootState } from "src/store";
-
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { ProductCategory } from 'src/redux/types/types';
+import { RootState } from 'src/store';
 
 interface ProductState {
   MenCoats: ProductCategory | null; // The product details or null if not loaded
@@ -23,16 +22,16 @@ const uriRequest = {
   params: {
     limit: '48',
     offset: '8',
-    keyword: "men coat",
+    keyword: 'men coat',
   },
   headers: {
     'x-rapidapi-key': process.env.REACT_APP_X_RAPIDAPI_KEY,
-    'x-rapidapi-host': process.env.REACT_APP_X_RAPIDAPI_HOST
-  }
+    'x-rapidapi-host': process.env.REACT_APP_X_RAPIDAPI_HOST,
+  },
 };
 
 export const getMenCoats = createAsyncThunk<ProductCategory>(
-  "MenCoatsList/getMenCoats", 
+  'MenCoatsList/getMenCoats',
   async () => {
     try {
       const response = await axios.request(uriRequest);
@@ -40,31 +39,34 @@ export const getMenCoats = createAsyncThunk<ProductCategory>(
     } catch (error) {
       console.error(error);
     }
-});
+  }
+);
 
 const MenCoatsSlice = createSlice({
-  name: "MenCoatsList",
+  name: 'MenCoatsList',
   reducers: {},
   initialState,
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(getMenCoats.pending, (state) => {
-      state.isLoading = 'loading';
-    })
+      .addCase(getMenCoats.pending, state => {
+        state.isLoading = 'loading';
+      })
       .addCase(getMenCoats.fulfilled, (state, action: PayloadAction<ProductCategory>) => {
         state.MenCoats = action.payload;
         state.isLoading = 'succeeded';
       })
       .addCase(getMenCoats.rejected, (state, action) => {
-        state.hasError = action.error.message || "Failed to fetch products";
+        state.hasError = action.error.message || 'Failed to fetch products';
         state.isLoading = 'failed';
-      })
-  }
+      });
+  },
 });
 
 // Selectors
-export const selectMenCoats = (state:RootState):ProductCategory | null => state.MenCoatsList.MenCoats;
-export const selectLoadingState = (state:RootState):'idle' | 'loading' | 'succeeded' | 'failed' => state.MenCoatsList.isLoading;
-export const selectErrorState = (state:RootState):string | null => state.MenCoatsList.hasError;
+export const selectMenCoats = (state: RootState): ProductCategory | null =>
+  state.MenCoatsList.MenCoats;
+export const selectLoadingState = (state: RootState): 'idle' | 'loading' | 'succeeded' | 'failed' =>
+  state.MenCoatsList.isLoading;
+export const selectErrorState = (state: RootState): string | null => state.MenCoatsList.hasError;
 
 export default MenCoatsSlice.reducer;

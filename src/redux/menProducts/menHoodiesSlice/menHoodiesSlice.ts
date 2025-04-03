@@ -1,7 +1,7 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
-import { ProductCategory } from "src/redux/types/types";
-import { RootState } from "src/store";
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { ProductCategory } from 'src/redux/types/types';
+import { RootState } from 'src/store';
 
 interface ProductState {
   MenHoodies: ProductCategory | null; // The product details or null if not loaded
@@ -11,9 +11,9 @@ interface ProductState {
 
 // Define initial state
 const initialState: ProductState = {
-    MenHoodies: null,
-    isLoading: 'idle',
-    hasError: null,
+  MenHoodies: null,
+  isLoading: 'idle',
+  hasError: null,
 };
 
 const uriRequest = {
@@ -22,16 +22,16 @@ const uriRequest = {
   params: {
     limit: '48',
     offset: '8',
-    keyword: "men hoodie",
+    keyword: 'men hoodie',
   },
   headers: {
     'x-rapidapi-key': process.env.REACT_APP_X_RAPIDAPI_KEY,
-    'x-rapidapi-host': process.env.REACT_APP_X_RAPIDAPI_HOST
-  }
+    'x-rapidapi-host': process.env.REACT_APP_X_RAPIDAPI_HOST,
+  },
 };
 
 export const getMenHoodies = createAsyncThunk<ProductCategory>(
-  "MenHoodiesList/getMenHoodies", 
+  'MenHoodiesList/getMenHoodies',
   async () => {
     try {
       const response = await axios.request(uriRequest);
@@ -39,31 +39,34 @@ export const getMenHoodies = createAsyncThunk<ProductCategory>(
     } catch (error) {
       console.error(error);
     }
-});
+  }
+);
 
 const MenHoodiesSlice = createSlice({
-  name: "MenHoodiesList",
+  name: 'MenHoodiesList',
   reducers: {},
   initialState,
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(getMenHoodies.pending, (state) => {
-      state.isLoading = 'loading';
-    })
+      .addCase(getMenHoodies.pending, state => {
+        state.isLoading = 'loading';
+      })
       .addCase(getMenHoodies.fulfilled, (state, action: PayloadAction<ProductCategory>) => {
         state.MenHoodies = action.payload;
         state.isLoading = 'succeeded';
       })
       .addCase(getMenHoodies.rejected, (state, action) => {
-        state.hasError = action.error.message || "Failed to fetch products";
+        state.hasError = action.error.message || 'Failed to fetch products';
         state.isLoading = 'failed';
-      })
-  }
+      });
+  },
 });
 
 // Selectors
-export const selectMenHoodies = (state:RootState):ProductCategory | null => state.MenHoodiesList.MenHoodies;
-export const selectLoadingState = (state:RootState):'idle' | 'loading' | 'succeeded' | 'failed' => state.MenHoodiesList.isLoading;
-export const selectErrorState = (state:RootState):string | null => state.MenHoodiesList.hasError;
+export const selectMenHoodies = (state: RootState): ProductCategory | null =>
+  state.MenHoodiesList.MenHoodies;
+export const selectLoadingState = (state: RootState): 'idle' | 'loading' | 'succeeded' | 'failed' =>
+  state.MenHoodiesList.isLoading;
+export const selectErrorState = (state: RootState): string | null => state.MenHoodiesList.hasError;
 
 export default MenHoodiesSlice.reducer;

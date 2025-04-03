@@ -1,8 +1,7 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
-import { ProductCategory } from "src/redux/types/types";
-import { RootState } from "src/store";
-
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { ProductCategory } from 'src/redux/types/types';
+import { RootState } from 'src/store';
 
 interface ProductState {
   menTops: ProductCategory | null; // The product details or null if not loaded
@@ -27,44 +26,48 @@ const uriRequest = {
   },
   headers: {
     'x-rapidapi-key': process.env.REACT_APP_X_RAPIDAPI_KEY,
-    'x-rapidapi-host': process.env.REACT_APP_X_RAPIDAPI_HOST
-  }
+    'x-rapidapi-host': process.env.REACT_APP_X_RAPIDAPI_HOST,
+  },
 };
 
-export const getMenTops = createAsyncThunk<ProductCategory>(
-  "MenTopsList/getMenTops", 
-  async () => {
-    try {
-      const response = await axios.request(uriRequest);
-      return response.data;
-    } catch (error:any) {
-      console.error(error);
+export const getMenTops = createAsyncThunk<ProductCategory>('MenTopsList/getMenTops', async () => {
+  try {
+    const response = await axios.request(uriRequest);
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      console.error('Axios error:', error.message);
+    } else {
+      console.error('Unexpected error:', error);
     }
+  }
 });
 
 const MenTopsSlice = createSlice({
-  name: "MenTopsList",
+  name: 'MenTopsList',
   initialState,
-  reducers:{},
-  extraReducers: (builder) => {
+  reducers: {},
+  extraReducers: builder => {
     builder
-      .addCase(getMenTops.pending, (state) => {
-      state.isLoading = 'loading';
-    })
-      .addCase(getMenTops.fulfilled, (state, action:PayloadAction<ProductCategory>) => {
+      .addCase(getMenTops.pending, state => {
+        state.isLoading = 'loading';
+      })
+      .addCase(getMenTops.fulfilled, (state, action: PayloadAction<ProductCategory>) => {
         state.menTops = action.payload;
         state.isLoading = 'succeeded';
       })
       .addCase(getMenTops.rejected, (state, action) => {
-        state.hasError = action.error.message || "Failed to fetch products";
+        state.hasError = action.error.message || 'Failed to fetch products';
         state.isLoading = 'failed';
-      })
-  }
+      });
+  },
 });
 
 // Selectors
-export const selectMenTops =( state:RootState ): ProductCategory | null => state.MenTopsList.menTops;
-export const selectLoadingState =( state:RootState ): 'idle' | 'loading' | 'succeeded' | 'failed'=> state.MenTopsList.isLoading;
-export const selectErrorState =( state:RootState ): string | null => state.MenTopsList.hasError;
+export const selectMenTops = (state: RootState): ProductCategory | null =>
+  state.MenTopsList.menTops;
+export const selectLoadingState = (state: RootState): 'idle' | 'loading' | 'succeeded' | 'failed' =>
+  state.MenTopsList.isLoading;
+export const selectErrorState = (state: RootState): string | null => state.MenTopsList.hasError;
 
 export default MenTopsSlice.reducer;
