@@ -1,0 +1,41 @@
+name: shoply-frontend CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: E-commerce-Website-MERN-Stack-FrontEnd
+
+      - name: Run tests
+        run: npm run test:coverage
+        working-directory: E-commerce-Website-MERN-Stack-FrontEnd
+
+      - name: Build project
+        run: npm run build
+        working-directory: E-commerce-Website-MERN-Stack-FrontEnd
+
+      - name: Docker build
+        run: docker build -t shoply-frontend ./E-commerce-Website-MERN-Stack-FrontEnd
+
+      - name: Upload production build
+        uses: actions/upload-artifact@v3
+        with:
+          name: shoply-frontend-build
+          path: E-commerce-Website-MERN-Stack-FrontEnd/build
