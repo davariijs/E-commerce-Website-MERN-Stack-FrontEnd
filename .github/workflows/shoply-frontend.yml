@@ -21,21 +21,18 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: E-commerce-Website-MERN-Stack-FrontEnd
 
       - name: Run tests
         run: npm run test:coverage
-        working-directory: E-commerce-Website-MERN-Stack-FrontEnd
 
       - name: Build project
         run: npm run build
-        working-directory: E-commerce-Website-MERN-Stack-FrontEnd
 
       - name: Docker build
-        run: docker build -t shoply-frontend ./E-commerce-Website-MERN-Stack-FrontEnd
+        run: docker build -t shoply-frontend .
 
       - name: Upload production build (optional)
         uses: actions/upload-artifact@v4
         with:
           name: shoply-frontend-build
-          path: E-commerce-Website-MERN-Stack-FrontEnd/build
+          path: build
