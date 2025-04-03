@@ -22,9 +22,6 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Disable CI strict mode
-        run: echo "CI=false" >> $GITHUB_ENV
-
       - name: Lint code
         run: npm run lint
 
