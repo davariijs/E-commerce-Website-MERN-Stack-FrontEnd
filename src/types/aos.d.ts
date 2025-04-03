@@ -1,4 +1,8 @@
-declare module "aos" {
-    const AOS: any;
-    export default AOS;
-  }
+declare module 'aos' {
+  const AOS: {
+    init: () => void;
+    refresh: () => void;
+    refreshHard: () => void;
+  };
+  export default AOS;
+}
