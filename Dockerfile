@@ -1,10 +1,10 @@
 # Stage 1: Build the React app
-FROM node:22 AS builder
+FROM node:20 AS builder
 
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 COPY . .
 
