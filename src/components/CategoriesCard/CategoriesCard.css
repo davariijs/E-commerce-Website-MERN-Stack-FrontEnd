@@ -1,13 +1,13 @@
 .likeSvg {
-    fill: none !important;
-    stroke: #807D7E !important;
-    margin-top: 6px;
-    border-radius: 50%;
-  }
-  
-  .cardSvgLike:hover .likeSvg:hover {
-    stroke: red !important;
-  }
+  fill: none !important;
+  stroke: #807d7e !important;
+  margin-top: 6px;
+  border-radius: 50%;
+}
+
+.cardSvgLike:hover .likeSvg:hover {
+  stroke: red !important;
+}
 
 .categoriesCardImgPart {
   overflow: hidden;
@@ -19,9 +19,10 @@
   transform: scale(1.05);
 }
 
-
 .categoriesCardImg {
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transition:
+    opacity 0.3s ease-in-out,
+    transform 0.3s ease-in-out;
 }
 
 .categoriesCardImg:hover {
@@ -29,27 +30,26 @@
   transform: scale(1.08);
 }
 
-
 .text-darkText.bg-secondary {
   transition: all 0.3s ease-in-out;
 }
 
 .text-darkText.bg-secondary:hover {
-  background-color: #ff6600; 
+  background-color: #ff6600;
   color: white;
   transform: scale(1.1);
 }
 
-
 .cardSvgLike {
-  transition: transform 0.2s ease-in-out, background-color 0.3s ease-in-out;
+  transition:
+    transform 0.2s ease-in-out,
+    background-color 0.3s ease-in-out;
 }
 
 .cardSvgLike:hover {
   background-color: #ffebee;
   transform: scale(1.2);
 }
-
 
 .text-darkText .GoArrowRight {
   transition: transform 0.3s ease-in-out;
@@ -62,7 +62,9 @@
 [data-aos] {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  transition:
+    opacity 0.8s ease-out,
+    transform 0.8s ease-out;
 }
 
 [data-aos].aos-animate {

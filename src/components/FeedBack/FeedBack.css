@@ -1,18 +1,17 @@
 .feedbackSlider .slick-dots {
-    bottom: -40px !important;
+  bottom: -40px !important;
 }
 
 .feedbackSlider .slick-dots li button::before {
-    font-size: 7.73px;
-  
-  }
+  font-size: 7.73px;
+}
 
-  .feedbackSlider .slick-dots li {
-    margin: 0;
+.feedbackSlider .slick-dots li {
+  margin: 0;
 }
 
 .feedbackSlider .slick-dots li button {
-    width: 20px;
-    height: 20px;
-    padding: 5px;
-  }
+  width: 20px;
+  height: 20px;
+  padding: 5px;
+}

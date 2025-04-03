@@ -2,19 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
   margin: 0;
-  font-family: "DM Sans", sans-serif !important;
+  font-family: 'DM Sans', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-.title-part{
+.title-part {
   height: 30px;
   width: 6px;
   border-radius: 12px;
-  background: #8A33FD;
+  background: #8a33fd;
   margin-top: 5px;
 }

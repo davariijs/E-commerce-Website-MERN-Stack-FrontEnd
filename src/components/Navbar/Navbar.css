@@ -1,114 +1,109 @@
 /* Desktop Navbar Style */
 nav {
-    height: 108;
-    width: 100%;
-    padding: 31px 0px;
-    font-weight: 400 !important;
+  height: 108;
+  width: 100%;
+  padding: 31px 0px;
+  font-weight: 400 !important;
 }
 
-.logoNavbar img{
-    padding-top: 9px;
+.logoNavbar img {
+  padding-top: 9px;
 }
 
-
-.nav-items{
-    margin-left: 179px;
+.nav-items {
+  margin-left: 179px;
 }
 
 .nav-items ul a {
-    color: #807D7E;
-    font-weight: 500;
-  }
-
-.nav-items ul a:hover {
-    color: #3C4242;
-    font-weight: 600;
-  }
-
-  .searchCom{
-    max-width: 300px;
-  }
-
-.searchbar{
-    border-radius: 8px;
-    height: 44px;
-    padding: 12px 20px 13px 52px;
+  color: #807d7e;
+  font-weight: 500;
 }
 
-.searchIcon{
-    padding: 12px 0 12px 20px;
+.nav-items ul a:hover {
+  color: #3c4242;
+  font-weight: 600;
+}
+
+.searchCom {
+  max-width: 300px;
+}
+
+.searchbar {
+  border-radius: 8px;
+  height: 44px;
+  padding: 12px 20px 13px 52px;
+}
+
+.searchIcon {
+  padding: 12px 0 12px 20px;
 }
 
 .nav-items ul li:nth-child(2) {
-    padding: 0 40px;
+  padding: 0 40px;
 }
 
-
-.nav-items ul{
-    padding: 9px 0px;
+.nav-items ul {
+  padding: 9px 0px;
 }
 
 .logo img {
-    padding: 9px 0px;
+  padding: 9px 0px;
 }
 
 .icons div {
-    border-radius: 8px;
-    width: 44px;
-    height: 44px;
-    padding: 12px;
+  border-radius: 8px;
+  width: 44px;
+  height: 44px;
+  padding: 12px;
 }
 
 .userIcon {
-    margin: 0 12px;
+  margin: 0 12px;
 }
 
-
 @media (max-width: 1280px) {
-.nav-items {
+  .nav-items {
     margin-left: 100px;
   }
-
 }
 
 /* Mobile Navbar Style */
 
-
 @media (max-width: 1024px) {
-    .nav-items {
-        margin: auto;
-        margin-left: 0px;
-      }
+  .nav-items {
+    margin: auto;
+    margin-left: 0px;
+  }
 
-      .nav-items ul {
-        padding: 0px 0px;
-      }
+  .nav-items ul {
+    padding: 0px 0px;
+  }
 
-      .nav-items ul  li{
-        padding: 30px 0px;
-      }
+  .nav-items ul li {
+    padding: 30px 0px;
+  }
 
-      .nav-items ul li:nth-child(2) {
-        padding: 0px;
-      }
+  .nav-items ul li:nth-child(2) {
+    padding: 0px;
+  }
 
-      .icons div {
-        width: 44px;
-        height: 44px;
-    }
+  .icons div {
+    width: 44px;
+    height: 44px;
+  }
 }
 
 @media screen and (max-width: 660px) {
-    nav {
-        padding: 31px 20px;
-    }
+  nav {
+    padding: 31px 20px;
+  }
 }
 
 @media screen and (max-width: 440px) {
-    nav {
-        padding: 31px 20px;
-    }
-      .searchCom{
-        max-width: 230px;
-      }
+  nav {
+    padding: 31px 20px;
+  }
+  .searchCom {
+    max-width: 230px;
+  }
 }

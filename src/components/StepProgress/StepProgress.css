@@ -1,62 +1,62 @@
 ._2Jtxm._35Ago ._2kL0S:hover {
-    background-color: #3C4242;
+  background-color: #3c4242;
 }
 
 ._2Jtxm._35Ago ._2kL0S {
-    background-color: #3C4242;
-    color: #3C4242;
-    width: 20px;
-    height: 20px;
+  background-color: #3c4242;
+  color: #3c4242;
+  width: 20px;
+  height: 20px;
 }
 
-._2Jtxm ._2kL0S, ._2Jtxm ._2JvrO {
-    width: 20px;
-    height: 20px;
-    color: #e7eaf3;
+._2Jtxm ._2kL0S,
+._2Jtxm ._2JvrO {
+  width: 20px;
+  height: 20px;
+  color: #e7eaf3;
 }
 
 ._1hzhf {
-    font-size: 14px;
-    font-weight: 600;
-    text-wrap: nowrap;
-    margin-top: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-wrap: nowrap;
+  margin-top: 8px;
 }
 
 ._1Lo2h li svg {
-    width: 0.7rem;
+  width: 0.7rem;
 }
 
 ._2_g61 {
-    margin-top: 50px;
+  margin-top: 50px;
 }
 
-.card-Progress{
-    max-width: 768px;
-    padding: 20px 30px ;
-    background-color: #F6F6F6;
-    border-radius: 8px;
-    position: relative;
+.card-Progress {
+  max-width: 768px;
+  padding: 20px 30px;
+  background-color: #f6f6f6;
+  border-radius: 8px;
+  position: relative;
 }
 
 .triangle {
-    position: absolute;
-    top: -18px;
-    left: 60px;
-    width: 0;
-    height: 0;
-    border: 13px solid transparent;
-    border-top: 0;
-    border-bottom: 20px solid #F6F6F6;
-  }
+  position: absolute;
+  top: -18px;
+  left: 60px;
+  width: 0;
+  height: 0;
+  border: 13px solid transparent;
+  border-top: 0;
+  border-bottom: 20px solid #f6f6f6;
+}
 
-  ._3uApM {
-    position: relative;
-    /* display: none !important; */
-  }
-
+._3uApM {
+  position: relative;
+  /* display: none !important; */
+}
 
 @media screen and (max-width: 481px) {
-    ._1hzhf {
-        font-size: 10px;
-    }
+  ._1hzhf {
+    font-size: 10px;
+  }
 }

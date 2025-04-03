@@ -1,43 +1,40 @@
 .checkout-bg {
-height: 341px;
+  height: 341px;
 }
 
-.header-types{
-margin-top: 70px;
+.header-types {
+  margin-top: 70px;
 }
 
 @media (max-width: 1024px) {
-    .checkout-bg {
-        height: 600px;
-        }
-    .header-types{
-        margin-top: 75px;
-    }
+  .checkout-bg {
+    height: 600px;
+  }
+  .header-types {
+    margin-top: 75px;
+  }
 }
-
 
 @media (max-width: 768px) {
-    .header-types{
-        margin-top: 80px;
-    }
-    .checkout-bg {
-        height: 520px;
-        }
+  .header-types {
+    margin-top: 80px;
+  }
+  .checkout-bg {
+    height: 520px;
+  }
 }
-
 
 @media (max-width: 543px) {
-    .header-types{
-        margin-top: 60px;
-    }
-    .header-types-text{
-        font-size: 12px;
-    }
+  .header-types {
+    margin-top: 60px;
+  }
+  .header-types-text {
+    font-size: 12px;
+  }
 }
 
-
 @media (max-width: 432px) {
-    .header-types-text{
-        font-size: 10px;
-    }
+  .header-types-text {
+    font-size: 10px;
+  }
 }

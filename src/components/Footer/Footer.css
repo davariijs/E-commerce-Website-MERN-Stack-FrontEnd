@@ -1,29 +1,30 @@
 .footer-collapse .Collapsible__trigger {
-    font-size: 29px;
-    font-weight: 600;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  font-size: 29px;
+  font-weight: 600;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .filter-collapse .Collapsible__trigger {
-    font-size: 20px;
-    font-weight: 500;
-    color: #807D7E;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+.filter-collapse .Collapsible__trigger {
+  font-size: 20px;
+  font-weight: 500;
+  color: #807d7e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-.footer-collapse  .Collapsible__trigger.is-open svg , .filter-collapse .Collapsible__trigger.is-open svg{
-    transform: rotate(180deg);
-  }
-
+.footer-collapse .Collapsible__trigger.is-open svg,
+.filter-collapse .Collapsible__trigger.is-open svg {
+  transform: rotate(180deg);
+}
 
 @media (max-width: 768px) {
-    .footer-collapse .Collapsible__trigger , .filter-collapse .Collapsible__trigger{
-        font-size: 1.25rem /* 20px */;
-        line-height: 1.75rem /* 28px */;
-    }
+  .footer-collapse .Collapsible__trigger,
+  .filter-collapse .Collapsible__trigger {
+    font-size: 1.25rem /* 20px */;
+    line-height: 1.75rem /* 28px */;
+  }
 }
