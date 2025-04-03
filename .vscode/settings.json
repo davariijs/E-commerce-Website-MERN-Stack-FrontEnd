@@ -1,5 +1,8 @@
 {
-    "cSpell.words": [
-        "MERN"
-    ]
-}
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "eslint.validate": ["javascript", "typescript", "typescriptreact"],
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    }
+  }
