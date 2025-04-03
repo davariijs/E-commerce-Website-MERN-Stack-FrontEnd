@@ -26,7 +26,7 @@ export default function CategoriesCard({
   onClick,
 }: TCategoriesCard) {
   useEffect(() => {
-    AOS.init({ duration: 1000, once: false });
+    AOS.init();
   }, []);
 
   return (
