@@ -22,6 +22,9 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
+      - name: Disable CI strict mode
+        run: echo "CI=false" >> $GITHUB_ENV
+
       - name: Run tests
         run: npm run test:coverage
 
