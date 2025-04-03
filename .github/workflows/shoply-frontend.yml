@@ -34,8 +34,8 @@ jobs:
       - name: Docker build
         run: docker build -t shoply-frontend ./E-commerce-Website-MERN-Stack-FrontEnd
 
-      - name: Upload production build
-        uses: actions/upload-artifact@v3
+      - name: Upload production build (optional)
+        uses: actions/upload-artifact@v4
         with:
           name: shoply-frontend-build
           path: E-commerce-Website-MERN-Stack-FrontEnd/build
