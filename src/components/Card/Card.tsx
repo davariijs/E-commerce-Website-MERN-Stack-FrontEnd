@@ -34,10 +34,6 @@ export default function Card({
   textColor,
   borderColor,
 }: TCard) {
-  // useEffect(() => {
-  //     AOS.init({ duration: 1000, once: false });
-  // }, []);
-
   return (
     <Fragment>
       {showFirstType ? (
