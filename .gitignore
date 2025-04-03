@@ -12,6 +12,9 @@
 /build
 
 
+# Enforce LF line endings for all text files
+* text=auto eol=lf
+
 # Ignore node_modules
 node_modules/
 
