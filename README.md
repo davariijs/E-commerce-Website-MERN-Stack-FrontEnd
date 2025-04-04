@@ -89,7 +89,7 @@ frontend/
    ```
 2. Install dependencies:
    ```bash
-   npm install
+   npm install --legacy-peer-deps
    ```
 3. Create a `.env` file using `env.example.txt` as a template.
 4. Start the frontend server:
